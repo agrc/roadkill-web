@@ -1,0 +1,80 @@
+@import '../ijit/resources/authentication/LoginRegister.css';
+
+html {
+	overflow: auto;
+}
+.tab-container {
+	padding: 14px;
+}
+.tabs, .pills {
+	margin: 0 !important;
+}
+.hidden {
+	display: none;
+}
+#logo a {
+	text-indent: -9999px;
+	background: transparent url(../images/logo.png) no-repeat;
+	display: block;
+	height: 40px;
+	width: 40px;
+	margin: 5px 0 0 5px;
+	outline: none;
+}
+.navbar-header {
+	width: 100%;
+}
+#logoutDiv {
+	padding: 15px;
+	color: #999;
+}
+#logoutDiv>a {
+	padding: 0;
+}
+.nav #logoutDiv .open>a {
+	background-color: transparent;
+}
+body {
+	padding-top: 70px;
+}
+.hidden {
+	display: none !important;
+}
+
+
+/* remove input focus outline*/
+*:focus {
+	outline: none;
+}
+
+footer p {
+	font-size: 12px;
+}
+footer a {
+	color: #404040;
+}
+footer {
+	text-align: center;
+	margin: 10px 0;
+}
+
+.hero-unit .row {
+	margin-top: 10px;
+}
+.hero-unit h2 {
+    font-size: 40px;
+}
+.image-container {
+	padding: 4px 4px 0 4px;
+	border: 1px solid #DDD;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.dijitDateTextBox input {
+	box-shadow: none;
+	font-size: 16px;
+}
+input[readonly] {
+	cursor: pointer !important;
+}

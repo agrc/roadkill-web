@@ -1,0 +1,12 @@
+.jumbotron h2 {
+    font-size: 50px;
+}
+.message {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #EEE;
+}
+.padding {
+	padding: 15px;
+}

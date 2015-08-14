@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MapChart Test</title>
+		<script type="text/javascript">
+			djConfig = {
+				isDebug: true, // remove for build
+				debugAtAllCosts: true, // remove for build
+				baseUrl: "./", // remove for build
+				modulePaths: { // remove for build
+					"agrc": "../content/agrc",
+					"roadkill": "../content/roadkill",
+					"esrx": "../content/esrx",
+					"ext": "../content/ext",
+					"html": "../content/html"
+				},
+				parseOnLoad: true
+			};
+		</script>
+		<script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.6"></script>
+		<script type='text/javascript' src="data/mockData.js"></script>
+		<script type='text/javascript' src='data/mockResponses.js'></script>
+		
+		<link rel="stylesheet" type="text/css" href="../content/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../content/css/core.css" />
+		
+		<link rel="stylesheet" tyep="text/css" href="../content/css/map.css" />
+		
+		
+		<script type='text/javascript'>
+			/*global dojo, roadkill*/
+			dojo.require("roadkill.MapChart");
+			
+			var testObject;
+			dojo.ready(function(){
+				ROADKILL.mapapp = {
+					legend: {
+						layers: [
+							{
+								renderer: mockRenderer
+							}
+						]
+					}
+				};
+				ROADKILL.fields = {
+					SPECIES: 'SPECIES'
+				};
+				
+				var mockCLayer = {
+					_features: mockClusterLayer_features
+				};
+				params = {
+					chartDiv: 'test-div',
+					cLayer: mockCLayer
+				};
+				testObject = new roadkill.MapChart(params);
+			});
+		</script>
+	</head>
+	<body>
+		<div id='test-div' style='height: 245px; width: 245px;'></div>
+	</body>
+</html>

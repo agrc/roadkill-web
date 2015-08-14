@@ -1,0 +1,8 @@
+- copy mxd's to hnas/serverprojects
+- add analytics code
+- _SpecRunner.html
+- Bump app version number (index.php) and update release_notes.php
+- run slurp_esri_modules.sh, if needed
+- build.sh
+- test in dist
+- tag

@@ -1,0 +1,34 @@
+{
+    "predef": [
+        "alert",
+        "define",
+        "require",
+        "console",
+        "module",
+        "AGRC",
+        "it", 
+        "xit",
+        "expect", 
+        "beforeEach", 
+        "afterEach", 
+        "spyOn", 
+        "jasmine", 
+        "runs", 
+        "waitsFor",
+        "describe",
+        "xdescribe",
+        "stubModule",
+        "ROADKILL",
+        "roadkill",
+        "esri"
+    ],
+
+    "evil": true,
+    "regexdash": true,
+    "browser": true,
+    "wsh": true,
+    "sub": true,
+    "undef": true,
+    "unused": true,
+    "eqnull": true
+}

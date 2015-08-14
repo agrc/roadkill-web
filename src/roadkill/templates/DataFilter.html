@@ -1,0 +1,36 @@
+<div class='data-filter'>
+	<h4>Date</h4>
+	<label>
+		<input type="radio" id="dateSelectRadio" dojoAttachPoint="dateSelectRadio" name="date-radio" checked>
+		<span>Default Range:</span>
+	</label>
+	<select dojoAttachPoint="dateSelect" name="date-select" class="medium indent form-control">
+		<option value="7d">Past 7 Days</option>
+		<option value="30d">Past 30 Days</option>
+		<option value="6m" selected>Past 6 Months</option>
+		<option value="ytd">Year to Date</option>
+		<option value="2yr">Past 2 Years</option>
+	</select>
+	<br>
+	<label>
+		<input type="radio" id="dateCustomRadio" dojoAttachPoint="dateCustomRadio" name="date-radio">
+		<span>Custom Range:</span>
+	</label>
+	<br>
+	<div style="clear: both;"></div>
+	<label class="indent" for="date-start" id="start-lbl">Start Date</label>
+	<input class="indent" type="text" name="date-start" id='date-start' dojoAttachPoint="dateStart"
+		dojoType="dijit.form.DateTextBox" disabled placeholder="required">
+	<br>
+	<label class="indent" for="date-end">End Date</label>
+	<input class="indent" type="text" name="date-end" id='date-end' dojoAttachPoint="dateEnd"
+		dojoType="dijit.form.DateTextBox" disabled placeholder="required">
+	<div dojoAttachPoint='speciesFilterDiv'></div>
+	<div dojoAttachPoint='genderFilterDiv'></div>
+	<div dojoAttachPoint='ageClassFilterDiv'></div>
+	<div dojoAttachPoint='udwrRegionsFilterDiv'></div>
+	<div dojoAttachPoint='udotRegionsFilterDiv'></div>
+	<!-- <div dojoAttachPoint='wmuRegionsFilterDiv'></div> -->
+	<div dojoAttachPoint='routeMilepostFilterDiv'></div>
+	<div dojoAttachPoint='userFilterDiv'><div>
+</div>

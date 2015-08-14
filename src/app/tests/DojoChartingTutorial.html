@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dojo Charting</title>
+	
+		<style type='text/css'>
+			.chart {
+				width: 550px;
+				height: 550px;
+			}
+		</style>
+		<script>
+			var djConfig = {
+				isDebug: true,
+				parseOnLoad: true
+			};
+		</script>
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" type="text/javascript"></script>
+		<script type='text/javascript'>
+			/*global dojo, dojox*/
+			dojo.require("dojo.parser");
+			dojo.require("dojox.charting.widget.Chart2D");
+			dojo.require("dojox.charting.themes.Claro");
+			dojo.require("dojox.charting.themes.Tom");
+			
+			var chartData = [
+				{y: 4, text: 'Mule Deer', color: [228, 26, 28]},
+				{y: 2, text: 'Elk', color: [55, 126, 184]},
+				{y: 2, text: 'Raccoon', color: [77, 175, 74]},
+				{y: 2, text: 'Moose', color: [152, 78, 163]},
+				{y: 14, text: 'Other', color: [255, 127, 0]}
+			];
+			
+			var lineChartData = [10000,9200,11811,12000,7662,13887,14200,12222,12000,10009,11288,12099];
+			
+			dojo.ready(function(){
+				var pieChart = new dojox.charting.Chart2D('chartNode');
+				
+				pieChart.setTheme(dojox.charting.themes.Claro);
+				
+				pieChart.addPlot('default', {
+					type: 'Pie',
+					radius: 200,
+					fontColor: 'black',
+					labelOffset: '-20'
+				});
+				
+				pieChart.addSeries('January', chartData);
+				
+				pieChart.render();
+				
+				var lineChart = new dojox.charting.Chart2D('lineChart');
+				lineChart.setTheme(dojox.charting.themes.Tom);
+				lineChart.addPlot('default', {
+					type: 'Lines',
+					markers: true
+				});
+				lineChart.addAxis('x');
+				lineChart.addAxis('y', {
+					min: 5000,
+					max: 15000,
+					vertical: true,
+					fixLower: 'major',
+					fixUpper: 'major'
+				});
+				lineChart.addSeries('SalesThisDecade', lineChartData);
+				lineChart.render();
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Declarative Chart</h1>
+		<div dojoType='dojox.charting.widget.Chart2D' theme='dojox.charting.themes.Claro' id='viewsChart' class='chart'>
+			<div class='plot' name='default' type='Pie' radius='200' fontColor='#000' labelOffset='-20'></div>
+			<div class='series' name="Last Week's Visits" array='chartData'></div>
+		</div>
+		
+		<h1>Programmatic Chart</h1>
+		<div id='chartNode' class='chart'></div>
+		
+		<h1>Line Chart</h1>
+		<div id='lineChart' class='chart'></div>
+	</body>
+</html>

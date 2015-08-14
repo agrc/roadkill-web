@@ -1,0 +1,43 @@
+/* LayerList hacks */
+#toc {
+	margin-left: -4px;
+}
+#toc .dijitTree {
+	overflow-x: hidden;
+}
+#toc .dijitCheckBox {
+	margin-top: -6px !important;
+}
+.claro .dijitTreeExpando {
+	display: inline;
+	margin-bottom: 1px;
+	margin-right: 2px;
+}
+.dijitTreeRow img {
+	display: none;
+}
+.dijitTreeLabel {
+	margin: 0px;
+}
+.claro .dijitTreeExpandoLeaf {
+	background-image: url(images/treeExpand_leaf.gif);
+}
+.claro .dijitTreeRowHover {
+	background-color: transparent;
+	color: gray;
+}
+.claro .dijitTreeRowSelected {
+	background-color: transparent;
+	border-color: transparent;
+	color: gray;
+}
+.claro .dijitTreeRowActive {
+	/*border: solid 1px transparent;*/
+	background-position: 0;
+}
+.dijitTreeRow {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+	border-width: 0px !important;
+	margin: 0 0 0 1px !important;
+}
