@@ -28,21 +28,21 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 	// baseClass: [private] String
 	//    The css class that is applied to the base div of the widget markup
 	baseClass: "download-data",
-	
+
 	// gp: esri.tasks.Geoprocessor
 	gp: null,
-	
+
 	// erMsg: String
 	erMsg: 'There was an error with the data download service.',
-	
+
 	// waitMsg: String
 	waitMsg: 'Your data is being prepared. This may take a few minutes...',
-	
+
 	// aMsg: String
 	aMsg: 'Click here for your data.',
 
 	// Parameters to constructor
-	
+
 	// dataFilter: roadkill.DataFilter
 	dataFilter: null,
 
@@ -77,31 +77,31 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		// summary:
 		//      fires when the user clicks the download button
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		this.downloadBtn.disabled = true;
-		
+
 		dojo.addClass(this.msgBox, 'info');
 		dojo.removeClass(this.msgBox, 'error');
-		
+
 		dojo.style(this.msgLoader, 'display', 'inline-block');
-		
+
 		this.msg.innerHTML = this.waitMsg;
-		
+
 		dojo.style(this.msgBox, 'display', 'block');
 		dojo.fadeIn({node: this.msgBox}).play();
-		
+
 		var fType = this.getFileType();
 		var query = this.getDefinitionQuery();
-		
+
 		if (!this.gp) {
 			this.initGeoprocessor();
 		}
-		
+
 		var params = {
 			defQuery: query,
 			fileType: fType
 		};
-		
+
 		if (this.dataFilter && this.dataFilter.queryGeo) {
 			var geo = this.dataFilter.queryGeo;
 			var g = new esri.Graphic(geo);
@@ -111,7 +111,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		} else {
 			params.area = '';
 		}
-		
+
 		console.log(params);
 		this.gp.submitJob(params);
 	},
@@ -119,18 +119,16 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		// summary:
 		//		returns the file type selected
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		return (this.dbfRB.checked) ? 'dbf' : 'shape';
 	},
 	getDefinitionQuery: function(){
 		// summary:
 		//      gets the def query from the dataFilter
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		if (this.dataFilter){
-			// Server doesn't like GETDATE and arcpy doesn't like CURRENT_DATE.
-			// Thanks, ESRI!
-			return this.dataFilter.updateDefinitionQuery().replace('CURRENT_DATE', 'GETDATE');
+			return this.dataFilter.updateDefinitionQuery();
 		} else {
 			return '1 = 1';
 		}
@@ -139,9 +137,9 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		// summary:
 		//      creates the esri geoprocessor object
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		this.gp = new esri.tasks.Geoprocessor(ROADKILL.gpDownloadUrl);
-		
+
 		this.connect(this.gp, 'onJobComplete', 'onJobComplete');
 		this.connect(this.gp, 'onStatusUpdate', 'onStatusUpdate');
 		this.connect(this.gp, 'onError', 'onJobError');
@@ -151,7 +149,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		// summary:
 		//      fires when the gp job is complete
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		if (status.jobStatus === 'esriJobSucceeded'){
 			this.gp.getResultData(status.jobId, 'outFile');
 		} else {
@@ -162,7 +160,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		// summary:
 		//      description
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		if (status.messages.length > 0) {
 			console.log(status.messages[status.messages.length -1].description);
 		}
@@ -171,36 +169,36 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		// summary:
 		//      description
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		dojo.addClass(this.msgBox, 'error');
 		dojo.removeClass(this.msgBox, 'info');
-		
+
 		this.msg.innerHTML = this.erMsg;
-		
+
 		dojo.style(this.msgBox, {
 			'display': 'block',
 			'opacity': 1
 		});
-		
+
 		dojo.style(this.msgLoader, 'display', 'none');
-		
+
 		this.downloadBtn.disabled = false;
 	},
 	onGetResultDataComplete: function(result){
 		// summary:
 		//      description
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-		
+
 		dojo.addClass(this.msgBox, 'success');
 		dojo.removeClass(this.msgBox, 'info');
 		dojo.removeClass(this.msgBox, 'error');
-		
+
 		dojo.style(this.msgLoader, 'display', 'none');
-		
+
 		this.downloadBtn.disabled = false;
-		
+
 		this.msg.innerHTML = '';
-		
+
 		dojo.create('a', {
 			innerHTML: this.aMsg,
 			href: result.value.url

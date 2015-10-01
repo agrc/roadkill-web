@@ -88,11 +88,11 @@ define([
     happyNewYear.setDate(1);
     var ytdDays = (today.getTime() - happyNewYear.getTime()) / millisecondsInDays;
     ROADKILL.dateQueries = {
-        "7d": "REPORT_DATE >= CURRENT_DATE() - 7",
-        "30d": "REPORT_DATE >= CURRENT_DATE() - 30",
-        "6m": "REPORT_DATE >= CURRENT_DATE() - " + Math.round(sixMonthDays), // default
-        "ytd": "REPORT_DATE >= CURRENT_DATE() - " + Math.round(ytdDays),
-        "2yr": "REPORT_DATE >= CURRENT_DATE() - 730",
+        "7d": "REPORT_DATE >= GETDATE() - 7",
+        "30d": "REPORT_DATE >= GETDATE() - 30",
+        "6m": "REPORT_DATE >= GETDATE() - " + Math.round(sixMonthDays), // default
+        "ytd": "REPORT_DATE >= GETDATE() - " + Math.round(ytdDays),
+        "2yr": "REPORT_DATE >= GETDATE() - 730",
         "all": "",
         "none": "1 = 2"
     };
