@@ -1,44 +1,48 @@
 (function() {
-    var projectUrl;
-    if (typeof location === 'object') {
-        // running in browser
-        projectUrl = location.pathname.replace(/\/[^\/]+$/, "") + '/';
-
-        // running in unit tests
-        projectUrl = (projectUrl === "/") ? '/src/' : projectUrl;
-    } else {
-        // running in build system
-        projectUrl = '';
-    }
     var config = {
-        packagePaths: {},
+        baseUrl: (
+            typeof window !== 'undefined' &&
+            window.dojoConfig &&
+            window.dojoConfig.isJasmineTestRunner
+            ) ? '/src': './',
         packages: [
+            'app',
+            'agrc',
+            'dgrid',
+            'dojo',
+            'dijit',
+            'dojox',
+            'esri',
+            'ijit',
+            'roadkill',
+            'esrx',
+            'ext',
+            'html',
+            'proj4js',
+            'put-selector',
+            'xstyle',
             {
                 name: 'jquery',
-                location: projectUrl + 'jquery',
+                location: 'jquery',
                 main: 'jquery-1.10.2'
             }, {
                 name: 'bootstrap',
-                location: projectUrl + 'bootstrap',
+                location: 'bootstrap',
                 main: 'js/bootstrap'
+            }, {
+                name: 'ladda',
+                location: 'ladda-bootstrap',
+                main: 'dist/ladda'
+            }, {
+                name: 'mustache',
+                location: 'mustache',
+                main: 'mustache'
+            }, {
+                name: 'spin',
+                location: 'spinjs',
+                main: 'spin'
             }
-        ],
-        aliases: [
-            ['spin', 'agrc/resources/libs/spin']
         ]
-        // defaultConfig: {
-        //     locale: 'en-us'
-        // }
     };
-    config.packagePaths[projectUrl] = [
-        'app',
-        'agrc',
-        'ijit',
-        'roadkill',
-        'esrx',
-        'ext',
-        'html',
-        'proj4js'
-    ];
     require(config, ['jquery', 'bootstrap', 'app/core']);
 })();

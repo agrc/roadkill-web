@@ -71,6 +71,7 @@ html, body {
 	position: absolute;
 	z-index: 9;
 	right: 0;
+	margin: 15px;
 }
 
 /**
@@ -100,7 +101,7 @@ html, body {
 	color: #404040;
 }
 
-/* 
+/*
  * bootstrap fixes
  */
 /* zoom slider */

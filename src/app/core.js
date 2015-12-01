@@ -1,28 +1,24 @@
 define([
-    'dojo/_base/array',
-
     'dojo/dom',
     'dojo/dom-class',
     'dojo/parser',
-
-    'ijit/widgets/authentication/LoginRegister',
-    "ijit/modules/ErrorLogger",
+    'dojo/_base/array',
 
     'esri/config',
 
+    'ijit/widgets/authentication/LoginRegister',
+
     'dojo/domReady!'
 ], function (
-    array,
-    
     dom,
     domClass,
     parser,
+    array,
 
-    LoginRegister,
-    ErrorLogger,
+    esriConfig,
 
-    esriConfig
-    ) {
+    LoginRegister
+) {
     window.ROADKILL = {};
     ROADKILL.server = document.location.protocol + '//' + document.domain;
     ROADKILL.baseUrl = ROADKILL.server + "/arcgis/rest/services/Roadkill";
@@ -72,11 +68,11 @@ define([
         Submitter: 'submitter',
         Viewer: 'viewer'
     };
-    
-    ROADKILL.errorLogger = new ErrorLogger({
-        appName: 'WVC Reporter - Desktop'
-    });
-    
+
+    // ROADKILL.errorLogger = new ErrorLogger({
+    //     appName: 'WVC Reporter - Desktop'
+    // });
+
     // calculate dates
     var millisecondsInDays = 86400000;
     var today = new Date();
@@ -98,7 +94,7 @@ define([
     };
 
     esriConfig.defaults.io.proxyUrl = '/proxy/proxy.ashx';
-    
+
     // set active state on nav bar
     var urlParts = document.URL.split("/");
     var fileName = urlParts[urlParts.length - 1];
@@ -108,7 +104,7 @@ define([
     if (element){
         domClass.add(element, "active");
     }
-    
+
     var requireLogin;
     if (array.indexOf(ROADKILL.securePages, elementName) === -1){
         requireLogin = false;
@@ -117,7 +113,7 @@ define([
     }
 
     parser.parse();
-    
+
     ROADKILL.login = new LoginRegister({
         appName: 'roadkill',
         logoutDiv: dom.byId('logoutDiv'),
@@ -125,4 +121,3 @@ define([
         securedServicesBaseUrl: ROADKILL.baseUrl
     });
 });
- 

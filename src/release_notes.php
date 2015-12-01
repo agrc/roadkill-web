@@ -17,6 +17,15 @@
 				</thead>
 				<tbody>
 					<tr>
+						<td class="version">2.1.0</td>
+						<td>
+							<ul class='list-unstyled'>
+								<li>Upgraded user management system</li>
+								<li>Backend build improvements</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
 						<td class="version">2.0.0</td>
 						<td>
 							<ul class='list-unstyled'>
