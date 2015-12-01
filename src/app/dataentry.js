@@ -38,7 +38,7 @@ require([
     Domains
     ) {
     // private properties
-    var that, 
+    var that,
         date,
         species,
         speciesTxt,
@@ -57,13 +57,13 @@ require([
         verifyMap,
         submitMsg,
         submitImg;
-    
+
     // private functions
     var getElements = function(){
         // summary:
         //      gets references to all of the elements
         console.info("DataEntryPage::getElements", arguments);
-        
+
         date = registry.byId('report-date');
         species = dom.byId('species-select');
         speciesTxt = dom.byId('species-txt');
@@ -86,7 +86,7 @@ require([
         // summary:
         //      clears the form values
         console.info("DataEntryPage::clearForm", arguments);
-        
+
         query('input[type="text"], input[type="number"], textarea')
             .forEach(function(node){node.value = '';});
         species.selectedIndex = 0;
@@ -100,7 +100,7 @@ require([
         //      checks to make sure that all required fields are populated with valid values
         // returns: Boolean
         console.info("DataEntryPage::validateForm", arguments);
-        
+
         if (date.textbox.value.length === 0) {
             alert('Report Date is required');
             return false;
@@ -125,7 +125,7 @@ require([
             alert('Please verify the location');
             return false;
         }
-        
+
         return true;
     };
     var show = function(element){
@@ -140,13 +140,13 @@ require([
         // msg: String
         // msgType: String (update, error, success)
         console.info("DataEntryPage::updateMsg", arguments);
-        
+
         submitMsg.innerHTML = msg;
         show(submitMsg);
-        
+
         domClass.remove(submitMsg, 'error');
         domClass.remove(submitMsg, 'success');
-        
+
         switch(msgType){
             case 'update':
                 show(submitImg);
@@ -166,19 +166,19 @@ require([
         //      sends the data to the server
         // feature: {FeatureObject}
         console.info("DataEntryPage::sendDataToDatabase", arguments);
-        
+
         updateMsg('Submitting data to server...', 'update');
-        
+
         function onError(){
             var msg = 'There was an error submitting your report.';
             updateMsg(msg, 'error');
         }
-        
+
         var data = {
             f: 'json',
             features: JSON.stringify([feature])
         };
-        
+
         var url = ROADKILL.rkFeatureServiceAddFeaturesUrl + '?token=' + ROADKILL.login.token;
         var params = {
             data: data,
@@ -186,17 +186,17 @@ require([
             timeout: 10000,
             method: 'POST'
         };
-        
+
         request(url, params).then(function(response) {
             if (!response.error) {
                 updateMsg('Report submitted successfully!', 'success');
                 clearForm();
             } else {
-                ROADKILL.errorLogger.log(response.error);
+                // ROADKILL.errorLogger.log(response.error);
                 onError();
             }
         }, function(er){
-            ROADKILL.errorLogger.log(er);
+            // ROADKILL.errorLogger.log(er);
             onError();
         });
     };
@@ -204,7 +204,7 @@ require([
         // summary:
         //      assembles the data to be sent to the server
         console.info("DataEntryPage::submitForm", arguments);
-        
+
         var feature = {
             attributes: {
                 REPORT_DATE: date.value.getTime(),
@@ -222,14 +222,14 @@ require([
         if (verifyMap.currentField){
             feature.attributes[verifyMap.currentField] = verifyMap.currentValue;
         }
-        
+
         sendDataToDatabase(feature);
     };
     var wireEvents = function(){
         // summary:
         //      Wires the events for the page
         console.info("DataEntryPage::wireEvents", arguments);
-        
+
         on(xyphoidChbx, "change", function(){
             xyphoid.disabled = xyphoidChbx.checked;
         });
@@ -255,7 +255,7 @@ require([
     //     // dataObject: Object
     //     // returns: []
     //     console.info("DataEntryPage::getDomainValues", arguments);
-        
+
     //     var field;
     //     array.some(dataObject.fields, function(f) {
     //         if (f.name === fieldName) {
@@ -275,9 +275,9 @@ require([
     //     // selectid: String
     //     // values: String[]
     //     console.info("DataEntryPage::populateSelect", arguments);
-        
+
     //     var select = dom.byId(selectid);
-        
+
     //     array.forEach(values, function(value){
     //         domConstruct.create('option', {
     //             value: value.code,
@@ -289,7 +289,7 @@ require([
         // summary:
         //      Gets the domain from the feature service and populates the drop-down
         console.info("DataEntryPage::getDomains", arguments);
-        
+
         // var params = {
         //     url: ROADKILL.rkFeatureServiceUrl,
         //     callbackParamName: 'callback',
@@ -307,37 +307,37 @@ require([
         //         populateSelect('species-select', values);
         //     }
         // });
-        Domains.populateSelectWithDomainValues(dom.byId('species-select'), 
+        Domains.populateSelectWithDomainValues(dom.byId('species-select'),
             ROADKILL.rkFeatureServiceUrl + '?token=' + ROADKILL.login.token,
             ROADKILL.fields.SPECIES);
     };
-    
+
     // public functions
     function DataEntryPage(){
         // summary:
         //      The object in charge of this page
         console.info("DataEntryPage::constructor", arguments);
-        
+
         that = this;
-        
+
         getElements();
-        
+
         wireEvents();
-        
+
         verifyMap = new roadkill.VerifyMap();
-        
+
         getDomains();
     }
-    
+
     roadkill.DataEntryPage = DataEntryPage;
 
     var dataentryPage;
     function init() {
         dataentryPage = new roadkill.DataEntryPage();
     }
-    
+
     function checkRole() {
-        if (ROADKILL.login.user.role === ROADKILL.roles.Admin || 
+        if (ROADKILL.login.user.role === ROADKILL.roles.Admin ||
                 ROADKILL.login.user.role === ROADKILL.roles.Submitter) {
             init();
         } else {

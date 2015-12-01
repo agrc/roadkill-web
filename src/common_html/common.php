@@ -15,7 +15,7 @@
 <link rel="stylesheet" type="text/css" href="css/core.css" />
 <link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
 
-<script data-dojo-config="isDebug: 1, tlmSiblingOfDojo: 1, deps: ['app/run']" src='dojo/dojo.js'></script>
+<script data-dojo-config="deps: ['app/run']" src='dojo/dojo.js'></script>
 
 <script type="text/javascript">
   var _gaq = _gaq || [];

@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<?php include "common_html/header.php"; ?>
-		
+
 		<div class="container">
 			<div class="jumbotron">
 				<h2>Utah Wildlife-Vehicle Collision Reporter</h2>
@@ -20,7 +20,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-4">
 					<h3>Who is collecting the data?</h3>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="message col-md-4">
 					<div class='padding'>
-						<p>Website Version: 2.0.0</p>
+						<p>Website Version: 2.1.0</p>
 						<div class="alert-actions">
 							<a class="btn btn-default" href="release_notes.php">Release Notes &raquo;</a>
 						</div>

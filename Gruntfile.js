@@ -1,4 +1,6 @@
 module.exports = function(grunt) {
+    require('load-grunt-tasks')(grunt);
+
     var jsFiles = 'src/app/**/*.js';
     var otherFiles = [
         'src/app/**/*.html',
@@ -13,20 +15,56 @@ module.exports = function(grunt) {
     var internFile = 'tests/intern.js';
     var packageFile = 'package.json';
     var jshintFiles = [jsFiles, gruntFile, internFile, packageFile];
+    var deployFiles = [
+        '**',
+        '!**/*.uncompressed.js',
+        '!**/*consoleStripped.js',
+        '!**/bootstrap/less/**',
+        '!**/bootstrap/test-infra/**',
+        '!**/tests/**',
+        '!build-report.txt',
+        '!components-jasmine/**',
+        '!favico.js/**',
+        '!jasmine-favicon-reporter/**',
+        '!jasmine-jsreporter/**',
+        '!stubmodule/**',
+        '!util/**'
+    ];
+    var deployDir = 'wwwroot/wvc/desktop';
+    var secrets;
+    try {
+        secrets = grunt.file.readJSON('secrets.json');
+    } catch (e) {
+        // swallow for build server
+        secrets = {
+            stageHost: '',
+            prodHost: '',
+            username: '',
+            password: ''
+        };
+    }
 
     // Project configuration.
     grunt.initConfig({
+        clean: {
+            build: ['dist'],
+            deploy: ['deploy']
+        },
+        compress: {
+            main: {
+                options: {
+                    archive: 'deploy/deploy.zip'
+                },
+                files: [{
+                    src: deployFiles,
+                    // dest: './',
+                    cwd: 'dist/',
+                    expand: true
+                }]
+            }
+        },
         pkg: grunt.file.readJSON('package.json'),
         jasmine: {
-            // for embedded map projects...
-            // app: {
-            //   src: ['src/EmbeddedMapLoader.js'],
-            //   options: {
-            //     specs: ['src/app/tests/spec/*.js']
-            //   }
-            // }
-
-            // for regular apps...
             app: {
                 src: ['src/app/run.js'],
                 options: {
@@ -44,11 +82,55 @@ module.exports = function(grunt) {
                 jshintrc: '.jshintrc'
             }
         },
+        secrets: secrets,
+        sftp: {
+            stage: {
+                files: {
+                    './': 'deploy/deploy.zip'
+                },
+                options: {
+                    host: '<%= secrets.stageHost %>'
+                }
+            },
+            prod: {
+                files: {
+                    './': 'deploy/deploy.zip'
+                },
+                options: {
+                    host: '<%= secrets.prodHost %>'
+                }
+            },
+            options: {
+                path: './' + deployDir + '/',
+                srcBasePath: 'deploy/',
+                username: '<%= secrets.username %>',
+                password: '<%= secrets.password %>',
+                showProgress: true
+            }
+        },
+        sshexec: {
+            options: {
+                username: '<%= secrets.username %>',
+                password: '<%= secrets.password %>'
+            },
+            stage: {
+                command: ['cd ' + deployDir, 'unzip -oq deploy.zip', 'rm deploy.zip'].join(';'),
+                options: {
+                    host: '<%= secrets.stageHost %>'
+                }
+            },
+            prod: {
+                command: ['cd ' + deployDir, 'unzip -oq deploy.zip', 'rm deploy.zip'].join(';'),
+                options: {
+                    host: '<%= secrets.prodHost %>'
+                }
+            }
+        },
         watch: {
-            // jshint: {
-            //     files: jshintFiles,
-            //     tasks: ['jshint']
-            // },
+            jshint: {
+                files: jshintFiles,
+                tasks: ['jshint']
+            },
             src: {
                 files: jshintFiles.concat(otherFiles),
                 options: {
@@ -61,12 +143,18 @@ module.exports = function(grunt) {
         }
     });
 
-    // Register tasks.
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-
-    // Default task.
     grunt.registerTask('default', ['jasmine:app:build', 'connect', 'watch']);
+
+    grunt.registerTask('deploy-prod', [
+        'clean:deploy',
+        'compress:main',
+        'sftp:prod',
+        'sshexec:prod'
+    ]);
+    grunt.registerTask('deploy-stage', [
+        'clean:deploy',
+        'compress:main',
+        'sftp:stage',
+        'sshexec:stage'
+    ]);
 };
