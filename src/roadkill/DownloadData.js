@@ -104,7 +104,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 
 		if (this.dataFilter && this.dataFilter.queryGeo) {
 			var geo = this.dataFilter.queryGeo;
-			var g = new esri.Graphic(geo);
+			var g = new esri.graphic(geo);
 			var fSet = new esri.tasks.FeatureSet();
 			fSet.features = [g];
 			params.area = fSet;
