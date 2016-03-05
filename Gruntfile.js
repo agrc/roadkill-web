@@ -50,6 +50,9 @@ module.exports = function(grunt) {
             build: ['dist'],
             deploy: ['deploy']
         },
+        connect: {
+            uses_defaults: {}
+        },
         compress: {
             main: {
                 options: {
@@ -68,11 +71,17 @@ module.exports = function(grunt) {
             app: {
                 src: ['src/app/run.js'],
                 options: {
-                    specs: ['src/app/tests/spec/*.js'],
+                    specs: ['src/app/**/Spec*.js'],
                     vendor: [
+                        'src/jasmine-favicon-reporter/vendor/favico.js',
+                        'src/jasmine-favicon-reporter/jasmine-favicon-reporter.js',
+                        'src/jasmine-jsreporter/jasmine-jsreporter.js',
                         'src/app/tests/jasmineTestBootstrap.js',
-                        'http://js.arcgis.com/3.6/'
-                    ]
+                        'src/dojo/dojo.js',
+                        'src/app/tests/jsReporterSanitizer.js',
+                        'src/app/tests/jasmineAMDErrorChecking.js'
+                    ],
+                    host: 'http://localhost:8000'
                 }
             }
         },
@@ -137,9 +146,6 @@ module.exports = function(grunt) {
                     livereload: true
                 }
             }
-        },
-        connect: {
-            uses_defaults: {}
         }
     });
 

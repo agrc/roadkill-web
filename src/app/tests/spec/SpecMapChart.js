@@ -19,7 +19,7 @@ describe("MapChart", function() {
 		this.addMatchers(agrcMatchers);
 
 		/*:DOC +=<div id='test-div'></div>*/
-		
+
 		var mockCLayer = {
 			_features: mockClusterLayer_features
 		};
@@ -93,12 +93,12 @@ describe("MapChart", function() {
 		it("should call updateSeries on the chart", function(){
 			spyOn(testObject, 'getData');
 			spyOn(testObject.chart, 'updateSeries');
-			
+
 			testObject.updateData();
-			
+
 			expect(testObject.getData).toHaveBeenCalled();
 			expect(testObject.chart.updateSeries).toHaveBeenCalled();
-			
+
 		});
 	});
 });

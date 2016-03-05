@@ -24,11 +24,11 @@
             {
                 name: 'jquery',
                 location: 'jquery',
-                main: 'jquery-1.10.2'
+                main: 'dist/jquery'
             }, {
                 name: 'bootstrap',
                 location: 'bootstrap',
-                main: 'js/bootstrap'
+                main: 'dist/js/bootstrap'
             }, {
                 name: 'ladda',
                 location: 'ladda-bootstrap',
