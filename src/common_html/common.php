@@ -6,12 +6,7 @@
 <meta name="keywords" content="Comma, Separated List"/>
 <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
 
-<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-<!--[if lt IE 9]>
-  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="css/core.css" />
 <link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
 
