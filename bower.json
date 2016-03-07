@@ -14,7 +14,7 @@
   "private": true,
   "dependencies": {
     "ijit": "agrc-ijit#~3.1.1",
-    "agrc": "agrc-widgets#~4.0",
+    "agrc": "agrc-widgets#~4.1",
     "esri": "arcgis-js-api#~3.15.0",
     "jasmine-favicon-reporter": "*",
     "jasmine-jsreporter": "^0.1.2"
