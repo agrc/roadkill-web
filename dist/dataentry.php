@@ -5,8 +5,8 @@
 
 		<!-- PAGE SPECIFIC STUFF -->
 		<link rel="stylesheet" type="text/css" href="css/dataentry.css" />
-		<link rel="stylesheet" type="text/css" href="https://js.arcgis.com/3.8/js/esri/css/esri.css">
-		
+		<link rel="stylesheet" type="text/css" href="esri/css/esri.css">
+
 		<script type='text/javascript'>
 			require(['dojo/domReady!'], function () {
 				require(['app/dataentry']);
@@ -23,12 +23,12 @@
 					<legend>
 						Submit Report
 					</legend>
-					
+
 					<label>Report Date</label>
 					<div class='input'>
 						<input id='report-date' type='text' dojoType='dijit/form/DateTextBox'>
 					</div>
-					
+
 					<label>Species</label>
 					<div class="input">
 						<select class='form-control' id='species-select'>
@@ -37,7 +37,7 @@
 						or
 						<input id='species-txt' class='form-control' type='text' placeholder='type in a new species'/>
 					</div>
-					
+
 					<label>Gender</label>
 					<div class="input">
 						<ul class="inputs-list">
@@ -58,7 +58,7 @@
 							</li>
 						</ul>
 					</div>
-					
+
 					<label>Age Class</label>
 					<div class="input">
 						<ul class="inputs-list">
@@ -80,19 +80,19 @@
 							</li>
 						</ul>
 					</div>
-					
+
 					<label>Xyphoid (mm)</label>
 					<div class="input">
 						<input id='xyphoid' type='number' class='form-control' disabled/>
 						<input type='checkbox' id='xyphoid_chbx' name='xyphoid_chbx' checked/>
 						<label id='checkbox_label' for='xyphoid_chbx'>Unavailable</label>
 					</div>
-					
+
 					<label>Collar/Tag #</label>
 					<div class='input'>
 						<input id='collar_tag' class='form-control' type='text' placeholder='optional' />
 					</div>
-					
+
 					<label>Comments</label>
 					<div class="input">
 						<textarea class="form-control" id="comments" maxlength='255' placeholder='optional'></textarea>
@@ -101,14 +101,14 @@
 				</fieldset>
 				<fieldset>
 					<legend>Location</legend>
-					
+
 					<ul class='nav nav-pills'>
 						<li class='active'><a href='#lat-lng-tab' data-toggle='tab'>Latitude/Longitude</a></li>
 						<li><a href='#utm-tab' data-toggle='tab'>UTM</a></li>
 						<li><a href='#route-milepost-tab' data-toggle='tab'>Route/Milepost</a></li>
 						<li><a href='#address-tab' data-toggle='tab'>Street Address</a></li>
 					</ul>
-					
+
 					<div class='tab-content'>
 						<div id='lat-lng-tab' class='tab-pane active'>
 							<label>Latitude</label>
@@ -159,7 +159,7 @@
 					<img id='submit-status-img' class='status-img' alt='loader' src='images/ajax-loader.gif'/>
 				</div>
 			</form>
-			
+
 			<footer>
 				<?php include 'common_html/footer.php'; ?>
 			</footer>

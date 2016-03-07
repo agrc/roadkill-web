@@ -66,7 +66,39 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        pkg: grunt.file.readJSON('package.json'),
+        dojo: {
+            prod: {
+                options: {
+                    profiles: ['profiles/prod.build.profile.js', 'profiles/build.profile.js'] // Profile for build
+                }
+            },
+            stage: {
+                options: {
+                    profiles: ['profiles/stage.build.profile.js', 'profiles/build.profile.js'] // Profile for build
+                }
+            },
+            options: {
+                dojo: 'src/dojo/dojo.js', // Path to dojo.js file in dojo source
+                load: 'build', // Optional: Utility to bootstrap (Default: 'build')
+                releaseDir: '../dist',
+                require: 'src/app/run.js', // Optional: Module to require for the build (Default: nothing)
+                basePath: './src'
+            }
+        },
+        imagemin: {
+            main: {
+                options: {
+                    optimizationLevel: 3
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    // exclude tests because some images in dojox throw errors
+                    src: ['**/*.{png,jpg,gif}', '!**/tests/**/*.*'],
+                    dest: 'src/'
+                }]
+            }
+        },
         jasmine: {
             app: {
                 src: ['src/app/run.js'],
@@ -91,6 +123,7 @@ module.exports = function(grunt) {
                 jshintrc: '.jshintrc'
             }
         },
+        pkg: grunt.file.readJSON('package.json'),
         secrets: secrets,
         sftp: {
             stage: {
@@ -151,6 +184,16 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['jasmine:app:build', 'connect', 'watch']);
 
+    grunt.registerTask('build-prod', [
+        'clean:build',
+        'newer:imagemin:main',
+        'dojo:prod'
+    ]);
+    grunt.registerTask('build-stage', [
+        'clean:build',
+        'newer:imagemin:main',
+        'dojo:stage'
+    ]);
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
         'compress:main',

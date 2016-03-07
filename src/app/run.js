@@ -23,8 +23,8 @@
             'xstyle',
             {
                 name: 'jquery',
-                location: 'jquery',
-                main: 'dist/jquery'
+                location: 'jquery/dist',
+                main: 'jquery'
             }, {
                 name: 'bootstrap',
                 location: 'bootstrap',

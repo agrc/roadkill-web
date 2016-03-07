@@ -4,8 +4,8 @@ var profile = {
     action: 'release',
     cssOptimize: 'comments',
     mini: true,
-    optimize: 'shrinksafe',
-    layerOptimize: 'shrinksafe',
+    optimize: 'uglify',
+    layerOptimize: 'uglify',
     stripConsole: 'all',
     selectorEngine: 'acme',
     layers: {
