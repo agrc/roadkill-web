@@ -1,42 +1,44 @@
 require([
-    "dojo/_base/event",
-    'dojo/_base/array',
-    "dojo/request",
-    "dojo/window",
-    'dojo/dom',
-    'dojo/query',
-    'dojo/dom-class',
-    'dojo/dom-style',
-    'dojo/on',
-    'dojo/dom-construct',
-    'dojo/topic',
+    'agrc/modules/Domains',
+    'agrc/modules/HelperFunctions',
 
-    "dijit/form/DateTextBox",
+    'dijit/form/DateTextBox',
     'dijit/registry',
 
-    "agrc/modules/HelperFunctions",
-    'agrc/modules/Domains',
+    'dojo/dom',
+    'dojo/dom-class',
+    'dojo/dom-construct',
+    'dojo/dom-style',
+    'dojo/on',
+    'dojo/query',
+    'dojo/request',
+    'dojo/topic',
+    'dojo/window',
+    'dojo/_base/array',
+    'dojo/_base/event',
 
-    "roadkill/VerifyMap"
+    'roadkill/VerifyMap'
 ], function (
-    dojoEvent,
-    array,
-    request,
-    win,
-    dom,
-    query,
-    domClass,
-    domStyle,
-    on,
-    domConstruct,
-    topic,
+    Domains,
+    HelperFunctions,
 
     DateTextBox,
     registry,
 
-    HelperFunctions,
-    Domains
-    ) {
+    dom,
+    domClass,
+    domConstruct,
+    domStyle,
+    on,
+    query,
+    request,
+    topic,
+    win,
+    array,
+    dojoEvent,
+
+    VerifyMap
+) {
     // private properties
     var that,
         date,
@@ -195,7 +197,7 @@ require([
                 // ROADKILL.errorLogger.log(response.error);
                 onError();
             }
-        }, function(er){
+        }, function(){
             // ROADKILL.errorLogger.log(er);
             onError();
         });
@@ -290,23 +292,6 @@ require([
         //      Gets the domain from the feature service and populates the drop-down
         console.info("DataEntryPage::getDomains", arguments);
 
-        // var params = {
-        //     url: ROADKILL.rkFeatureServiceUrl,
-        //     callbackParamName: 'callback',
-        //     timeout: 10000,
-        //     content: {
-        //         f: 'pjson'
-        //     }
-        // };
-        // script.get(params).then(function(data){
-        //     if (data.error) {
-        //         // raise error
-        //         ROADKILL.errorLogger.log(data.error);
-        //     } else {
-        //         var values = getDomainValues(ROADKILL.fields.SPECIES, data);
-        //         populateSelect('species-select', values);
-        //     }
-        // });
         Domains.populateSelectWithDomainValues(dom.byId('species-select'),
             ROADKILL.rkFeatureServiceUrl + '?token=' + ROADKILL.login.token,
             ROADKILL.fields.SPECIES);
@@ -324,16 +309,14 @@ require([
 
         wireEvents();
 
-        verifyMap = new roadkill.VerifyMap();
+        verifyMap = new VerifyMap();
 
         getDomains();
     }
 
-    roadkill.DataEntryPage = DataEntryPage;
-
     var dataentryPage;
     function init() {
-        dataentryPage = new roadkill.DataEntryPage();
+        dataentryPage = new DataEntryPage();
     }
 
     function checkRole() {
