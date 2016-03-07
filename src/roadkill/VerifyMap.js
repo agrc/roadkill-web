@@ -1,55 +1,97 @@
-/*global dojo, console, agrc, Proj4js, alert, roadkill, esri*/
-dojo.provide("roadkill.VerifyMap");
+/* global Proj4js */
+define([
+    'agrc/modules/WebAPI',
+    'agrc/widgets/map/BaseMap',
 
-dojo.require("agrc.widgets.map.BaseMap");
-dojo.require("dojo.io.script");
-dojo.require('esri.geometry.Point');
-dojo.require('esri.symbols.SimpleMarkerSymbol');
-dojo.require('esri.graphic');
+    'dojo/Deferred',
+    'dojo/dom',
+    'dojo/dom-style',
+    'dojo/on',
+    'dojo/query',
+    'dojo/_base/Color',
 
-dojo.require("proj4js.proj4js-compressed");
-(function() {
+    'esri/geometry/Point',
+    'esri/graphic',
+    'esri/symbols/SimpleMarkerSymbol',
+
+    'proj4js/proj4js-compressed'
+], function (
+    WebAPI,
+    BaseMap,
+
+    Deferred,
+    dom,
+    domStyle,
+    on,
+    query,
+    Color,
+
+    Point,
+    Graphic,
+    SimpleMarkerSymbol
+) {
     // private properties
-    var that, llTab, utmTab, rmTab, addTab, lat, lng, easting, northing, route, milepost, address, zipcity, verifyBtn, map, srcProj, destProj, verifyText, verifyImg;
+    var that;
+    var llTab;
+    var utmTab;
+    var rmTab;
+    var addTab;
+    var lat;
+    var lng;
+    var easting;
+    var northing;
+    var route;
+    var milepost;
+    var address;
+    var zipcity;
+    var verifyBtn;
+    var map;
+    var srcProj;
+    var destProj;
+    var verifyText;
+    var verifyImg;
 
     // public properties
-    var verified = false, geo, currentField, currentValue;
+    var verified = false;
+    var geo;
+    var currentField;
+    var currentValue;
 
     // private methods
     var getElements = function() {
         // summary:
         //		gets all of the element references needed for this object
         console.info("VerifyMap::getElements", arguments);
-        llTab = dojo.byId('lat-lng-tab');
-        utmTab = dojo.byId('utm-tab');
-        rmTab = dojo.byId('route-milepost-tab');
-        addTab = dojo.byId('address-tab');
-        lat = dojo.byId('lat');
-        lng = dojo.byId('lng');
-        easting = dojo.byId('easting');
-        northing = dojo.byId('northing');
-        route = dojo.byId('route');
-        milepost = dojo.byId('milepost');
-        address = dojo.byId('address');
-        zipcity = dojo.byId('zipcity');
-        verifyBtn = dojo.byId('verify-location');
-        verifyText = dojo.byId('verify-status-text');
-        verifyImg = dojo.byId('verify-status-img');
+        llTab = dom.byId('lat-lng-tab');
+        utmTab = dom.byId('utm-tab');
+        rmTab = dom.byId('route-milepost-tab');
+        addTab = dom.byId('address-tab');
+        lat = dom.byId('lat');
+        lng = dom.byId('lng');
+        easting = dom.byId('easting');
+        northing = dom.byId('northing');
+        route = dom.byId('route');
+        milepost = dom.byId('milepost');
+        address = dom.byId('address');
+        zipcity = dom.byId('zipcity');
+        verifyBtn = dom.byId('verify-location');
+        verifyText = dom.byId('verify-status-text');
+        verifyImg = dom.byId('verify-status-img');
     };
     var wireEvents = function() {
         console.info("VerifyMap::wireEvents", arguments);
 
-        dojo.connect(verifyBtn, "onclick", function() {
+        on(verifyBtn, "click", function() {
             that.verifyLocation();
         });
-        dojo.connect(lat, "onchange", that, 'onChange');
-        dojo.connect(lng, "onchange", that, 'onChange');
-        dojo.connect(easting, 'onchange', that, 'onChange');
-        dojo.connect(northing, 'onchange', that, 'onChange');
-        dojo.connect(route, "onchange", that, 'onChange');
-        dojo.connect(milepost, "onchange", that, 'onChange');
-        dojo.connect(address, "onchange", that, 'onChange');
-        dojo.connect(zipcity, "onchange", that, 'onChange');
+        on(lat, "change", that, 'onChange');
+        on(lng, "change", that, 'onChange');
+        on(easting, 'change', that, 'onChange');
+        on(northing, 'change', that, 'onChange');
+        on(route, "change", that, 'onChange');
+        on(milepost, "change", that, 'onChange');
+        on(address, "change", that, 'onChange');
+        on(zipcity, "change", that, 'onChange');
     };
     var initProj4js = function() {
         // summary:
@@ -71,9 +113,9 @@ dojo.require("proj4js.proj4js-compressed");
         console.info("VerifyMap::zoomToPoint", arguments);
 
         map.graphics.clear();
-        var pnt = new esri.geometry.Point(x, y, map.spatialReference);
-        var sms = new esri.symbols.SimpleMarkerSymbol().setStyle(esri.symbols.SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new dojo.Color([255, 255, 0, 0.8])).setSize(9);
-        var g = new esri.graphic(pnt, sms);
+        var pnt = new Point(x, y, map.spatialReference);
+        var sms = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new Color([255, 255, 0, 0.8])).setSize(9);
+        var g = new Graphic(pnt, sms);
         map.graphics.add(g);
         map.centerAndZoom(pnt, 6);
 
@@ -89,45 +131,61 @@ dojo.require("proj4js.proj4js-compressed");
         console.info("VerifyMap::showMsg", arguments);
 
         verifyText.innerHTML = msg;
-        dojo.style(verifyText, 'display', 'inline');
-        dojo.style(verifyImg, 'display', 'inline');
+        domStyle.set(verifyText, 'display', 'inline');
+        domStyle.set(verifyImg, 'display', 'inline');
     };
     var hideMsg = function() {
         // summary:
         //		Hids the text and image
         console.info("VerifyMap::hideMsg", arguments);
 
-        dojo.style(verifyText, 'display', 'none');
-        dojo.style(verifyImg, 'display', 'none');
+        domStyle.set(verifyText, 'display', 'none');
+        domStyle.set(verifyImg, 'display', 'none');
     };
-    var geocode = function(first, second) {
+    var webAPI = new WebAPI({apiKey: ROADKILL.apiKey});
+    var geocode = function(street, zone) {
         // summary:
         //		calls the locator service to find the location of the route and milepost
-        // first: String
-        //		route or street address
-        // second: String
-        //		milepost or zip or city
+        // street: String
+        //		street address
+        // zone: String
+        //		zip or city
         // returns: dojo.Deferred
         console.info("VerifyMap::geocode", arguments);
 
-        var def = new dojo.Deferred();
+        var def = new Deferred();
 
-        var params = {
-            url : ROADKILL.locatorServiceUrl + first + ')zone(' + second + ')',
-            callbackParamName : 'callback',
-            handleAs : 'json',
-            timeout : 10000,
-            preventCache : true
-        };
-        dojo.io.script.get(params).then(function(result) {
-            zoomToPoint(result.UTM_X, result.UTM_Y);
+        webAPI.geocode(street, zone).then(function(result) {
+            zoomToPoint(result.location.x, result.location.y);
             def.resolve(true);
         }, function() {
             showMsg('No match found');
-            dojo.style(verifyImg, 'display', 'none');
+            domStyle.set(verifyImg, 'display', 'none');
             def.resolve(false);
         });
-        return def;
+        return def.promise;
+    };
+    var getRouteMilepost = function(route, milepost) {
+        // summary:
+        //		calls the locator service to find the location of the route and milepost
+        // route: String
+        //		street address
+        // milepost: String
+        //		zip or city
+        // returns: dojo.Deferred
+        console.info("VerifyMap::getRouteMilepost", arguments);
+
+        var def = new Deferred();
+
+        webAPI.getRouteMilepost(route, milepost).then(function(result) {
+            zoomToPoint(result.location.x, result.location.y);
+            def.resolve(true);
+        }, function() {
+            showMsg('No match found');
+            domStyle.set(verifyImg, 'display', 'none');
+            def.resolve(false);
+        });
+        return def.promise;
     };
     // public methods
     function VerifyMap() {
@@ -137,7 +195,7 @@ dojo.require("proj4js.proj4js-compressed");
         that = this;
 
         getElements();
-        map = new agrc.widgets.map.BaseMap('verify-map', {
+        map = new BaseMap('verify-map', {
             slider : false,
             logo : false
         });
@@ -152,7 +210,7 @@ dojo.require("proj4js.proj4js-compressed");
         //		validates the location fields and then zooms the map to them
         console.info("VerifyMap::verifyLocation", arguments);
 
-        var selectedTab = dojo.query('.tab-content>.active')[0];
+        var selectedTab = query('.tab-content>.active')[0];
 
         verifyBtn.disabled = true;
         hideMsg();
@@ -202,7 +260,7 @@ dojo.require("proj4js.proj4js-compressed");
                 } else {
                     zoomToPoint(eastingValue, northingValue);
                     verifyBtn.disabled = false;
-                    
+
                     that.currentField = undefined;
                     that.currentValue = undefined;
                     that.verified = true;
@@ -216,7 +274,7 @@ dojo.require("proj4js.proj4js-compressed");
                 } else {
                     showMsg('Matching route and milepost...');
 
-                    var def = geocode(milepost.value, route.value);
+                    var def = getRouteMilepost(route.value, milepost.value);
                     def.then(function(result) {
                         verifyBtn.disabled = false;
                         if(result) {
@@ -277,11 +335,12 @@ dojo.require("proj4js.proj4js-compressed");
     }
 
 
-    roadkill.VerifyMap = VerifyMap;
-    roadkill.VerifyMap.prototype.verifyLocation = verifyLocation;
-    roadkill.VerifyMap.prototype.onChange = onChange;
-    roadkill.VerifyMap.prototype.verified = verified;
-    roadkill.VerifyMap.prototype.geo = geo;
-    roadkill.VerifyMap.prototype.currentField = currentField;
-    roadkill.VerifyMap.prototype.currentValue = currentValue;
-})();
+    VerifyMap.prototype.verifyLocation = verifyLocation;
+    VerifyMap.prototype.onChange = onChange;
+    VerifyMap.prototype.verified = verified;
+    VerifyMap.prototype.geo = geo;
+    VerifyMap.prototype.currentField = currentField;
+    VerifyMap.prototype.currentValue = currentValue;
+
+    return VerifyMap;
+});

@@ -6,6 +6,7 @@ node_modules/
 scripts/database_connections
 secrets.json
 src/agrc/
+src/app/secrets.json
 src/bootstrap/
 src/components-jasmine/
 src/dgrid/

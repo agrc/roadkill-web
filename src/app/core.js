@@ -1,7 +1,9 @@
 define([
     'dojo/dom',
     'dojo/dom-class',
+    'dojo/has',
     'dojo/parser',
+    'dojo/request/xhr',
     'dojo/_base/array',
 
     'esri/config',
@@ -12,7 +14,9 @@ define([
 ], function (
     dom,
     domClass,
+    has,
     parser,
+    xhr,
     array,
 
     esriConfig,
@@ -27,7 +31,6 @@ define([
     ROADKILL.rkMapServiceUrl = ROADKILL.baseUrl + "/MapService/MapServer";
     ROADKILL.clusterLayerUrl = ROADKILL.rkMapServiceUrl + "/0";
     ROADKILL.rkFeatureServiceUrl = ROADKILL.baseUrl + "/MapService/FeatureServer/0";
-    ROADKILL.locatorServiceUrl = "https://mapserv.utah.gov/wsut/Geocode.svc/roadkill/street(";
     ROADKILL.rkMapServiceUrlUserId  = ROADKILL.rkMapServiceUrl + '/4/query';
     ROADKILL.rkMapServiceUrlUDOT = ROADKILL.rkMapServiceUrl + '/2/query';
     ROADKILL.rkMapServiceUrlUDWR = ROADKILL.rkMapServiceUrl + '/1/query';
@@ -69,9 +72,26 @@ define([
         Viewer: 'viewer'
     };
 
-    // ROADKILL.errorLogger = new ErrorLogger({
-    //     appName: 'WVC Reporter - Desktop'
-    // });
+    if (has('agrc-build') === 'prod') {
+        // mapserv.utah.gov
+        window.ROADKILL.apiKey = 'AGRC-A94B063C533889';
+        window.ROADKILL.quadWord = 'alfred-plaster-crystal-dexter';
+    } else if (has('agrc-build') === 'stage') {
+        // test.mapserv.utah.gov
+        window.ROADKILL.apiKey = 'AGRC-AC122FA9671436';
+        window.ROADKILL.quadWord = 'opera-event-little-pinball';
+    } else {
+        // localhost
+        xhr(require.baseUrl + 'secrets.json', {
+            handleAs: 'json',
+            sync: true
+        }).then(function (secrets) {
+            window.ROADKILL.quadWord = secrets.quadWord;
+            window.ROADKILL.apiKey = secrets.apiKey;
+        }, function () {
+            throw 'Error getting secrets!';
+        });
+    }
 
     // calculate dates
     var millisecondsInDays = 86400000;
