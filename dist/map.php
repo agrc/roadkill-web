@@ -1,16 +1,12 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="https://js.arcgis.com/3.8/js/esri/dijit/css/Popup.css">
-		<link rel="stylesheet" type="text/css" href="https://js.arcgis.com/3.8/js/esri/css/esri.css">
-		
-		
+		<link rel="stylesheet" type="text/css" href="esri/dijit/css/Popup.css">
+		<link rel="stylesheet" type="text/css" href="esri/css/esri.css">
+
+
 		<?php include "common_html/common.php"; ?>
         <link rel="stylesheet" tyep="text/css" href="css/map.css" />
-        <!--[if lte IE 7]>
-			<link rel="stylesheet" type="text/css" href="roadkill/css/ListPickerIE7.css">
-			<link rel='stylesheet' type='text/css' href='roadkill/css/RouteMilepostFilterIE7.css'>
-		<![endif]-->
         <script type="text/javascript">
         	require(['dojo/domReady!'], function () {
         		require(['app/map']);
@@ -57,7 +53,7 @@
 					</div>
 				</div>
 			</div>
-			<div data-dojo-type="dijit/layout/ContentPane" 
+			<div data-dojo-type="dijit/layout/ContentPane"
 				data-dojo-props='region: "center"' class='map-div-container'>
 				<div id="map-div">
 				</div>

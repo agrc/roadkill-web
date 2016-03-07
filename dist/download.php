@@ -4,7 +4,7 @@
         <?php include("common_html/common.php") ?>
         
         <link rel='stylesheet' type='text/css' href='css/download.css' />
-        <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
+        <link rel="stylesheet" type="text/css" href="dojo/dijit/themes/claro/claro.css">
         
         <script type='text/javascript'>
         	require(['dojo/domReady!'], function () {
