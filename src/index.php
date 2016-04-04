@@ -48,7 +48,7 @@
 				</div>
 				<div class="message col-md-4">
 					<div class='padding'>
-						<p>Website Version: 2.2.0</p>
+						<p>Website Version: 2.2.1</p>
 						<div class="alert-actions">
 							<a class="btn btn-default" href="release_notes.php">Release Notes &raquo;</a>
 						</div>
