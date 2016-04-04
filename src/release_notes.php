@@ -17,6 +17,23 @@
 				</thead>
 				<tbody>
 					<tr>
+						<td class="version">2.2.1</td>
+						<td>
+							<ul class='list-unstyled'>
+								<li>Update Google Analytics code</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
+						<td class="version">2.2.0</td>
+						<td>
+							<ul class='list-unstyled'>
+								<li>Upgrade to use webapi instead of WSUT</li>
+								<li>Upgrades to esri/dojo and other apis</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
 						<td class="version">2.1.0</td>
 						<td>
 							<ul class='list-unstyled'>
