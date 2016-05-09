@@ -1,3 +1,5 @@
+@import '../layer-selector/resources/LayerSelector.css';
+
 #verify-map {
 	width: 420px;
 	height: 200px;

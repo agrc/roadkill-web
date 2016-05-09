@@ -250,43 +250,6 @@ require([
             }
         });
     };
-    // var getDomainValues = function(fieldName, dataObject) {
-    //     // summary:
-    //     //      returns the list of codes for the given domain
-    //     // fieldName: String
-    //     // dataObject: Object
-    //     // returns: []
-    //     console.info("DataEntryPage::getDomainValues", arguments);
-
-    //     var field;
-    //     array.some(dataObject.fields, function(f) {
-    //         if (f.name === fieldName) {
-    //             field = f;
-    //             return true;
-    //         }
-    //     });
-    //     if (field) {
-    //         return field.domain.codedValues;
-    //     } else {
-    //         throw TypeError('Field: ' + fieldName + ' not found!');
-    //     }
-    // };
-    // var populateSelect = function(selectid, values) {
-    //     // summary:
-    //     //      adds options for each value to the select
-    //     // selectid: String
-    //     // values: String[]
-    //     console.info("DataEntryPage::populateSelect", arguments);
-
-    //     var select = dom.byId(selectid);
-
-    //     array.forEach(values, function(value){
-    //         domConstruct.create('option', {
-    //             value: value.code,
-    //             innerHTML: value.name
-    //         }, select);
-    //     });
-    // };
     var getDomains = function(){
         // summary:
         //      Gets the domain from the feature service and populates the drop-down

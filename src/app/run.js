@@ -14,6 +14,7 @@
             'dojox',
             'esri',
             'ijit',
+            'layer-selector',
             'roadkill',
             'esrx',
             'ext',

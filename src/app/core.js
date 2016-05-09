@@ -31,13 +31,11 @@ define([
     ROADKILL.rkMapServiceUrl = ROADKILL.baseUrl + "/MapService/MapServer";
     ROADKILL.clusterLayerUrl = ROADKILL.rkMapServiceUrl + "/0";
     ROADKILL.rkFeatureServiceUrl = ROADKILL.baseUrl + "/MapService/FeatureServer/0";
-    ROADKILL.rkMapServiceUrlUserId  = ROADKILL.rkMapServiceUrl + '/4/query';
-    ROADKILL.rkMapServiceUrlUDOT = ROADKILL.rkMapServiceUrl + '/2/query';
-    ROADKILL.rkMapServiceUrlUDWR = ROADKILL.rkMapServiceUrl + '/1/query';
     ROADKILL.rkFeatureServiceAddFeaturesUrl = ROADKILL.baseUrl + '/FeatureService/FeatureServer/0/addFeatures';
     ROADKILL.gpRouteMilepostUrl = ROADKILL.toolboxUrlBase + '/RouteMilepostsSegment';
     ROADKILL.geometryServiceUrl = '/ArcGIS/rest/services/Geometry/GeometryServer';
-    ROADKILL.gpPrintUrl = ROADKILL.toolboxUrlBase + '/Print';
+    ROADKILL.gpPrintUrl = ROADKILL.server + '/arcgis/rest/services/PrintProxy/GPServer/PrintProxy';
+    ROADKILL.exportWebMapUrl = ROADKILL.server + '/arcgis/rest/services/Roadkill/Print/GPServer/Export%20Web%20Map';
     ROADKILL.rkPointsLayerUrl = ROADKILL.baseUrl + '/Overlays/MapServer';
 
     ROADKILL.fields = {

@@ -10,9 +10,12 @@ define([
     'dojo/query',
     'dojo/_base/Color',
 
+    'esri/geometry/Extent',
     'esri/geometry/Point',
     'esri/graphic',
     'esri/symbols/SimpleMarkerSymbol',
+
+    'layer-selector/LayerSelector',
 
     'proj4js/proj4js-compressed'
 ], function (
@@ -26,9 +29,12 @@ define([
     query,
     Color,
 
+    Extent,
     Point,
     Graphic,
-    SimpleMarkerSymbol
+    SimpleMarkerSymbol,
+
+    LayerSelector
 ) {
     // private properties
     var that;
@@ -46,8 +52,9 @@ define([
     var zipcity;
     var verifyBtn;
     var map;
-    var srcProj;
-    var destProj;
+    var llProj;
+    var utmProj;
+    var webMercProj;
     var verifyText;
     var verifyImg;
 
@@ -100,11 +107,13 @@ define([
 
         // init Proj4js
         Proj4js.defs["EPSG:26912"] = "+title=NAD83 / UTM zone 12N +proj=utm +zone=12 +a=6378137.0 +b=6356752.3141403";
+        Proj4js.defs["EPSG:3857"] = "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
         Proj4js.reportError = function(msg) {
             console.info(msg);
         };
-        srcProj = new Proj4js.Proj('WGS84');
-        destProj = new Proj4js.Proj("EPSG:26912");
+        llProj = new Proj4js.Proj('EPSG:4326');
+        webMercProj = new Proj4js.Proj("EPSG:3857");
+        utmProj = new Proj4js.Proj("EPSG:26912");
     };
     var zoomToPoint = function(x, y) {
         // summary:
@@ -117,7 +126,7 @@ define([
         var sms = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new Color([255, 255, 0, 0.8])).setSize(9);
         var g = new Graphic(pnt, sms);
         map.graphics.add(g);
-        map.centerAndZoom(pnt, 6);
+        map.centerAndZoom(pnt, 12);
 
         that.geo = {
             x : x,
@@ -155,7 +164,7 @@ define([
 
         var def = new Deferred();
 
-        webAPI.geocode(street, zone).then(function(result) {
+        webAPI.geocode(street, zone, {spatialReference: 3857}).then(function(result) {
             zoomToPoint(result.location.x, result.location.y);
             def.resolve(true);
         }, function() {
@@ -177,7 +186,7 @@ define([
 
         var def = new Deferred();
 
-        webAPI.getRouteMilepost(route, milepost).then(function(result) {
+        webAPI.getRouteMilepost(route, milepost, {spatialReference: 3857}).then(function(result) {
             zoomToPoint(result.location.x, result.location.y);
             def.resolve(true);
         }, function() {
@@ -197,8 +206,23 @@ define([
         getElements();
         map = new BaseMap('verify-map', {
             slider : false,
-            logo : false
+            logo : false,
+            extent: new Extent({
+                xmax: -11762120.612131765,
+                xmin: -13074391.513731329,
+                ymax: 5225035.106177688,
+                ymin: 4373832.359194187,
+                spatialReference: {
+                    wkid: 3857
+                }
+            })
         });
+        var ls = new LayerSelector({
+            map: map,
+            quadWord: ROADKILL.quadWord,
+            baseLayers: ['Terrain']
+        });
+        ls.startup();
 
         initProj4js();
 
@@ -232,7 +256,7 @@ define([
                     return false;
                 } else {
                     var p = new Proj4js.Point(lngValue, latValue);
-                    Proj4js.transform(srcProj, destProj, p);
+                    Proj4js.transform(llProj, webMercProj, p);
 
                     zoomToPoint(p.x, p.y);
                     verifyBtn.disabled = false;
@@ -258,7 +282,10 @@ define([
                     alert('Your northing value is invalid!');
                     return false;
                 } else {
-                    zoomToPoint(eastingValue, northingValue);
+                    var p = new Proj4js.Point(eastingValue, northingValue);
+                    Proj4js.transform(utmProj, webMercProj, p);
+
+                    zoomToPoint(p.x, p.y);
                     verifyBtn.disabled = false;
 
                     that.currentField = undefined;
@@ -300,7 +327,7 @@ define([
                 } else {
                     showMsg('Matching address...');
 
-                    var def2 = geocode(address.value, zipcity.value);
+                    var def2 = geocode(address.value, zipcity.value, {spatialReference: 3857});
                     def2.then(function(result) {
                         verifyBtn.disabled = false;
                         if(result) {
