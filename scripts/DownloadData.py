@@ -18,7 +18,7 @@ if area == '#' or not area:
     arcpy.AddMessage('area: None')
     area = None
 reportsFC = path.join(path.dirname(path.abspath(__file__)),
-                      r'database_connections\Roadkill_PROD as RKAdmin.sde\RoadKill.RKADMIN.Reports')
+                      r'Roadkill_PROD as RKAdmin.sde\RoadKill.RKADMIN.Reports')
 reports = 'reports'
 outputFolder = arcpy.env.scratchWorkspace
 if not outputFolder:

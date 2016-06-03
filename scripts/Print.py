@@ -33,7 +33,7 @@ if visibleLayers:
 defQueryTxt = arcpy.GetParameterAsText(6)
 
 # variables
-mxdPath = r'\\<server ip>\ArcGIS\serverprojects\Roadkill\PrintTemplate.mxd'
+mxdPath = r'Z:\\roadkill-desktop\scripts\PrintTemplate.mxd'
 outFileName = 'map.pdf'
 scratch = arcpy.env.scratchWorkspace
 if not scratch:

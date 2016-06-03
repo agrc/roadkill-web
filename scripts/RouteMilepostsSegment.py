@@ -22,7 +22,7 @@ outputFolder = arcpy.env.scratchWorkspace
 if not outputFolder:
     arcpy.AddMessage("Using Temp")
     outputFolder = r'C:\Temp'
-    
+
 # field names
 ROUTE = 'ROUTE'
 FromMP = 'FROM_MP'
@@ -30,9 +30,9 @@ ToMP = 'TO_MP'
 RT_NAME = 'LABEL'
 RT_DIR = 'RT_DIR'
 
-routesFC = r'C:\inetpub\wwwroot\serverprojects\MapData\SGID10.gdb\UDOTRoutes_LRS'
+routesFC = r'C:\MapData\SGID10.gdb\UDOTRoutes_LRS'
 routesLyr = 'routesLyr'
-tableTemplate = r'C:\inetpub\wwwroot\serverprojects\Roadkill\Schemas.gdb\RouteMilepostsTemplate'
+tableTemplate = r'Z:\\roadkill-mobile\scripts\Schemas.gdb\RouteMilepostsTemplate'
 eventLayer = 'eventLayer'
 
 # create new in_memory table to hold values
@@ -57,10 +57,10 @@ arcpy.MakeRouteEventLayer_lr(routesLyr, RT_NAME, tbl, '%s LINE %s %s' % (ROUTE, 
 
 cur = arcpy.SearchCursor(eventLayer)
 row = cur.next()
-if row.getValue('Shape').length > 0: 
+if row.getValue('Shape').length > 0:
     arcpy.AddMessage('copying features')
     fs = arcpy.CopyFeatures_management(eventLayer, outputFolder + r'/outFC')
-    
+
     arcpy.SetParameter(3, fs)
 else:
     arcpy.AddError('No match found for that route.')
