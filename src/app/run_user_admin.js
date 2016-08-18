@@ -1,10 +1,10 @@
-(function() {
+(function () {
     var config = {
         baseUrl: (
             typeof window !== 'undefined' &&
             window.dojoConfig &&
             window.dojoConfig.isJasmineTestRunner
-            ) ? '/src': './',
+            ) ? '/src' : './',
         packages: [
             'app',
             'agrc',
@@ -45,17 +45,15 @@
         ]
     };
     require(config, [
-            'ijit/widgets/authentication/UserAdmin',
+        'ijit/widgets/authentication/UserAdmin',
 
-            'dojo/domReady!'
-        ],
-
-        function(
-            UserAdmin
-        ) {
-            new UserAdmin({
-                title: 'WVC Reporter',
-                appName: 'roadkill'
-            }, 'widget-div');
-        });
-})();
+        'dojo/domReady!'
+    ], function (
+        UserAdmin
+    ) {
+        new UserAdmin({
+            title: 'WVC Reporter',
+            appName: 'roadkill'
+        }, 'widget-div');
+    });
+}());

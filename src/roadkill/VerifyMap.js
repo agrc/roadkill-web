@@ -65,10 +65,10 @@ define([
     var currentValue;
 
     // private methods
-    var getElements = function() {
+    var getElements = function () {
         // summary:
         //		gets all of the element references needed for this object
-        console.info("VerifyMap::getElements", arguments);
+        console.info('VerifyMap::getElements', arguments);
         llTab = dom.byId('lat-lng-tab');
         utmTab = dom.byId('utm-tab');
         rmTab = dom.byId('route-milepost-tab');
@@ -85,41 +85,41 @@ define([
         verifyText = dom.byId('verify-status-text');
         verifyImg = dom.byId('verify-status-img');
     };
-    var wireEvents = function() {
-        console.info("VerifyMap::wireEvents", arguments);
+    var wireEvents = function () {
+        console.info('VerifyMap::wireEvents', arguments);
 
-        on(verifyBtn, "click", function() {
+        on(verifyBtn, 'click', function () {
             that.verifyLocation();
         });
-        on(lat, "change", that, 'onChange');
-        on(lng, "change", that, 'onChange');
+        on(lat, 'change', that, 'onChange');
+        on(lng, 'change', that, 'onChange');
         on(easting, 'change', that, 'onChange');
         on(northing, 'change', that, 'onChange');
-        on(route, "change", that, 'onChange');
-        on(milepost, "change", that, 'onChange');
-        on(address, "change", that, 'onChange');
-        on(zipcity, "change", that, 'onChange');
+        on(route, 'change', that, 'onChange');
+        on(milepost, 'change', that, 'onChange');
+        on(address, 'change', that, 'onChange');
+        on(zipcity, 'change', that, 'onChange');
     };
-    var initProj4js = function() {
+    var initProj4js = function () {
         // summary:
         //		sets up the Proj4js stuff
-        console.info("VerifyMap::initProj4js", arguments);
+        console.info('VerifyMap::initProj4js', arguments);
 
         // init Proj4js
-        Proj4js.defs["EPSG:26912"] = "+title=NAD83 / UTM zone 12N +proj=utm +zone=12 +a=6378137.0 +b=6356752.3141403";
-        Proj4js.defs["EPSG:3857"] = "+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs";
-        Proj4js.reportError = function(msg) {
+        Proj4js.defs['EPSG:26912'] = '+title=NAD83 / UTM zone 12N +proj=utm +zone=12 +a=6378137.0 +b=6356752.3141403';
+        Proj4js.defs['EPSG:3857'] = '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
+        Proj4js.reportError = function (msg) {
             console.info(msg);
         };
         llProj = new Proj4js.Proj('EPSG:4326');
-        webMercProj = new Proj4js.Proj("EPSG:3857");
-        utmProj = new Proj4js.Proj("EPSG:26912");
+        webMercProj = new Proj4js.Proj('EPSG:3857');
+        utmProj = new Proj4js.Proj('EPSG:26912');
     };
-    var zoomToPoint = function(x, y) {
+    var zoomToPoint = function (x, y) {
         // summary:
         //		zooms the map to the coordinates and set the geometry
         // x, y: int
-        console.info("VerifyMap::zoomToPoint", arguments);
+        console.info('VerifyMap::zoomToPoint', arguments);
 
         map.graphics.clear();
         var pnt = new Point(x, y, map.spatialReference);
@@ -129,30 +129,30 @@ define([
         map.centerAndZoom(pnt, 12);
 
         that.geo = {
-            x : x,
-            y : y
+            x: x,
+            y: y
         };
     };
-    var showMsg = function(msg) {
+    var showMsg = function (msg) {
         // summary:
         //		Shows the verify text and image
         // msg: String
-        console.info("VerifyMap::showMsg", arguments);
+        console.info('VerifyMap::showMsg', arguments);
 
         verifyText.innerHTML = msg;
         domStyle.set(verifyText, 'display', 'inline');
         domStyle.set(verifyImg, 'display', 'inline');
     };
-    var hideMsg = function() {
+    var hideMsg = function () {
         // summary:
         //		Hids the text and image
-        console.info("VerifyMap::hideMsg", arguments);
+        console.info('VerifyMap::hideMsg', arguments);
 
         domStyle.set(verifyText, 'display', 'none');
         domStyle.set(verifyImg, 'display', 'none');
     };
     var webAPI = new WebAPI({apiKey: ROADKILL.apiKey});
-    var geocode = function(street, zone) {
+    var geocode = function (street, zone) {
         // summary:
         //		calls the locator service to find the location of the route and milepost
         // street: String
@@ -160,21 +160,21 @@ define([
         // zone: String
         //		zip or city
         // returns: dojo.Deferred
-        console.info("VerifyMap::geocode", arguments);
+        console.info('VerifyMap::geocode', arguments);
 
         var def = new Deferred();
 
-        webAPI.geocode(street, zone, {spatialReference: 3857}).then(function(result) {
+        webAPI.geocode(street, zone, {spatialReference: 3857}).then(function (result) {
             zoomToPoint(result.location.x, result.location.y);
             def.resolve(true);
-        }, function() {
+        }, function () {
             showMsg('No match found');
             domStyle.set(verifyImg, 'display', 'none');
             def.resolve(false);
         });
         return def.promise;
     };
-    var getRouteMilepost = function(route, milepost) {
+    var getRouteMilepost = function (route, milepost) {
         // summary:
         //		calls the locator service to find the location of the route and milepost
         // route: String
@@ -182,14 +182,14 @@ define([
         // milepost: String
         //		zip or city
         // returns: dojo.Deferred
-        console.info("VerifyMap::getRouteMilepost", arguments);
+        console.info('VerifyMap::getRouteMilepost', arguments);
 
         var def = new Deferred();
 
-        webAPI.getRouteMilepost(route, milepost, {spatialReference: 3857}).then(function(result) {
+        webAPI.getRouteMilepost(route, milepost, {spatialReference: 3857}).then(function (result) {
             zoomToPoint(result.location.x, result.location.y);
             def.resolve(true);
-        }, function() {
+        }, function () {
             showMsg('No match found');
             domStyle.set(verifyImg, 'display', 'none');
             def.resolve(false);
@@ -200,13 +200,13 @@ define([
     function VerifyMap() {
         // summary:
         //		the map used to verify the inputted location
-        console.info("VerifyMap::constructor", arguments);
+        console.info('VerifyMap::constructor', arguments);
         that = this;
 
         getElements();
         map = new BaseMap('verify-map', {
-            slider : false,
-            logo : false,
+            slider: false,
+            logo: false,
             extent: new Extent({
                 xmax: -11762120.612131765,
                 xmin: -13074391.513731329,
@@ -232,27 +232,27 @@ define([
     function verifyLocation() {
         // summary:
         //		validates the location fields and then zooms the map to them
-        console.info("VerifyMap::verifyLocation", arguments);
+        console.info('VerifyMap::verifyLocation', arguments);
 
         var selectedTab = query('.tab-content>.active')[0];
 
         verifyBtn.disabled = true;
         hideMsg();
 
-        switch(selectedTab) {
+        switch (selectedTab) {
             case llTab:
-                if(lat.value.length === 0 || lng.value.length === 0) {
+                if (lat.value.length === 0 || lng.value.length === 0) {
                     alert('You must input both a latitude and longitude');
                     verifyBtn.disabled = false;
                     return false;
                 }
                 var latValue = parseFloat(lat.value);
                 var lngValue = parseFloat(lng.value);
-                if(latValue < 36 || latValue > 43) {
-                    alert("Your latitude value is invalid!");
+                if (latValue < 36 || latValue > 43) {
+                    alert('Your latitude value is invalid!');
                     return false;
-                } else if(lngValue < -114 || lngValue > -109) {
-                    alert("Your longitude value is invalid!");
+                } else if (lngValue < -114 || lngValue > -109) {
+                    alert('Your longitude value is invalid!');
                     return false;
                 } else {
                     var p = new Proj4js.Point(lngValue, latValue);
@@ -295,52 +295,51 @@ define([
                 }
                 break;
             case rmTab:
-                if(route.value.length === 0 && milepost.value.length === 0) {
+                if (route.value.length === 0 && milepost.value.length === 0) {
                     alert('You must input both a route and milepost');
                     return false;
                 } else {
                     showMsg('Matching route and milepost...');
 
                     var def = getRouteMilepost(route.value, milepost.value);
-                    def.then(function(result) {
+                    def.then(function (result) {
                         verifyBtn.disabled = false;
-                        if(result) {
+                        if (result) {
                             hideMsg();
                             verifyBtn.disabled = false;
                             that.currentField = ROADKILL.fields.ROUTE_MILEPOST;
-                            that.currentValue = "Route: " + route.value + ", Milepost: " + milepost.value;
+                            that.currentValue = 'Route: ' + route.value + ', Milepost: ' + milepost.value;
                             that.verified = true;
                             return true;
-                        } else {
-                            return false;
                         }
-                    }, function() {
+                        return false;
+                    }, function () {
                         verifyBtn.disabled = false;
                         return false;
                     });
                 }
                 break;
             case addTab:
-                if(address.value.length === 0 && zipcity.value.length === 0) {
+                if (address.value.length === 0 && zipcity.value.length === 0) {
                     alert('You must input both an address and zip or city.');
                     return false;
                 } else {
                     showMsg('Matching address...');
 
                     var def2 = geocode(address.value, zipcity.value, {spatialReference: 3857});
-                    def2.then(function(result) {
+                    def2.then(function (result) {
                         verifyBtn.disabled = false;
-                        if(result) {
+                        if (result) {
                             hideMsg();
                             verifyBtn.disabled = false;
                             that.currentField = ROADKILL.fields.ADDRESS;
-                            that.currentValue = address.value + ", " + zipcity.value;
+                            that.currentValue = address.value + ', ' + zipcity.value;
                             that.verified = true;
                             return true;
                         } else {
                             return false;
                         }
-                    }, function() {
+                    }, function () {
                         verifyBtn.disabled = false;
                         return false;
                     });
@@ -354,7 +353,7 @@ define([
         // summary:
         //		fires when any of the values change
         //		resets the verified property
-        console.info("VerifyMap::onChange", arguments);
+        console.info('VerifyMap::onChange', arguments);
 
         that.verified = false;
         verifyBtn.disabled = false;

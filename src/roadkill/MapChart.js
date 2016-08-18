@@ -44,7 +44,7 @@ define([
         // theme: dojox.charting.theme
         theme: Claro,
         
-        constructor: function(params) {
+        constructor: function (params) {
             // summary:
             //      The first function to fire. Sets up the chart.
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -55,7 +55,7 @@ define([
             
             this.wireEvents();
         },
-        buildChart: function(){
+        buildChart: function () {
             // summary:
             //      Build the chart
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -81,7 +81,7 @@ define([
             
             this.chart.render();
         },
-        getData: function(){
+        getData: function () {
             // summary:
             //      description
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -89,7 +89,7 @@ define([
             var data = {};
             var renderer = ROADKILL.mapapp.legend.layers[0].renderer;
             
-            function filterSpecies(name){
+            function filterSpecies(name) {
                 if (array.indexOf(renderer.values, name) !== -1) {
                     return name;
                 } else {
@@ -97,7 +97,7 @@ define([
                 }
             }
             
-            function getColor(value){
+            function getColor(value) {
                 var index = array.indexOf(renderer.values, value);
                 var color;
                 if (index !== -1) {
@@ -109,7 +109,7 @@ define([
                 return [color.r, color.g, color.b];
             }
             
-            array.forEach(this.cLayer._features, function(f){
+            array.forEach(this.cLayer._features, function (f) {
                 var species = filterSpecies(f.attributes[ROADKILL.fields.SPECIES]);
                 if (!data[species]) {
                     data[species] = {y: 1, color: getColor(species)};
@@ -120,13 +120,13 @@ define([
             
             var arr = [];
             for (var d in data) {
-                if (data.hasOwnProperty(d)){
+                if (data.hasOwnProperty(d)) {
                     arr.push({y: data[d].y, text: d, color: data[d].color, tooltip: data[d].y});
                 }
             }
             return arr;
         },
-        updateData: function(){
+        updateData: function () {
             // summary:
             //      updates the chart data
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -135,7 +135,7 @@ define([
             
             this.chart.render();
         },
-        wireEvents: function(){
+        wireEvents: function () {
             // summary:
             //      wires the events for this object
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);

@@ -75,7 +75,7 @@ define([
         // layer: esri.layers.FeatureLayer
         layer: null,
             
-        constructor: function() {
+        constructor: function () {
             // summary:
             //    Constructor method
             // params: Object
@@ -94,7 +94,7 @@ define([
                 user: null
             };
         },
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:
@@ -112,7 +112,7 @@ define([
             
             this._wireEvents();
         },
-        initFieldFilters: function(){
+        initFieldFilters: function () {
             // summary:
             //      sets up the field filter widgets
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -142,7 +142,7 @@ define([
             //  fieldLabel: 'WMU Region'
             // }, this.wmuRegionsFilterDiv);
         },
-        _wireEvents: function() {
+        _wireEvents: function () {
             // summary:
             //    Wires events.
             // tags:
@@ -152,38 +152,38 @@ define([
             this.connect(this.dateSelect, "onchange", this.onDateSelectChange);
             this.connect(this.dateSelectRadio, "onclick", this.onSelectRadioClick);
             this.connect(this.dateCustomRadio, "onclick", this.onCustomRadioClick);
-            this.connect(this.dateStart, "onChange", function(newValue) {
+            this.connect(this.dateStart, "onChange", function (newValue) {
                 this.onCustomDateChange(this.dateStart, newValue);
             });
-            this.connect(this.dateEnd, "onChange", function(newValue) {
+            this.connect(this.dateEnd, "onChange", function (newValue) {
                 this.onCustomDateChange(this.dateEnd, newValue);
             });
-            this.connect(this.speciesFilter, 'onQueryChange', function(newQuery){
+            this.connect(this.speciesFilter, 'onQueryChange', function (newQuery) {
                 this.queries.species = newQuery;
                 this.updateDefinitionQuery();
             });
-            this.connect(this.genderFilter, 'onQueryChange', function(newQuery){
+            this.connect(this.genderFilter, 'onQueryChange', function (newQuery) {
                 this.queries.gender = newQuery;
                 this.updateDefinitionQuery();
             });
-            this.connect(this.ageClassFilter, 'onQueryChange', function(newQuery){
+            this.connect(this.ageClassFilter, 'onQueryChange', function (newQuery) {
                 this.queries.ageclass = newQuery;
                 this.updateDefinitionQuery();
             });
-            this.connect(this.udwrFilter, 'onQueryChange', function(newQuery){
+            this.connect(this.udwrFilter, 'onQueryChange', function (newQuery) {
                 this.queries.udwr = newQuery;
                 this.updateDefinitionQuery();
             });
-            this.connect(this.udotFilter, 'onQueryChange', function(newQuery){
+            this.connect(this.udotFilter, 'onQueryChange', function (newQuery) {
                 this.queries.udot = newQuery;
                 this.updateDefinitionQuery();
             });
-            this.connect(this.userFilter, 'onQueryChange', function(newQuery) {
+            this.connect(this.userFilter, 'onQueryChange', function (newQuery) {
                 this.queries.user = newQuery;
                 this.updateDefinitionQuery();
             });
         },
-        onDateSelectChange: function() {
+        onDateSelectChange: function () {
             // summary:
             //      Fires when the user changes the date select
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -191,7 +191,7 @@ define([
             this.queries.date = this.dateQueries[this.dateSelect.value];
             this.updateDefinitionQuery();
         },
-        onSelectRadioClick: function() {
+        onSelectRadioClick: function () {
             // summary:
             //      fires when the dateSelectRadio radio buttonis clicked
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -199,7 +199,7 @@ define([
             this.onDateSelectChange();
             this.toggleDateDisabled(false);
         },
-        onCustomRadioClick: function() {
+        onCustomRadioClick: function () {
             // summary:
             //      fires when the dateCustomRadio radio buttonis clicked
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -207,7 +207,7 @@ define([
             this.onCustomDateChange();
             this.toggleDateDisabled(true);
         },
-        toggleDateDisabled: function(value) {
+        toggleDateDisabled: function (value) {
             // summary:
             //      toggles the disabled state of the date controls
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -216,16 +216,16 @@ define([
             this.dateEnd.set("disabled", !value);
             domAttr.set(this.dateSelect, "disabled", value);
         },
-        onCustomDateChange: function(datePicker, newValue) {
+        onCustomDateChange: function (datePicker, newValue) {
             // summary:
             //      Fires when either the start or end dates are changed
             //      Rebuilds the def query for the feature layer
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
             // update constraints for other picker
-            if(newValue) {
+            if (newValue) {
                 var otherPicker, max, min;
-                if(datePicker === this.dateStart) {
+                if (datePicker === this.dateStart) {
                     otherPicker = this.dateEnd;
                     min = newValue;
                     max = new Date(newValue.getTime());
@@ -243,7 +243,7 @@ define([
             var invalid = "Invalid Date";
 
             var query;
-            if(this.dateStart.value != invalid && this.dateEnd.value != invalid) {
+            if (this.dateStart.value != invalid && this.dateEnd.value != invalid) {
                 var end = new Date(this.dateEnd.value.getTime());
                 end.setHours(24);
                 query = this.fields.REPORT_DATE + " >= '" + this.formatDate(this.dateStart.value) + "' AND " + this.fields.REPORT_DATE + " <= '" + this.formatDate(end) + "'";
@@ -253,14 +253,14 @@ define([
             this.queries.date = query;
             this.updateDefinitionQuery();
         },
-        formatDate: function(date) {
+        formatDate: function (date) {
             // summary:
             //      Returns a date string formatted for a query
             // date: Date
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
             function padZero(value) {
-                if(value < 10) {
+                if (value < 10) {
                     return "0" + value;
                 } else {
                     return value + "";
@@ -272,7 +272,7 @@ define([
 
             return date.getFullYear() + "-" + month + "-" + day;
         },
-        updateDefinitionQuery: function(){
+        updateDefinitionQuery: function () {
             // summary:
             //      combines all of the queries and updates the def query on the feature layer
             // returns: String
@@ -280,8 +280,8 @@ define([
             
             var query, i = 0;
             for (var q in this.queries) {
-                if(this.queries[q] && this.queries.hasOwnProperty(q)){
-                    if (i === 0){
+                if (this.queries[q] && this.queries.hasOwnProperty(q)) {
+                    if (i === 0) {
                         query = this.queries[q];
                     } else {
                         query = query + " AND " + this.queries[q];
@@ -296,7 +296,7 @@ define([
             
             return query;
         },
-        initRouteMilepostFilter: function(){
+        initRouteMilepostFilter: function () {
             // summary:
             //      sets up the widget
             console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -304,11 +304,11 @@ define([
             this.routeMilepostFilter = new roadkill.RouteMilepostFilter({}, this.routeMilepostFilterDiv);
             
             var that = this;
-            this.connect(this.routeMilepostFilter, 'onComplete', function(bufferGeo){
+            this.connect(this.routeMilepostFilter, 'onComplete', function (bufferGeo) {
                 that.queryGeo = bufferGeo;
                 that.updateDefinitionQuery();
             });
-            this.connect(this.routeMilepostFilter, 'onClear', function(){
+            this.connect(this.routeMilepostFilter, 'onClear', function () {
                 that.queryGeo = null;
                 that.updateDefinitionQuery();
             });

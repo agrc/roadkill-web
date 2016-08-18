@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     var jsFiles = 'src/app/**/*.js';
@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     var gruntFile = 'GruntFile.js';
     var internFile = 'tests/intern.js';
     var packageFile = 'package.json';
-    var jshintFiles = [jsFiles, gruntFile, internFile, packageFile];
+    var eslintFiles = [jsFiles, gruntFile, internFile, packageFile];
     var deployFiles = [
         '**',
         '!**/*.uncompressed.js',
@@ -117,10 +117,12 @@ module.exports = function(grunt) {
                 }
             }
         },
-        jshint: {
-            files: jshintFiles,
+        eslint: {
             options: {
-                jshintrc: '.jshintrc'
+                configFile: '.eslintrc'
+            },
+            main: {
+                src: jsFiles
             }
         },
         pkg: grunt.file.readJSON('package.json'),
@@ -169,12 +171,12 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            jshint: {
-                files: jshintFiles,
-                tasks: ['jshint']
+            eslint: {
+                files: eslintFiles,
+                tasks: ['eslint']
             },
             src: {
-                files: jshintFiles.concat(otherFiles),
+                files: eslintFiles.concat(otherFiles),
                 options: {
                     livereload: true
                 }
@@ -182,7 +184,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['jasmine:app:build', 'connect', 'watch']);
+    grunt.registerTask('default', ['eslint', 'jasmine:app:build', 'connect', 'watch']);
 
     grunt.registerTask('build-prod', [
         'clean:build',

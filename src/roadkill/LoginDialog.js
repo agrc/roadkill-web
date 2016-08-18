@@ -32,7 +32,7 @@ dojo.declare("roadkill.LoginDialog", [dijit._Widget, dijit._Templated], {
 	//		if true then the cancel button is not shown
 	hideCancel: false,
 
-	constructor: function(params, div) {
+	constructor: function (params, div) {
 		// summary:
 		//    Constructor method
 		// params: Object
@@ -41,7 +41,7 @@ dojo.declare("roadkill.LoginDialog", [dijit._Widget, dijit._Templated], {
 		//    A reference to the div that you want the widget to be created in.
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 	},
-	postCreate: function() {
+	postCreate: function () {
 		// summary:
 		//    Overrides method of same name in dijit._Widget.
 		// tags:
@@ -50,11 +50,11 @@ dojo.declare("roadkill.LoginDialog", [dijit._Widget, dijit._Templated], {
 
 		this._wireEvents();
 
-		if(this.hideCancel) {
+		if (this.hideCancel) {
 			dojo.addClass(this.cancelBtn, 'hidden');
 		}
 	},
-	_wireEvents: function() {
+	_wireEvents: function () {
 		// summary:
 		//    Wires events.
 		// tags:
@@ -62,12 +62,12 @@ dojo.declare("roadkill.LoginDialog", [dijit._Widget, dijit._Templated], {
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
 		this.connect(this.submitBtn, "onclick", this.onSubmitClick);
-		this.connect(this.cancelBtn, 'onclick', function(e) {
+		this.connect(this.cancelBtn, 'onclick', function (e) {
 			dojo.stopEvent(e);
 			this.hide();
 		});
 	},
-	show: function() {
+	show: function () {
 		// summary:
 		//      shows the dialog
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -77,7 +77,7 @@ dojo.declare("roadkill.LoginDialog", [dijit._Widget, dijit._Templated], {
 			node: this.domNode
 		}).play();
 	},
-	hide: function() {
+	hide: function () {
 		// summary:
 		//		hides the dialog
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -85,12 +85,12 @@ dojo.declare("roadkill.LoginDialog", [dijit._Widget, dijit._Templated], {
 		var that = this;
 		dojo.fadeOut({
 			node: this.domNode,
-			onEnd: function() {
+			onEnd: function () {
 				dojo.addClass(that.domNode, 'hidden');
 			}
 		}).play();
 	},
-	onSubmitClick: function() {
+	onSubmitClick: function () {
 		// summary:
 		//      fires when the user clicks the submit button
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -110,7 +110,7 @@ dojo.declare("roadkill.LoginDialog", [dijit._Widget, dijit._Templated], {
 
 		this.auth.login(uname, pass, dojo.hitch(this, this.onLoginSuccessful), showErrorMsg);
 	},
-	onLoginSuccessful: function() {
+	onLoginSuccessful: function () {
 		// summary:
 		//		function to hook to that fires when the user has successfully logged in
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);

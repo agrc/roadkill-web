@@ -32,21 +32,21 @@ dojo.declare("roadkill.FieldFilter", [dijit._Widget, dijit._Templated], {
 
     // noneSelectedTxt: String
     noneSelectedTxt: 'None Selected',
-    
+
     // query: String
     query: '',
 
     // Parameters to constructor
-    
+
     // fieldName: String
     //      The name of the field
     fieldName: '',
-    
+
     // fieldLabel: String
     //      The text that appears in the HTML
     fieldLabel: '',
 
-    constructor: function() {
+    constructor: function () {
         // summary:
         //    Constructor method
         // params: Object
@@ -55,7 +55,7 @@ dojo.declare("roadkill.FieldFilter", [dijit._Widget, dijit._Templated], {
         //    A reference to the div that you want the widget to be created in.
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
     },
-    postCreate: function() {
+    postCreate: function () {
         // summary:
         //    Overrides method of same name in dijit._Widget.
         // tags:
@@ -66,7 +66,7 @@ dojo.declare("roadkill.FieldFilter", [dijit._Widget, dijit._Templated], {
 
         this._wireEvents();
     },
-    _wireEvents: function() {
+    _wireEvents: function () {
         // summary:
         //    Wires events.
         // tags:
@@ -77,57 +77,57 @@ dojo.declare("roadkill.FieldFilter", [dijit._Widget, dijit._Templated], {
         this.connect(this.onlyRB, "onclick", this.onOnlyRadioClick);
         this.connect(this.selectBtn, "onclick", this.onSelectClick);
     },
-    onAllRadioClick: function(){
+    onAllRadioClick: function () {
         // summary:
         //      fires when the user clicks on this radio button
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+
         this.onQueryChange(null);
-        
+
         dojo.query('li', this.list).addClass("disabled");
     },
-    onOnlyRadioClick: function(){
+    onOnlyRadioClick: function () {
         // summary:
         //      fires when the user clicks on this radio button
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+
         if (this.list.children[0].innerHTML === this.noneSelectedTxt) {
             this.onQueryChange("1 = 2");
         } else {
             this.onQueryChange(this.query);
         }
-        
+
         dojo.query('li', this.list).removeClass('disabled');
     },
-    onSelectClick: function() {
+    onSelectClick: function () {
         // summary:
         //      fires when the user clicks on the "Select Species" button
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
-        if(!this.listPicker) {
+        if (!this.listPicker) {
             this.initListPicker();
         } else {
             this.listPicker.show();
         }
-        
+
         this.onlyRB.checked = true;
         this.onOnlyRadioClick();
     },
-    onQueryChange: function(/*newQuery*/){
+    onQueryChange: function (/*newQuery*/) {
         // summary:
         //      event to publish when the def query changes
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
     },
-    initListPicker: function() {
+    initListPicker: function () {
         // summary:
         //      sets up the list picker widget
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
-        var def = Domains.getCodedValues(ROADKILL.rkFeatureServiceUrl + '?token=' + 
+        var def = Domains.getCodedValues(ROADKILL.rkFeatureServiceUrl + '?token=' +
             ROADKILL.login.token, this.fieldName);
 
         var that = this;
-        def.then(function(values) {
+        def.then(function (values) {
             that.listPicker = new roadkill.ListPicker({
                 availableListArray: values,
                 listName: that.fieldLabel
@@ -136,15 +136,15 @@ dojo.declare("roadkill.FieldFilter", [dijit._Widget, dijit._Templated], {
             that.connect(that.listPicker, "onOK", that.onListPickerOK);
         });
     },
-    onListPickerOK: function(selectedItems) {
+    onListPickerOK: function (selectedItems) {
         // summary:
         //      fires when the user clicks ok on the list picker
         // selectedItems: [String<name>, String<code>]
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
-        
+
         this.list.innerHTML = "";
         var that = this;
-        var values = dojo.map(selectedItems, function(item){
+        var values = dojo.map(selectedItems, function (item) {
             dojo.create('li', {innerHTML: item[0]}, that.list);
             return "'" + item[0] + "'";
         });

@@ -25,14 +25,14 @@ dojo.declare("roadkill.ListPicker", [dijit._Widget, dijit._Templated], {
 	// Array that the available list values will be populated with
 	availableListArray: [],
 
-	constructor: function(options) {
+	constructor: function (options) {
 		// mixin options
 		dojo.safeMixin(this, options);
 	},
-	postCreate: function() {
+	postCreate: function () {
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
-		dojo.forEach(this.availableListArray, function(item) {
+		dojo.forEach(this.availableListArray, function (item) {
 			var option = dojo.doc.createElement('option');
 			// replace & for IE
 			option.innerHTML = item.name.replace('&', '&amp;');
@@ -47,7 +47,7 @@ dojo.declare("roadkill.ListPicker", [dijit._Widget, dijit._Templated], {
 		
 		this.show();
 	},
-	_wireControlEvents: function() {
+	_wireControlEvents: function () {
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 		
 		this.connect(this.btnSelect, "onclick", "_onSelect");
@@ -60,7 +60,7 @@ dojo.declare("roadkill.ListPicker", [dijit._Widget, dijit._Templated], {
 		this.connect(this.selectedList, "onDblClick", "_onUnselect");
 		this.connect(this.closeBtn, "onclick", "_onCancel");
 	},
-	createBackground: function(){
+	createBackground: function () {
 		// summary:
 		//		Creates the background div for the dialog
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -69,41 +69,41 @@ dojo.declare("roadkill.ListPicker", [dijit._Widget, dijit._Templated], {
 			"class": "modal-background"
 		}, dojo.body(), "first");
 	},
-	_onSelect: function() {
+	_onSelect: function () {
 		// get selected options from available and add to selected
 		this.selectedList.addSelected(this.availableList);
 
 		// enable OK button
 		this.btnOK.disabled = false;
 	},
-	_onSelectAll: function() {
+	_onSelectAll: function () {
 		// move all options from available to selected
-		dojo.query('> option', this.availableList.domNode).forEach(function(option) {
+		dojo.query('> option', this.availableList.domNode).forEach(function (option) {
 			option.selected = true;
 		});
 		this._onSelect();
 	},
-	_onUnselect: function() {
+	_onUnselect: function () {
 		// get selected options from selected and move to available
 		this.availableList.addSelected(this.selectedList);
 
 		// disable OK button if there are no providers left in selected
 		var v = this.selectedList.domNode.childNodes;
-		if(v.length <= 1) {
+		if (v.length <= 1) {
 			this.btnOK.disabled = true;
 		}
 	},
-	_onUnselectAll: function() {
+	_onUnselectAll: function () {
 		// move all options from selected to available
-		dojo.query('> option', this.selectedList.domNode).forEach(function(option) {
+		dojo.query('> option', this.selectedList.domNode).forEach(function (option) {
 			option.selected = true;
 		});
 		this._onUnselect();
 	},
-	_onOK: function() {
+	_onOK: function () {
 		// build array of selected items
 		var selectedItems = [];
-		dojo.query('> option', this.selectedList.domNode).forEach(function(option) {
+		dojo.query('> option', this.selectedList.domNode).forEach(function (option) {
 			selectedItems.push([option.text, option.value]);
 		});
 
@@ -111,46 +111,46 @@ dojo.declare("roadkill.ListPicker", [dijit._Widget, dijit._Templated], {
 
 		this.onOK(selectedItems);
 	},
-	onOK: function(selectedItems) {
+	onOK: function (selectedItems) {
 		// summary:
 		//		Event to hook to get the selected items
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 	},
-	_onCancel: function() {
+	_onCancel: function () {
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 		
 		this.hide();
 	},
-	show: function() {
+	show: function () {
 		// summary:
 		//		creates background and show dialog
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 		
 		$(this.domNode).modal('show');
 	},
-	hide: function() {
+	hide: function () {
 		// summary:
 		//		hides the dialog, trashes the background div
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 		
 		$(this.domNode).modal('hide');
 	},
-	addSelectedOverride: function(select) {
+	addSelectedOverride: function (select) {
 		// this function has been altered to insert the new item(s) alphabetically
-		select.getSelected().forEach(function(n) {
+		select.getSelected().forEach(function (n) {
 			// the node that the new item is going to be inserted before
 			var refNode;
 
 			// sort through existing options until you find the refNode
-			dojo.query('> option', this.domNode).some(function(option) {
-				if(n.text > option.text) {
+			dojo.query('> option', this.domNode).some(function (option) {
+				if (n.text > option.text) {
 					return false;
 				} else {
 					refNode = option;
 					return true;
 				}
 			}, this);
-			if(refNode) {
+			if (refNode) {
 				dojo.place(n, refNode, "before");
 			} else {
 				// just slap it in there if there are no children

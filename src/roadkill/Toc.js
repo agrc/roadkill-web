@@ -29,7 +29,7 @@ dojo.declare("roadkill.Toc", [dijit._Widget, dijit._Templated], {
     // pointsLayer: esri.layers.ArcGISDynamicMapServiceLayer
     pointsLayer: null,
 
-    constructor : function(params, div) {
+    constructor : function (params, div) {
         // summary:
         //    Constructor method
         // params: Object
@@ -40,7 +40,7 @@ dojo.declare("roadkill.Toc", [dijit._Widget, dijit._Templated], {
 
         this.visibleLayers = [];
     },
-    postCreate : function() {
+    postCreate : function () {
         // summary:
         //    Overrides method of same name in dijit._Widget.
         // tags:
@@ -49,7 +49,7 @@ dojo.declare("roadkill.Toc", [dijit._Widget, dijit._Templated], {
 
         this._wireEvents();
     },
-    _wireEvents : function() {
+    _wireEvents : function () {
         // summary:
         //    Wires events.
         // tags:
@@ -64,7 +64,7 @@ dojo.declare("roadkill.Toc", [dijit._Widget, dijit._Templated], {
         this.connect(this.milepostsCheckbox, 'onclick', this.toggleLayer);
         this.connect(this.wmuRadioBtn, 'onclick', this.refreshVisibleLayers);
     },
-    onBackgroundCheckboxChange : function(evt) {
+    onBackgroundCheckboxChange : function (evt) {
         // summary:
         //      Fires when the user clicks on the background checkbox
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -76,16 +76,16 @@ dojo.declare("roadkill.Toc", [dijit._Widget, dijit._Templated], {
 
         this.layer.setVisibility(checked);
     },
-    toggleBackgroundRadioButtons : function(enable) {
+    toggleBackgroundRadioButtons : function (enable) {
         // summary:
         //      toggles the disabled state of the background radio buttons
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
-        dojo.query(".background-layer input[type='radio']").forEach(function(node) {
+        dojo.query(".background-layer input[type='radio']").forEach(function (node) {
             dojo.attr(node, "disabled", !enable);
         });
     },
-    refreshVisibleLayers : function() {
+    refreshVisibleLayers : function () {
         // summary:
         //      refreshes the visible layers
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -94,7 +94,7 @@ dojo.declare("roadkill.Toc", [dijit._Widget, dijit._Templated], {
         this.visibleLayers = [backId];
         this.layer.setVisibleLayers(this.visibleLayers);
     },
-    toggleLayer: function(){
+    toggleLayer: function () {
         // summary:
         //      description
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);

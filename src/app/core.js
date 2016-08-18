@@ -25,12 +25,12 @@ define([
 ) {
     window.ROADKILL = {};
     ROADKILL.server = document.location.protocol + '//' + document.domain;
-    ROADKILL.baseUrl = ROADKILL.server + "/arcgis/rest/services/Roadkill";
-    ROADKILL.toolboxUrlBase = ROADKILL.baseUrl + "/Toolbox/GPServer";
-    ROADKILL.gpDownloadUrl = ROADKILL.toolboxUrlBase + "/DownloadData";
-    ROADKILL.rkMapServiceUrl = ROADKILL.baseUrl + "/MapService/MapServer";
-    ROADKILL.clusterLayerUrl = ROADKILL.rkMapServiceUrl + "/0";
-    ROADKILL.rkFeatureServiceUrl = ROADKILL.baseUrl + "/MapService/FeatureServer/0";
+    ROADKILL.baseUrl = ROADKILL.server + '/arcgis/rest/services/Roadkill';
+    ROADKILL.toolboxUrlBase = ROADKILL.baseUrl + '/Toolbox/GPServer';
+    ROADKILL.gpDownloadUrl = ROADKILL.toolboxUrlBase + '/DownloadData';
+    ROADKILL.rkMapServiceUrl = ROADKILL.baseUrl + '/MapService/MapServer';
+    ROADKILL.clusterLayerUrl = ROADKILL.rkMapServiceUrl + '/0';
+    ROADKILL.rkFeatureServiceUrl = ROADKILL.baseUrl + '/MapService/FeatureServer/0';
     ROADKILL.rkFeatureServiceAddFeaturesUrl = ROADKILL.baseUrl + '/FeatureService/FeatureServer/0/addFeatures';
     ROADKILL.gpRouteMilepostUrl = ROADKILL.toolboxUrlBase + '/RouteMilepostsSegment';
     ROADKILL.geometryServiceUrl = '/ArcGIS/rest/services/Geometry/GeometryServer';
@@ -39,21 +39,21 @@ define([
     ROADKILL.rkPointsLayerUrl = ROADKILL.baseUrl + '/Overlays/MapServer';
 
     ROADKILL.fields = {
-        REPORT_DATE: "REPORT_DATE",
-        SPECIES: "SPECIES",
-        AGE_CLASS: "AGE_CLASS",
-        GENDER: "GENDER",
-        HIGHWAY_ROAD: "HIGHWAY_ROAD",
-        UDOT_REGION: "UDOT_REGION",
-        UDWR_REGION: "UDWR_REGION",
-        XYPHOID: "XYPHOID",
-        COMMENTS: "COMMENTS",
-        TAG_COLLAR_NUM: "TAG_COLLAR_NUM",
-        GPS_ACCURACY: "GPS_ACCURACY",
+        REPORT_DATE: 'REPORT_DATE',
+        SPECIES: 'SPECIES',
+        AGE_CLASS: 'AGE_CLASS',
+        GENDER: 'GENDER',
+        HIGHWAY_ROAD: 'HIGHWAY_ROAD',
+        UDOT_REGION: 'UDOT_REGION',
+        UDWR_REGION: 'UDWR_REGION',
+        XYPHOID: 'XYPHOID',
+        COMMENTS: 'COMMENTS',
+        TAG_COLLAR_NUM: 'TAG_COLLAR_NUM',
+        GPS_ACCURACY: 'GPS_ACCURACY',
         ROUTE: 'ROUTE',
         ROUTE_DIR: 'ROUTE_DIR',
-        MILEPOST: "MILEPOST",
-        ADDRESS: "ADDRESS",
+        MILEPOST: 'MILEPOST',
+        ADDRESS: 'ADDRESS',
         OBJECTID: 'OBJECTID',
         RESPONDER_EMAIL: 'RESPONDER_EMAIL',
         RESPONDER_AGENCY: 'RESPONDER_AGENCY',
@@ -102,29 +102,29 @@ define([
     happyNewYear.setDate(1);
     var ytdDays = (today.getTime() - happyNewYear.getTime()) / millisecondsInDays;
     ROADKILL.dateQueries = {
-        "7d": "REPORT_DATE >= GETDATE() - 7",
-        "30d": "REPORT_DATE >= GETDATE() - 30",
-        "6m": "REPORT_DATE >= GETDATE() - " + Math.round(sixMonthDays), // default
-        "ytd": "REPORT_DATE >= GETDATE() - " + Math.round(ytdDays),
-        "2yr": "REPORT_DATE >= GETDATE() - 730",
-        "all": "",
-        "none": "1 = 2"
+        '7d': 'REPORT_DATE >= GETDATE() - 7',
+        '30d': 'REPORT_DATE >= GETDATE() - 30',
+        '6m': 'REPORT_DATE >= GETDATE() - ' + Math.round(sixMonthDays), // default
+        'ytd': 'REPORT_DATE >= GETDATE() - ' + Math.round(ytdDays),
+        '2yr': 'REPORT_DATE >= GETDATE() - 730',
+        'all': '',
+        'none': '1 = 2'
     };
 
     esriConfig.defaults.io.proxyUrl = '/proxy/proxy.ashx';
 
     // set active state on nav bar
-    var urlParts = document.URL.split("/");
+    var urlParts = document.URL.split('/');
     var fileName = urlParts[urlParts.length - 1];
-    var elementName = fileName.slice(0, fileName.indexOf(".php"));
-    elementName = (elementName === "") ? "index" : elementName;
+    var elementName = fileName.slice(0, fileName.indexOf('.php'));
+    elementName = (elementName === '') ? 'index' : elementName;
     var element = dom.byId(elementName);
-    if (element){
-        domClass.add(element, "active");
+    if (element) {
+        domClass.add(element, 'active');
     }
 
     var requireLogin;
-    if (array.indexOf(ROADKILL.securePages, elementName) === -1){
+    if (array.indexOf(ROADKILL.securePages, elementName) === -1) {
         requireLogin = false;
     } else {
         requireLogin = true;

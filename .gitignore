@@ -1,5 +1,6 @@
 .DS_Store
 .grunt/
+*.sde
 deploy/
 dist/
 node_modules/
@@ -27,7 +28,6 @@ src/mustache/
 src/put-selector/
 src/spin.js/
 src/spinjs/
+src/StubModule/
 src/util/
 src/xstyle/
-
-*.sde

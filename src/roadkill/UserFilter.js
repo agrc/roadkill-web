@@ -22,7 +22,7 @@ dojo.declare('roadkill.UserFilter', [dijit._Widget, dijit._Templated], {
 
     // Parameters to constructor
     
-    constructor: function(params, div) {
+    constructor: function (params, div) {
         // summary:
         //    Constructor method
         // params: Object
@@ -31,7 +31,7 @@ dojo.declare('roadkill.UserFilter', [dijit._Widget, dijit._Templated], {
         //    A reference to the div that you want the widget to be created in.
         console.info(this.declaredClass + '::' + arguments.callee.nom, arguments);
     },
-    postCreate: function() {
+    postCreate: function () {
         // summary:
         //    Overrides method of same name in dijit._Widget.
         // tags:
@@ -54,11 +54,11 @@ dojo.declare('roadkill.UserFilter', [dijit._Widget, dijit._Templated], {
     
         // build query string
         if (!String.prototype.trim) {
-            String.prototype.trim = function() {
+            String.prototype.trim = function () {
                 return this.replace(/^\s+|\s+$/g, '');
             };
         }
-        var usernames = dojo.map(this.name.value.split(','), function(name) {
+        var usernames = dojo.map(this.name.value.split(','), function (name) {
             return "'" + name.trim() + "'";
         }).toString();
         var query = ROADKILL.fields.RESPONDER_EMAIL + " IN (" + 

@@ -46,7 +46,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 	// dataFilter: roadkill.DataFilter
 	dataFilter: null,
 
-	constructor: function(params, div) {
+	constructor: function (params, div) {
 		// summary:
 		//    Constructor method
 		// params: Object
@@ -55,7 +55,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		//    A reference to the div that you want the widget to be created in.
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 	},
-	postCreate: function() {
+	postCreate: function () {
 		// summary:
 		//    Overrides method of same name in dijit._Widget.
 		// tags:
@@ -64,7 +64,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 
 		this._wireEvents();
 	},
-	_wireEvents: function() {
+	_wireEvents: function () {
 		// summary:
 		//    Wires events.
 		// tags:
@@ -73,7 +73,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 
 		this.connect(this.downloadBtn, 'onclick', 'onDownloadClick');
 	},
-	onDownloadClick: function() {
+	onDownloadClick: function () {
 		// summary:
 		//      fires when the user clicks the download button
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -115,25 +115,25 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		console.log(params);
 		this.gp.submitJob(params);
 	},
-	getFileType: function() {
+	getFileType: function () {
 		// summary:
 		//		returns the file type selected
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
 		return (this.dbfRB.checked) ? 'dbf' : 'shape';
 	},
-	getDefinitionQuery: function(){
+	getDefinitionQuery: function () {
 		// summary:
 		//      gets the def query from the dataFilter
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
-		if (this.dataFilter){
+		if (this.dataFilter) {
 			return this.dataFilter.updateDefinitionQuery();
 		} else {
 			return '1 = 1';
 		}
 	},
-	initGeoprocessor: function(){
+	initGeoprocessor: function () {
 		// summary:
 		//      creates the esri geoprocessor object
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -145,18 +145,18 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 		this.connect(this.gp, 'onError', 'onJobError');
 		this.connect(this.gp, 'onGetResultDataComplete', 'onGetResultDataComplete');
 	},
-	onJobComplete: function(status){
+	onJobComplete: function (status) {
 		// summary:
 		//      fires when the gp job is complete
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
 
-		if (status.jobStatus === 'esriJobSucceeded'){
+		if (status.jobStatus === 'esriJobSucceeded') {
 			this.gp.getResultData(status.jobId, 'outFile');
 		} else {
 			this.onJobError({message: status.jobStatus});
 		}
 	},
-	onStatusUpdate: function(status){
+	onStatusUpdate: function (status) {
 		// summary:
 		//      description
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -165,7 +165,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 			console.log(status.messages[status.messages.length -1].description);
 		}
 	},
-	onJobError: function(er){
+	onJobError: function (er) {
 		// summary:
 		//      description
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -184,7 +184,7 @@ dojo.declare("roadkill.DownloadData", [dijit._Widget, dijit._Templated], {
 
 		this.downloadBtn.disabled = false;
 	},
-	onGetResultDataComplete: function(result){
+	onGetResultDataComplete: function (result) {
 		// summary:
 		//      description
 		console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);

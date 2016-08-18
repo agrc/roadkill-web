@@ -1,10 +1,10 @@
-(function() {
+(function () {
     var config = {
         baseUrl: (
             typeof window !== 'undefined' &&
             window.dojoConfig &&
             window.dojoConfig.isJasmineTestRunner
-            ) ? '/src': './',
+            ) ? '/src' : './',
         packages: [
             'app',
             'agrc',
@@ -46,4 +46,4 @@
         ]
     };
     require(config, ['jquery', 'bootstrap', 'app/core']);
-})();
+}());

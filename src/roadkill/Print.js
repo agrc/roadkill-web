@@ -3,53 +3,57 @@ define([
     'dijit/_WidgetBase',
 
     'dojo/dom-class',
+    'dojo/dom-construct',
     'dojo/dom-style',
     'dojo/text!roadkill/templates/Print.html',
+    'dojo/_base/array',
     'dojo/_base/declare',
+    'dojo/_base/fx',
     'dojo/_base/lang',
 
     'esri/graphic',
     'esri/tasks/FeatureSet',
-    'esri/tasks/PrintParameters',
-    'esri/tasks/PrintTask',
-    'esri/tasks/PrintTemplate'
+    'esri/tasks/Geoprocessor'
 ], function (
     _TemplatedMixin,
     _WidgetBase,
 
     domClass,
+    domConstruct,
     domStyle,
     template,
+    array,
     declare,
+    baseFx,
     lang,
 
     Graphic,
     FeatureSet,
-    PrintParameters,
-    PrintTask,
-    PrintTemplate
+    Geoprocessor
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
         //      prints the map
 
-        // widgetsInTemplate: [private] Boolean
-        //      Specific to dijit._Templated.
-        widgetsInTemplate: true,
-
         templateString: template,
+        baseClass: 'print-widget',
 
-        // baseClass: [private] String
-        //    The css class that is applied to the base div of the widget markup
-        baseClass: "print-widget",
-
-        task: null,
+        // gp: esri.tasks.Geoprocessor
+        gp: null,
 
         // aMsg: String
         aMsg: 'Click here for your map.',
 
+        // bgLayerIds: {}
+        bgLayerIds: {
+            1: 'UDWR',
+            2: 'UDOT'
+        },
 
         // Parameters to constructor
+
+        // cLayer: esrx.ClusterLayer
+        cLayer: null,
 
         // map: esri.Map
         map: null,
@@ -57,96 +61,147 @@ define([
         // dataFilter: roadkill.dataFilter
         dataFilter: null,
 
-        constructor: function(params, div) {
+        // bmSelector: agrc.widgets.map.BaseMapSelector
+        bmSelector: null,
+
+        // bgLayer: esri.layers.ArcGISDyanamicMapServiceLayer
+        bgLayer: null,
+
+        // pointsLayer: esri.layers.ArcGISDynamicmapServiceLayer
+        pointsLayer: null,
+
+        constructor: function () {
             // summary:
             //    Constructor method
-            // params: Object
-            //    Parameters to pass into the widget. Required values include:
-            // div: String|DomNode
-            //    A reference to the div that you want the widget to be created in.
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:constructor', arguments);
         },
-        initGP: function(){
+        initGP: function () {
             // summary:
             //      sets up the geoprocessor
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:initGP', arguments);
 
-            this.task = new PrintTask(ROADKILL.gpPrintUrl);
+            this.gp = new Geoprocessor(ROADKILL.gpPrintUrl);
 
-            this.task.on('error', lang.hitch(this, 'onJobError'));
-            this.task.on('complete', lang.hitch(this, 'onJobComplete'));
+            this.own(
+                this.gp.on('job-complete', lang.hitch(this, 'onJobComplete')),
+                this.gp.on('status-update', lang.hitch(this, 'onStatusUpdate')),
+                this.gp.on('error', lang.hitch(this, 'onJobError')),
+                this.gp.on('get-result-data-complete', lang.hitch(this, 'onGetResultDataComplete'))
+            );
         },
-        postCreate: function() {
+        postCreate: function () {
             // summary:
             //    Overrides method of same name in dijit._Widget.
             // tags:
             //    private
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:postCreate', arguments);
 
             this._wireEvents();
         },
-        _wireEvents: function() {
+        _wireEvents: function () {
             // summary:
             //    Wires events.
             // tags:
             //    private
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:_wireEvents', arguments);
 
             this.connect(this.printBtn, 'onclick', 'print');
         },
-        print: function() {
+        print: function () {
             // summary:
             //      when the user clicks the print button
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:print', arguments);
 
-            if (!this.task) {
+            if (!this.gp) {
                 this.initGP();
             }
 
             this.showMsg('Generating map...');
 
-            var params = new PrintParameters();
-            var template = new PrintTemplate();
-            template.format = 'PDF';
-            template.layout = 'Portrait';
-            template.layoutOptions = {
-                customTextElements: [{defQuery: this.dataFilter.updateDefinitionQuery()}]
-            };
-            params.map = this.map;
-            params.template = template;
-            params.extraParameters = {
-                'ExportWebMapService_URL': ROADKILL.exportWebMapUrl
+            var input = {
+                baseMap: this.bmSelector.currentTheme.label,
+                extent: JSON.stringify(this.map.extent),
+                routeBuffer: this.getRouteBuffer(),
+                visibleLayers: this.getVisibleLayers(),
+                defQueryTxt: this.dataFilter.updateDefinitionQuery()
             };
 
-            this.task.execute(params);
+            lang.mixin(input, this.getGraphics());
+
+            this.gp.submitJob(input);
         },
-        showMsg: function(msg){
+        getRouteBuffer: function () {
+            // summary:
+            //      description
+            console.log('roadkill/Print:getRouteBuffer', arguments);
+
+            if (this.dataFilter.queryGeo) {
+                var fset = new FeatureSet();
+
+                fset.features.push(new Graphic(this.dataFilter.queryGeo));
+
+                return fset;
+            } else {
+                return '';
+            }
+        },
+        getGraphics: function () {
+            // summary:
+            //      description
+            console.log('roadkill/Print:getGraphics', arguments);
+
+            var fset = new FeatureSet();
+            var singleIds = [];
+
+            var features = [];
+            this.cLayer.graphics.forEach(function (g) {
+                if (g.attributes.isCluster) {
+                    features.push(new Graphic({
+                        attributes: {
+                            CLUSTER_NUM: g.attributes.clusterSize
+                        },
+                        geometry: g.geometry
+                    }));
+                } else if (g.attributes.isCluster === false) {
+                    singleIds.push(g.attributes[ROADKILL.fields.OBJECTID]);
+                }
+            });
+
+            fset.features = features;
+            fset.spatialReference = this.map.spatialReference;
+
+            return {
+                singleFeatures: (singleIds.length > 0) ? JSON.stringify(singleIds) : '',
+                clusterFeatures: (fset.features.length > 0) ? JSON.stringify(fset) : ''
+            };
+        },
+        showMsg: function (msg) {
             // summary:
             //      show the message box
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:showMsg', arguments);
 
             if (!this.printBtn.disabled) {
                 this.printBtn.disabled = true;
             }
 
-            domClass.add(this.msgBox, 'alert-info');
-            domClass.remove(this.msgBox, 'alert-danger');
+            domClass.add(this.msgBox, 'info');
+            domClass.remove(this.msgBox, 'error');
 
             domStyle.set(this.msgLoader, 'display', 'inline-block');
 
             this.msg.innerHTML = msg;
 
             domStyle.set(this.msgBox, 'display', 'block');
-            dojo.fadeIn({node: this.msgBox}).play();
+            baseFx.fadeIn({node: this.msgBox}).play();
         },
-        showErrorMsg: function(msg){
+        showErrorMsg: function (msg) {
             // summary:
             //      show the error message box
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:showErrorMsg', arguments);
 
-            domClass.add(this.msgBox, 'alert-danger');
-            domClass.remove(this.msgBox, 'alert-info');
-            domClass.remove(this.msgBox, 'alert-success');
+            domClass.add(this.msgBox, 'error');
+            domClass.remove(this.msgBox, 'info');
+            domClass.remove(this.msgBox, 'success');
 
             this.msg.innerHTML = msg;
 
@@ -159,14 +214,51 @@ define([
 
             this.printBtn.disabled = false;
         },
-        onJobComplete: function(response){
+        onJobComplete: function (status) {
             // summary:
             //      fires when the gp job is complete
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            console.log('roadkill/Print:onJobComplete', arguments);
 
-            domClass.add(this.msgBox, 'alert-success');
-            domClass.remove(this.msgBox, 'alert-info');
-            domClass.remove(this.msgBox, 'alert-danger');
+            if (status.jobStatus === 'esriJobSucceeded') {
+                this.gp.getResultData(status.jobId, 'outFile');
+            } else {
+                this.onJobError({message: status.jobStatus});
+            }
+        },
+        onStatusUpdate: function (status) {
+            // summary:
+            //      description
+            console.log('roadkill/Print:onStatusUpdate', arguments);
+
+            // this was just used for debugging
+
+            // var ul = dojo.create('ul');
+            // dojo.forEach(status.messages, function (msg) {
+                // dojo.create('li', {
+                    // innerHTML: msg.description
+                // }, ul);
+            // });
+            // this.msg.innerHTML = '';
+            // dojo.place(ul, this.msg);
+            if (status.messages.length > 0) {
+                console.log(status.messages[status.messages.length - 1].description);
+            }
+        },
+        onJobError: function () {
+            // summary:
+            //      description
+            console.log('roadkill/Print:onJobError', arguments);
+
+            this.showErrorMsg('There was an error with the print service.');
+        },
+        onGetResultDataComplete: function (result) {
+            // summary:
+            //
+            console.log('roadkill/Print:onGetResultDataComplete', arguments);
+
+            domClass.add(this.msgBox, 'success');
+            domClass.remove(this.msgBox, 'info');
+            domClass.remove(this.msgBox, 'error');
 
             domStyle.set(this.msgLoader, 'display', 'none');
 
@@ -174,18 +266,43 @@ define([
 
             this.msg.innerHTML = '';
 
-            dojo.create('a', {
+            domConstruct.create('a', {
                 innerHTML: this.aMsg,
-                href: response.result.url,
+                href: result.value.url,
                 target: '_blank'
             }, this.msg);
         },
-        onJobError: function(er){
+        getVisibleLayers: function () {
             // summary:
-            //      description
-            console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
+            //      Returns the visible layer names if the map service layers themselves are visible
+            // returns: String
+            //        Empty string if no layers are visible
+            console.log('roadkill/Print:getVisibleLayers', arguments);
 
-            this.showErrorMsg('There was an error with the print service.');
+            function searchLayer(layer) {
+                if (layer.visibleLayers.length > 0 && layer.visible) {
+                    return array.map(layer.visibleLayers, function (id) {
+                        // get name of layer
+                        var name;
+                        array.some(layer.layerInfos, function (info) {
+                            if (info.id === id) {
+                                name = info.name;
+                                return true;
+                            }
+                        });
+                        return name;
+                    });
+                } else {
+                    return [];
+                }
+            }
+
+            var lyrs = searchLayer(this.bgLayer).concat(searchLayer(this.pointsLayer));
+            if (lyrs.length > 0) {
+                return lyrs;
+            } else {
+                return '';
+            }
         }
     });
 });

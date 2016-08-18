@@ -46,7 +46,7 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
     
     // Parameters to constructor
     
-    postCreate: function() {
+    postCreate: function () {
         // summary:
         //    Overrides method of same name in dijit._Widget.
         // tags:
@@ -55,7 +55,7 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
     
         this._wireEvents();
     },
-    _wireEvents: function() {
+    _wireEvents: function () {
         // summary:
         //    Wires events.
         // tags:
@@ -65,14 +65,14 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
         this.connect(this.submitBtn, 'onclick', 'onSubmit');
         this.connect(this.clearBtn, 'onclick', 'onClear');
     },
-    onSubmit: function(){
+    onSubmit: function () {
         // summary:
         //      fires when the user clicks on the submit button
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
         
         this.showLoader();
         
-        if(!this.gp) {
+        if (!this.gp) {
             this.initGP();
         }
         
@@ -83,7 +83,7 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
             this.hideLoader();
         }
     },
-    initGP: function(){
+    initGP: function () {
         // summary:
         //      sets up the geoprocessor object
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -97,7 +97,7 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
         this.connect(this.gp, 'onGetResultDataComplete', 'onGetResultDataComplete');
         this.connect(this.geo, 'onBufferComplete', 'onBufferComplete');
     },
-    getValues: function() {
+    getValues: function () {
         // summary:
         //      gets the form values and validates
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -105,7 +105,7 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
         var route = this.route.value;
         var from = this.fromMP.value;
         var to = this.toMP.value;
-        if(route.length === 0) {
+        if (route.length === 0) {
             alert(this.routeRequiredTxt);
             return null;
         } else if (from.length === 0) {
@@ -133,13 +133,13 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
             toMP: to
         };
     },
-    onJobComplete: function(status){
+    onJobComplete: function (status) {
         // summary:
         //      description
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
         
         if (status.jobStatus !== 'esriJobSucceeded') {
-            if (dojo.some(status.messages, function(msg){
+            if (dojo.some(status.messages, function (msg) {
                 return msg.description === 'No match found for that route.';
             })) {
                 this.hideLoader();
@@ -151,12 +151,12 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
             this.gp.getResultData(status.jobId, 'outSegment');
         }
     },
-    onStatusUpdate: function(/*status*/){
+    onStatusUpdate: function (/*status*/) {
         // summary:
         //      just so I can see the status updates in the console
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
     },
-    onJobError: function(){
+    onJobError: function () {
         // summary:
         //      description
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -165,7 +165,7 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
         
         alert(this.erMsg);
     },
-    onGetResultDataComplete: function(result){
+    onGetResultDataComplete: function (result) {
         // summary:
         //      description
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
@@ -177,21 +177,21 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
         
         this.geo.buffer(params);
     },
-    hideLoader: function(){
+    hideLoader: function () {
         // summary:
         //      hides the loader img and enables the button
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
         
         ROADKILL.mapapp.map.hideLoader();
     },
-    showLoader: function(){
+    showLoader: function () {
         // summary:
         //      shows the loader img and disables the button
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
         
         ROADKILL.mapapp.map.showLoader();
     },
-    onBufferComplete: function(response){
+    onBufferComplete: function (response) {
         // summary:
         //      callback from geometry service
         // response: esri.Geometry[]
@@ -201,13 +201,13 @@ dojo.declare("roadkill.RouteMilepostFilter", [dijit._Widget, dijit._Templated], 
         
         this.onComplete(response[0]);
     },
-    onComplete: function(/*bufferGeo*/){
+    onComplete: function (/*bufferGeo*/) {
         // summary:
         //      event for other objects to subscribe to
         // bufferGeo: esri.geometry.Polygon
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);
     },
-    onClear: function(){
+    onClear: function () {
         // summary:
         //      event for other objects to subscribe to
         console.info(this.declaredClass + "::" + arguments.callee.nom, arguments);

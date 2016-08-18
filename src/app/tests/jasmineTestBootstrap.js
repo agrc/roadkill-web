@@ -9,7 +9,7 @@ var dojoConfig = {  // eslint-disable-line no-unused-vars
             location: 'agrc-jasmine-matchers/src'
         }, {
             name: 'stubmodule',
-            location: 'stubmodule/src',
+            location: 'StubModule/src',
             main: 'stub-module'
         }
     ],
