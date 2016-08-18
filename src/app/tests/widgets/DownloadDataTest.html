@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>DownloadData Test</title>
-		<script type="text/javascript">
-			djConfig = {
-				isDebug: true, // remove for build
-				debugAtAllCosts: true, // remove for build
-				baseUrl: "./", // remove for build
-				modulePaths: { // remove for build
-					"agrc": "../../content/agrc",
-					"roadkill": "../../content/roadkill",
-					"esrx": "../../content/esrx",
-					"ext": "../../content/ext",
-					"html": "../../content/html"
-				},
-				parseOnLoad: true
-			};
-		</script>
-		<script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.5"></script>
-		
-		<link rel="stylesheet" type="text/css" href="../../content/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="../../content/css/core.css" />
-		
-		<link rel="stylesheet" tyep="text/css" href="../../content/css/map.css" />
-		
-		
-		<script type='text/javascript'>
-			/*global dojo, roadkill*/
-			dojo.require("roadkill.DownloadData");
-			
-			var testWidget;
-			dojo.ready(function () {
-				ROADKILL.server = "http://test.mapserv.utah.gov";
-				ROADKILL.gpDownloadUrl = ROADKILL.server + "/ArcGIS/rest/services/Toolbox/GPServer/RoadkillDownloadData";
+    <head>
+        <title>DownloadData Test</title>
+        <script type="text/javascript">
+            djConfig = {
+                isDebug: true, // remove for build
+                debugAtAllCosts: true, // remove for build
+                baseUrl: "./", // remove for build
+                modulePaths: { // remove for build
+                    "agrc": "../../content/agrc",
+                    "roadkill": "../../content/roadkill",
+                    "esrx": "../../content/esrx",
+                    "ext": "../../content/ext",
+                    "html": "../../content/html"
+                },
+                parseOnLoad: true
+            };
+        </script>
+        <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.5"></script>
+        
+        <link rel="stylesheet" type="text/css" href="../../content/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../content/css/core.css" />
+        
+        <link rel="stylesheet" tyep="text/css" href="../../content/css/map.css" />
+        
+        
+        <script type='text/javascript'>
+            /*global dojo, roadkill*/
+            dojo.require("roadkill.DownloadData");
+            
+            var testWidget;
+            dojo.ready(function () {
+                ROADKILL.server = "http://test.mapserv.utah.gov";
+                ROADKILL.gpDownloadUrl = ROADKILL.server + "/ArcGIS/rest/services/Toolbox/GPServer/RoadkillDownloadData";
 
-				testWidget = new roadkill.DownloadData({}, 'test-div');
-			});
-		</script>
-	</head>
-	<body>
-		<div style="width: 256px; border: 1px solid gray;">
-			<div id='test-div'></div>
-		</div>
-	</body>
+                testWidget = new roadkill.DownloadData({}, 'test-div');
+            });
+        </script>
+    </head>
+    <body>
+        <div style="width: 256px; border: 1px solid gray;">
+            <div id='test-div'></div>
+        </div>
+    </body>
 </html>

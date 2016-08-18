@@ -1,11 +1,11 @@
-define([
+require([
     'dijit/_WidgetBase',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/query',
 
-    'roadkill/DownloadData',
+    'app/DownloadData',
 
     'stubmodule'
 ], function (
@@ -32,7 +32,7 @@ define([
                 getResultData: function () {}
             });
 
-            stubmodule('roadkill/DownloadData', {
+            stubmodule('app/DownloadData', {
                 'esri/tasks/Geoprocessor': gpSpy
             }).then(function (StubbedModule) {
                 testWidget = new StubbedModule({}, domConstruct.create('div', {}, document.body));

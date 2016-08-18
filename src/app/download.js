@@ -5,8 +5,8 @@ require([
     'dojo/topic',
     'dojo/_base/connect',
 
-    'roadkill/DataFilter',
-    'roadkill/DownloadData'
+    'app/DataFilter',
+    'app/DownloadData'
 ], function (
     dom,
     domClass,

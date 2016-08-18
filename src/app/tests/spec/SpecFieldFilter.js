@@ -1,10 +1,10 @@
-define([
+require([
     'app/tests/data/mockData',
 
     'dojo/Deferred',
     'dojo/dom-construct',
 
-    'roadkill/ListPicker',
+    'app/ListPicker',
 
     'roakill/FieldFilter',
 
@@ -54,7 +54,7 @@ define([
             return def2;
         });
 
-        stubmodule('roadkill/FieldFilter', {
+        stubmodule('app/FieldFilter', {
             'dojo/io/script': scriptSpy
         }).then(function (StubbedModule) {
             var testWidget2 = new StubbedModule({}, domConstruct.create('div', {}, document.body));
@@ -96,8 +96,8 @@ define([
     });
     it('initListPicker should init the list picker after getDomainValues has resolved', function (done) {
         var listPickerSpy = jasmine.createSpy('ListPicker');
-        stubmodule('roadkill/FieldFilter', {
-            'roadkill/ListPicker': listPickerSpy
+        stubmodule('app/FieldFilter', {
+            'app/ListPicker': listPickerSpy
         }).then(function (StubbedModule) {
             var testWidget2 = new StubbedModule({}, domConstruct.create('div', {}, document.body));
 

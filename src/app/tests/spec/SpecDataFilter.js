@@ -1,10 +1,10 @@
-define([
+require([
     'dijit/_WidgetBase',
 
     'dojo/dom-construct',
 
-    'roadkill/DataFilter',
-    'roadkill/RouteMilepostFilter'
+    'app/DataFilter',
+    'app/RouteMilepostFilter'
 ], function (
     _WidgetBase,
 

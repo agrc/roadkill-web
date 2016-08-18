@@ -17,7 +17,7 @@ require([
     'dojo/_base/array',
     'dojo/_base/event',
 
-    'roadkill/VerifyMap'
+    'app/VerifyMap'
 ], function (
     Domains,
     HelperFunctions,

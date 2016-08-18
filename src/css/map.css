@@ -8,97 +8,97 @@
 @import '../layer-selector/resources/LayerSelector.css';
 
 body {
-	padding-top: 0 !important;
+    padding-top: 0 !important;
 }
 html, body {
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
 #main-container .navbar {
-	position: relative;
-	margin: 0;
+    position: relative;
+    margin: 0;
 }
 #main-container .navbar .container {
-	width: 100%;
+    width: 100%;
 }
 #main-container .topbar {
-	padding: 0;
+    padding: 0;
 }
 #main-container {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 #left-sidebar {
-	width: 255px;
-	border-right: 1px solid #D3D3D3;
-	padding: 0;
-	overflow-y: auto;
-	overflow-x: hidden;
+    width: 255px;
+    border-right: 1px solid #D3D3D3;
+    padding: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .data-filter label, .toc label {
-	text-align: left;
-	font-weight: normal;
+    text-align: left;
+    font-weight: normal;
 }
 .indent {
-	margin-left: 18px;
+    margin-left: 18px;
 }
 #species-chart {
-	width: 235px;
-	height: 235px;
+    width: 235px;
+    height: 235px;
 }
 #main-container .map-div-container {
-	padding: 0;
+    padding: 0;
 }
 #map-div {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 .dijitTitlePane {
-	margin: -1px;
+    margin: -1px;
 }
 #HomeButtonDiv {
-	position: absolute;
-	top: 95px;
-	left: 20px;
-	z-index: 50;
+    position: absolute;
+    top: 95px;
+    left: 20px;
+    z-index: 50;
 }
 #HomeButtonDiv .home{
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
 }
 #logoutDiv {
-	position: absolute;
-	z-index: 9;
-	right: 0;
-	margin: 15px;
+    position: absolute;
+    z-index: 9;
+    right: 0;
+    margin: 15px;
 }
 
 /**
- * 	legend stuff
+ *     legend stuff
  */
 #legend td {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 #legend table, #legend td {
-	margin: 0;
-	border-width: 0;
-	padding: 0;
+    margin: 0;
+    border-width: 0;
+    padding: 0;
 }
 .esriLegendService {
-	padding-bottom: 6px !important;
+    padding-bottom: 6px !important;
 }
 
 /*
  * footer
  */
 #footer {
-	border-top: 1px solid #D3D3D3;
-	text-align: center;
-	width: 100% !important;
+    border-top: 1px solid #D3D3D3;
+    text-align: center;
+    width: 100% !important;
 }
 #footer a {
-	color: #404040;
+    color: #404040;
 }
 
 /*
@@ -106,9 +106,9 @@ html, body {
  */
 /* zoom slider */
 .dijitSliderV {
-	width: auto;
+    width: auto;
 }
 /* fix problem with user drop-down not being shown */
 .topbar {
-	overflow: visible !important;
+    overflow: visible !important;
 }

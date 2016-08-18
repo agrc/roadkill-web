@@ -1,4 +1,4 @@
-define([
+require([
     'app/tests/data/mockData',
     'app/tests/data/mockRenderer',
 

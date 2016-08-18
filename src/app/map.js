@@ -29,12 +29,12 @@ require([
 
     'layer-selector/LayerSelector',
 
-    'roadkill/DataFilter',
-    'roadkill/DownloadData',
-    'roadkill/Identify',
-    'roadkill/MapChart',
-    'roadkill/Print',
-    'roadkill/Toc',
+    'app/DataFilter',
+    'app/DownloadData',
+    'app/Identify',
+    'app/MapChart',
+    'app/Print',
+    'app/Toc',
 
     'dijit/layout/BorderContainer',
     'dijit/layout/ContentPane',

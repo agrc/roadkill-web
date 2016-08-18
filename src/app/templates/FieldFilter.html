@@ -1,0 +1,13 @@
+<div>
+    <h4 class="non-first-header">${fieldLabel}</h4>
+    
+    <input type="radio" id="all${fieldLabel}" data-dojo-attach-point="allRB" name="${fieldLabel}-group" checked>
+    <label class='filter-label' for='all${fieldLabel}'>All</label>
+    <input type="radio" id="only${fieldLabel}" data-dojo-attach-point="onlyRB" name="${fieldLabel}-group">
+    <label class='filter-label' for='only${fieldLabel}'>Only Those Listed Below</label>
+        
+    <button data-dojo-attach-point="selectBtn" class="btn btn-default btn-xs">Select ${fieldLabel}</button>
+    <ul data-dojo-attach-point="list">
+        <li class="disabled"></li>
+    </ul>
+</div>

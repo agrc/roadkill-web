@@ -1,4 +1,4 @@
-define([
+require([
     'dijit/_WidgetBase',
 
     'dojo/dom-construct',
