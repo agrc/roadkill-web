@@ -1,4 +1,4 @@
-/*jshint unused:false */
+/*eslint-disable no-unused-vars*/
 var profile = {
     basePath: '../src',
     action: 'release',
@@ -11,11 +11,12 @@ var profile = {
     layers: {
         'dojo/dojo': {
             include: [
-                'dojo/i18n',
-                'dojo/domReady',
-                'app/run',
                 'app/core',
+                'app/run',
+                'dojo/domReady',
+                'dojo/i18n',
                 'esri/dijit/Attribution',
+                'ijit/widgets/authentication/LoginRegister',
                 'ladda/dist/spin'
             ],
             includeLocales: ['en-us'],
@@ -40,12 +41,12 @@ var profile = {
         }
     },
     staticHasFeatures: {
-        'dojo-trace-api':0,
-        'dojo-log-api':0,
-        'dojo-publish-privates':0,
-        // 'dojo-sync-loader':0,
-        'dojo-xhr-factory':0,
-        'dojo-test-sniff':0
+        'dojo-trace-api': 0,
+        'dojo-log-api': 0,
+        'dojo-publish-privates': 0,
+        // 'dojo-sync-loader': 0,
+        'dojo-xhr-factory': 0,
+        'dojo-test-sniff': 0
     },
     dirs: ['css', 'images', 'common_html'],
     files: [

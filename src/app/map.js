@@ -163,12 +163,12 @@ require([
                 includeFullExtentButton: true
             });
 
-            var layerSelector = new LayerSelector({
+            this.layerSelector = new LayerSelector({
                 map: this.map,
                 quadWord: config.quadWord,
                 baseLayers: ['Terrain', 'Hybrid', 'Lite', 'Topo']
             });
-            layerSelector.startup();
+            this.layerSelector.startup();
 
             this.backgroundLyr = new ArcGISDynamicMapServiceLayer(config.rkMapServiceUrl, {
                 opacity: 0.5
@@ -183,7 +183,7 @@ require([
             this.fLayer = fLayer;
 
             var that = this;
-            connect.connect(fLayer, 'onLoad', function () {
+            fLayer.on('load', function () {
                 that.cLayer = new ClusterLayer({
                     url: config.clusterLayerUrl,
                     displayOnPan: false,
@@ -229,7 +229,6 @@ require([
             var mp = new Map('legend-map');
 
             var lyrs = [];
-            // lyrs.push(new ArcGISTiledMapServiceLayer('https://mapserv.utah.gov/ArcGIS/rest/services/BaseMaps/Vector/MapServer'));
             lyrs.push(new FeatureLayer(config.rkFeatureServiceUrl, {
                 mode: FeatureLayer.MODE_SELECTION
             }));
@@ -283,20 +282,17 @@ require([
             //      Hides the modal dialog
             console.info('mapapp:hideLoadingMessage', arguments);
 
-            var node = dom.byId('loading-dialog');
-            fx.fadeOut({
-                node: node,
-                onEnd: function () {
-                    domClass.add(node, 'hidden');
-                }
-            }).play();
+            $('#loading-dialog').modal('hide');
         },
         showLoadingMessage: function () {
             // summary:
             //      shows the loading modal dialog
             console.info('mapapp::showLoadingMessage', arguments);
 
-            domClass.remove('loading-dialog', 'hidden');
+            $('#loading-dialog').modal({
+                keyboard: false,
+                backdrop: 'static'
+            });
         },
         initSpeciesChart: function (cl) {
             // summary:
@@ -326,8 +322,12 @@ require([
             console.info('mapapp::initPrint', arguments);
 
             var print = new Print({
+                cLayer: this.cLayer,
                 map: this.map,
-                dataFilter: this.df
+                dataFilter: this.df,
+                layerSelector: this.layerSelector,
+                bgLayer: this.backgroundLyr,
+                pointsLayer: this.pointsLyr
             }, 'print-div');
             print.startup();
         }

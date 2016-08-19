@@ -65,8 +65,8 @@ define([
         // dataFilter: roadkill.dataFilter
         dataFilter: null,
 
-        // bmSelector: agrc.widgets.map.BaseMapSelector
-        bmSelector: null,
+        // layerSelector: LayerSelector
+        layerSelector: null,
 
         // bgLayer: esri.layers.ArcGISDyanamicMapServiceLayer
         bgLayer: null,
@@ -123,7 +123,7 @@ define([
             this.showMsg('Generating map...');
 
             var input = {
-                baseMap: this.bmSelector.currentTheme.label,
+                baseMap: this.layerSelector.get('visibleLayers').layers[0].id,
                 extent: JSON.stringify(this.map.extent),
                 routeBuffer: this.getRouteBuffer(),
                 visibleLayers: this.getVisibleLayers(),
@@ -223,10 +223,10 @@ define([
             //      fires when the gp job is complete
             console.log('app/Print:onJobComplete', arguments);
 
-            if (status.jobStatus === 'esriJobSucceeded') {
-                this.gp.getResultData(status.jobId, 'outFile');
+            if (status.jobInfo.jobStatus === 'esriJobSucceeded') {
+                this.gp.getResultData(status.jobInfo.jobId, 'outFile');
             } else {
-                this.onJobError({message: status.jobStatus});
+                this.onJobError({message: status.jobInfo.jobStatus});
             }
         },
         onStatusUpdate: function (status) {
@@ -234,18 +234,9 @@ define([
             //      description
             console.log('app/Print:onStatusUpdate', arguments);
 
-            // this was just used for debugging
-
-            // var ul = dojo.create('ul');
-            // dojo.forEach(status.messages, function (msg) {
-                // dojo.create('li', {
-                    // innerHTML: msg.description
-                // }, ul);
-            // });
-            // this.msg.innerHTML = '';
-            // dojo.place(ul, this.msg);
-            if (status.messages.length > 0) {
-                console.log(status.messages[status.messages.length - 1].description);
+            var messages = status.jobInfo.messages;
+            if (messages.length > 0) {
+                console.log(messages[messages.length - 1].description);
             }
         },
         onJobError: function () {
@@ -255,7 +246,7 @@ define([
 
             this.showErrorMsg('There was an error with the print service.');
         },
-        onGetResultDataComplete: function (result) {
+        onGetResultDataComplete: function (evt) {
             // summary:
             //
             console.log('app/Print:onGetResultDataComplete', arguments);
@@ -272,7 +263,7 @@ define([
 
             domConstruct.create('a', {
                 innerHTML: this.aMsg,
-                href: result.value.url,
+                href: evt.result.value.url,
                 target: '_blank'
             }, this.msg);
         },

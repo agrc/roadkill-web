@@ -251,8 +251,8 @@ define([
             if (this.dateStart.value.toString() !== invalid && this.dateEnd.value.toString() !== invalid) {
                 var end = new Date(this.dateEnd.value.getTime());
                 end.setHours(24);
-                query = this.fields.REPORT_DATE + ' >= "' + this.formatDate(this.dateStart.value)
-                    + '" AND ' + this.fields.REPORT_DATE + ' <= "' + this.formatDate(end) + '"';
+                query = this.fields.REPORT_DATE + ' >= \'' + this.formatDate(this.dateStart.value)
+                    + '\' AND ' + this.fields.REPORT_DATE + ' <= \'' + this.formatDate(end) + '\'';
             } else {
                 query = this.dateQueries.none;
             }

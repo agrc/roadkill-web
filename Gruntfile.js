@@ -1,19 +1,17 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var jsFiles = 'src/app/**/*.js';
+    var jsFiles = ['src/app/**/*.js', 'src/esrx/*.js', 'src/ext/*.js'];
     var otherFiles = [
         'src/app/**/*.html',
         'src/app/**/*.css',
         'src/css/**/*.css',
         'src/*.php',
-        'src/common_html/**/*.php',
-        'src/roadkill/**/*.css',
-        'src/roadkill/*.js'
+        'src/common_html/**/*.php'
     ];
     var internFile = 'tests/intern.js';
     var packageFile = 'package.json';
-    var eslintFiles = [jsFiles, internFile, packageFile];
+    var eslintFiles = jsFiles.concat([internFile, packageFile]);
     var deployFiles = [
         '**',
         '!**/*.uncompressed.js',

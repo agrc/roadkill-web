@@ -7,20 +7,15 @@
         'dojo/parser',
         'dojo/_base/array',
 
-        'ijit/widgets/authentication/LoginRegister',
-
-        'jquery',
-        'bootstrap',
-        'dojo/domReady!'
+        'dojo/domReady!',
+        'jquery'
     ], function (
         config,
 
         dom,
         domClass,
         parser,
-        array,
-
-        LoginRegister
+        array
     ) {
 
         // set active state on nav bar
@@ -42,11 +37,13 @@
 
         parser.parse();
 
-        config.login = new LoginRegister({
-            appName: 'roadkill',
-            logoutDiv: dom.byId('logoutDiv'),
-            showOnLoad: requireLogin,
-            securedServicesBaseUrl: config.baseUrl
+        require(['ijit/widgets/authentication/LoginRegister'], function (LoginRegister) {
+            config.login = new LoginRegister({
+                appName: 'roadkill',
+                logoutDiv: dom.byId('logoutDiv'),
+                showOnLoad: requireLogin,
+                securedServicesBaseUrl: config.baseUrl
+            });
         });
     });
 }());

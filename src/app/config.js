@@ -20,8 +20,7 @@ define([
     ROADKILL.rkFeatureServiceAddFeaturesUrl = ROADKILL.baseUrl + '/FeatureService/FeatureServer/0/addFeatures';
     ROADKILL.gpRouteMilepostUrl = ROADKILL.toolboxUrlBase + '/RouteMilepostsSegment';
     ROADKILL.geometryServiceUrl = '/ArcGIS/rest/services/Geometry/GeometryServer';
-    ROADKILL.gpPrintUrl = ROADKILL.server + '/arcgis/rest/services/PrintProxy/GPServer/PrintProxy';
-    ROADKILL.exportWebMapUrl = ROADKILL.server + '/arcgis/rest/services/Roadkill/Print/GPServer/Export%20Web%20Map';
+    ROADKILL.gpPrintUrl = ROADKILL.toolboxUrlBase + '/Print';
     ROADKILL.rkPointsLayerUrl = ROADKILL.baseUrl + '/Overlays/MapServer';
 
     ROADKILL.fields = {

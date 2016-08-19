@@ -49,7 +49,7 @@ require([
             testWidget.dateEnd.set('value', new Date(2010, 0, 2));
             testWidget.onCustomDateChange();
 
-            var query = 'REPORT_DATE >= "2010-01-01" AND REPORT_DATE <= "2010-01-03"';
+            var query = 'REPORT_DATE >= \'2010-01-01\' AND REPORT_DATE <= \'2010-01-03\'';
             expect(layer.setDefinitionExpression).toHaveBeenCalledWith(query, testWidget.queryGeo);
         });
         it('formatDate should return the appropriate formatted date string', function () {

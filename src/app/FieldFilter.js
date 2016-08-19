@@ -153,7 +153,7 @@ define([
             var that = this;
             var values = array.map(selectedItems, function (item) {
                 domConstruct.create('li', {innerHTML: item[0]}, that.list);
-                return '"' + item[0] + '"';
+                return '\'' + item[0] + '\'';
             });
             this.query = this.fieldName + ' IN (' + values.join(', ') + ')';
             this.onQueryChange(this.query);

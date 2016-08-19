@@ -48,7 +48,7 @@ require([
             ];
             it('should build the correct query string', function () {
                 testWidget.onListPickerOK(selectedItems);
-                expect(testWidget.query).toEqual('SPECIES IN ("value1", "value2")');
+                expect(testWidget.query).toEqual('SPECIES IN (\'value1\', \'value2\')');
             });
             it('should build the list of species', function () {
                 testWidget.onListPickerOK(selectedItems);

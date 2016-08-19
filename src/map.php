@@ -14,13 +14,15 @@
         </script>
     </head>
     <body class="claro">
-        <div id="loading-dialog" class="hidden">
-            <div class='modal'>
-                <div class='modal-header'>
-                    <h3>This might take a few moments...</h3>
-                </div>
-                <div class='modal-body'>
-                    <p>Loading map <img alt="loader" src="images/ajax-loader.gif"></p>
+        <div id="loading-dialog" class="modal fade" role='dialog'>
+            <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h3>This might take a few moments...</h3>
+                    </div>
+                    <div class='modal-body'>
+                        <p>Loading map <img alt="loader" src="images/ajax-loader.gif"></p>
+                    </div>
                 </div>
             </div>
             <div class="modal-background"></div>
