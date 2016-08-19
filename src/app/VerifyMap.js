@@ -132,9 +132,10 @@ define([
         map.graphics.add(g);
         map.centerAndZoom(pnt, 12);
 
-        var p = new Proj4js.Point(x, y);
-        Proj4js.transform(webMercProj, utmProj, p);
-        that.geo = p;
+        that.geo = {
+            x: x,
+            y: y
+        };
     };
     var showMsg = function (msg) {
         // summary:
