@@ -132,10 +132,9 @@ define([
         map.graphics.add(g);
         map.centerAndZoom(pnt, 12);
 
-        that.geo = {
-            x: x,
-            y: y
-        };
+        var p = new Proj4js.Point(x, y);
+        Proj4js.transform(webMercProj, utmProj, p);
+        that.geo = p;
     };
     var showMsg = function (msg) {
         // summary:
@@ -219,7 +218,8 @@ define([
                 spatialReference: {
                     wkid: 3857
                 }
-            })
+            }),
+            useDefaultBaseMap: false
         });
         var ls = new LayerSelector({
             map: map,

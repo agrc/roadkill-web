@@ -24,12 +24,12 @@
                         Submit Report
                     </legend>
 
-                    <label>Report Date</label>
+                    <h4>Report Date</h4>
                     <div class='input'>
                         <input id='report-date' type='text' dojoType='dijit/form/DateTextBox'>
                     </div>
 
-                    <label>Species</label>
+                    <h4>Species</h4>
                     <div class="input">
                         <select class='form-control' id='species-select'>
                             <option>select a species</option>
@@ -38,62 +38,59 @@
                         <input id='species-txt' class='form-control' type='text' placeholder='type in a new species'/>
                     </div>
 
-                    <label>Gender</label>
-                    <div class="input">
-                        <ul class="inputs-list">
-                            <li>
-                                <label>
-                                    <input type="radio" name="gender-group" value="Male">
-                                    <span>Male</span> </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="radio" name="gender-group" value="Female">
-                                    <span>Female</span> </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type='radio' name='gender-group' value="Unknown">
-                                    <span>Unknown</span> </label>
-                            </li>
-                        </ul>
+                    <h4>Gender</h4>
+                    <div class='radio'>
+                        <label>
+                            <input type="radio" name="gender-group" value="Male">
+                            Male
+                        </label>
+                    </div>
+                    <div class='radio'>
+                        <label>
+                            <input type="radio" name="gender-group" value="Female">
+                            Female
+                        </label>
+                    </div>
+                    <div class='radio'>
+                        <label>
+                            <input type='radio' name='gender-group' value="Unknown">
+                            Unknown
+                        </label>
                     </div>
 
-                    <label>Age Class</label>
-                    <div class="input">
-                        <ul class="inputs-list">
-                            <li>
-                                <label>
-                                    <input type="radio" name="age-group" value="Juvenile">
-                                    <span>Juvenile</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="radio" name="age-group" value="Adult">
-                                    <span>Adult</span> </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type='radio' name='age-group' value="Unknown">
-                                    <span>Unknown</span> </label>
-                            </li>
-                        </ul>
+                    <h4>Age Class</h4>
+                    <div class='radio'>
+                        <label>
+                            <input type="radio" name="age-group" value="Juvenile">
+                            Juvenile
+                        </label>
+                    </div>
+                    <div class='radio'>
+                        <label>
+                            <input type="radio" name="age-group" value="Adult">
+                            Adult
+                        </label>
+                    </li>
+                    <div class='radio'>
+                        <label>
+                            <input type='radio' name='age-group' value="Unknown">
+                            Unknown
+                        </label>
                     </div>
 
-                    <label>Xyphoid (mm)</label>
+                    <h4>Xyphoid (mm)</h4>
                     <div class="input">
                         <input id='xyphoid' type='number' class='form-control' disabled/>
                         <input type='checkbox' id='xyphoid_chbx' name='xyphoid_chbx' checked/>
                         <label id='checkbox_label' for='xyphoid_chbx'>Unavailable</label>
                     </div>
 
-                    <label>Collar/Tag #</label>
+                    <h4>Collar/Tag #</h4>
                     <div class='input'>
                         <input id='collar_tag' class='form-control' type='text' placeholder='optional' />
                     </div>
 
-                    <label>Comments</label>
+                    <h4>Comments</h4>
                     <div class="input">
                         <textarea class="form-control" id="comments" maxlength='255' placeholder='optional'></textarea>
                         <span class="help-block">Limited to 255 characters.</span>
