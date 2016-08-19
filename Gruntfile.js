@@ -259,9 +259,14 @@ module.exports = function (grunt) {
         'sftp:stage',
         'sshexec:stage'
     ]);
+    grunt.registerTask('sauce', [
+        'jasmine:main:build',
+        'connect',
+        'saucelabs-jasmine'
+    ]);
     grunt.registerTask('travis', [
         'eslint',
-        'jasmine:main',
+        'sauce',
         'build-prod'
     ]);
 };
