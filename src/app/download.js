@@ -42,8 +42,7 @@ require([
     DownloadPage = DownloadPage;
 
     function init() {
-        var downloadPage = new DownloadPage();
-        downloadPage.startup();
+        new DownloadPage();
     }
 
     if (config.login.user) {

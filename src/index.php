@@ -42,7 +42,10 @@
                         <p>Some pages on this website require a user name and password.</p>
                         <div class="alert-actions">
                             <button class="btn btn-default"
-                                onclick='ROADKILL.login.show();ROADKILL.login.goToPane(ROADKILL.login.requestPane);'>Request access</button>
+                                onclick="
+                                    var login = require('app/config').login;
+                                    login.show();
+                                    login.goToPane(login.requestPane);">Request access</button>
                         </div>
                     </div>
                 </div>

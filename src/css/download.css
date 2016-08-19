@@ -1,5 +1,5 @@
-@import '../roadkill/css/DownloadData.css';
-@import '../roadkill/css/DataFilter.css';
+@import '../app/css/DownloadData.css';
+@import '../app/css/DataFilter.css';
 .data-filter label {
     text-align: left !important;
 }

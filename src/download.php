@@ -2,10 +2,10 @@
 <html>
     <head>
         <?php include("common_html/common.php") ?>
-        
+
         <link rel='stylesheet' type='text/css' href='css/download.css' />
-        <link rel="stylesheet" type="text/css" href="dojo/dijit/themes/claro/claro.css">
-        
+        <link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
+
         <script type='text/javascript'>
             require(['dojo/domReady!'], function () {
                 require(['app/download']);
@@ -16,7 +16,7 @@
         <div class="topbar">
             <?php include("common_html/header.php"); ?>
         </div>
-        
+
         <div class="container">
             <div class="jumbotron">
                 <h1>Download Data</h1>
@@ -26,7 +26,7 @@
                 <li class="active"><a data-toggle='tab' href="#all-data-tab">Get the entire database</a></li>
                 <li><a data-toggle='tab' href="#filter-data-tab">Filter for a set of records</a></li>
             </ul>
-            
+
             <div class="tab-content">
                 <div id='all-data-tab' class='tab-pane active'>
                     <div id='download-data'></div>

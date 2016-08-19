@@ -3,7 +3,7 @@
 <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
 
 <!-- CSS -->
-<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css" />
 
 <!-- GOOGLE ANALYTICS -->
 <script type="text/javascript">
