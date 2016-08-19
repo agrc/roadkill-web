@@ -1,3 +1,33 @@
+var osx = 'OS X 10.10';
+var windows = 'Windows 8.1';
+var browsers = [{
+    // OSX
+    browserName: 'safari',
+    platform: osx
+}, {
+    // Windows
+    browserName: 'firefox',
+    platform: windows
+}, {
+    browserName: 'chrome',
+    platform: windows,
+    version: '47'
+}, {
+    browserName: 'microsoftedge',
+    platform: 'Windows 10'
+}, {
+    browserName: 'internet explorer',
+    platform: windows,
+    version: '11'
+}, {
+    browserName: 'internet explorer',
+    platform: 'Windows 8',
+    version: '10'
+}, {
+    browserName: 'internet explorer',
+    platform: 'Windows 7',
+    version: '9'
+}];
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
@@ -28,9 +58,26 @@ module.exports = function (grunt) {
         '!util/**'
     ];
     var deployDir = 'wwwroot/wvc/desktop';
+    var sauceConfig = {
+        urls: ['http://127.0.0.1:8000/_SpecRunner.html?catch=false'],
+        tunnelTimeout: 120,
+        build: process.env.TRAVIS_JOB_ID,
+        browsers: browsers,
+        testname: 'atlas',
+        maxRetries: 10,
+        maxPollRetries: 10,
+        'public': 'public',
+        throttled: 5,
+        sauceConfig: {
+            'max-duration': 1800
+        },
+        statusCheckAttempts: 500
+    };
     var secrets;
     try {
         secrets = grunt.file.readJSON('secrets.json');
+        sauceConfig.username = secrets.sauce_name;
+        sauceConfig.key = secrets.sauce_key;
     } catch (e) {
         // swallow for build server
         secrets = {
@@ -125,6 +172,11 @@ module.exports = function (grunt) {
             }
         },
         pkg: grunt.file.readJSON('package.json'),
+        'saucelabs-jasmine': {
+            all: {
+                options: sauceConfig
+            }
+        },
         secrets: secrets,
         sftp: {
             stage: {
@@ -206,5 +258,10 @@ module.exports = function (grunt) {
         'compress:main',
         'sftp:stage',
         'sshexec:stage'
+    ]);
+    grunt.registerTask('travis', [
+        'eslint',
+        'jasmine:main',
+        'build-prod'
     ]);
 };
