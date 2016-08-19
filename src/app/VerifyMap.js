@@ -3,6 +3,8 @@ define([
     'agrc/modules/WebAPI',
     'agrc/widgets/map/BaseMap',
 
+    'app/config',
+
     'dojo/Deferred',
     'dojo/dom',
     'dojo/dom-style',
@@ -21,6 +23,8 @@ define([
 ], function (
     WebAPI,
     BaseMap,
+
+    config,
 
     Deferred,
     dom,
@@ -151,7 +155,7 @@ define([
         domStyle.set(verifyText, 'display', 'none');
         domStyle.set(verifyImg, 'display', 'none');
     };
-    var webAPI = new WebAPI({apiKey: ROADKILL.apiKey});
+    var webAPI = new WebAPI({apiKey: config.apiKey});
     var geocode = function (street, zone) {
         // summary:
         //        calls the locator service to find the location of the route and milepost
@@ -219,7 +223,7 @@ define([
         });
         var ls = new LayerSelector({
             map: map,
-            quadWord: ROADKILL.quadWord,
+            quadWord: config.quadWord,
             baseLayers: ['Terrain']
         });
         ls.startup();
@@ -307,7 +311,7 @@ define([
                         if (result) {
                             hideMsg();
                             verifyBtn.disabled = false;
-                            that.currentField = ROADKILL.fields.ROUTE_MILEPOST;
+                            that.currentField = config.fields.ROUTE_MILEPOST;
                             that.currentValue = 'Route: ' + route.value + ', Milepost: ' + milepost.value;
                             that.verified = true;
                             return true;
@@ -332,7 +336,7 @@ define([
                         if (result) {
                             hideMsg();
                             verifyBtn.disabled = false;
-                            that.currentField = ROADKILL.fields.ADDRESS;
+                            that.currentField = config.fields.ADDRESS;
                             that.currentValue = address.value + ', ' + zipcity.value;
                             that.verified = true;
                             return true;

@@ -1,39 +1,40 @@
 require([
+    'app/config',
+    'app/MapChart',
     'app/tests/data/mockData',
     'app/tests/data/mockRenderer',
 
     'dojo/dom-construct',
 
-    'dojox/charting/Chart2D',
-
-    'roadkill/MapChart'
+    'dojox/charting/Chart2D'
 ], function (
+    config,
+    MapChart,
+    mockData,
     mockRenderer,
+
     domConstruct,
 
-    mockData,
-
-    Chart2D,
-
-    MapChart
+    Chart2D
 ) {
     describe('MapChart', function () {
         var testObject
         var params;
-        ROADKILL.mapapp = {
-            legend: {
-                layers: [
-                    {
-                        renderer: mockRenderer
-                    }
-                ]
-            }
-        };
-        ROADKILL.fields = {
-            SPECIES: 'SPECIES'
-        };
+        var div;
         beforeEach(function () {
-            domConstruct.create('div', {id: 'test-div'}, document.body);
+            config.mapapp = {
+                legend: {
+                    layers: [
+                        {
+                            renderer: mockRenderer
+                        }
+                    ]
+                }
+            };
+            config.fields = {
+                SPECIES: 'SPECIES'
+            };
+            div = domConstruct.create('div', {id: 'test-div'}, document.body);
 
             var mockCLayer = {
                 _features: mockData
@@ -46,11 +47,11 @@ require([
         });
         afterEach(function () {
             testObject = null;
-            domConstruct.destroy('test-div');
+            domConstruct.destroy(div);
         });
         describe('constructor', function () {
             it('should create a valid instance', function () {
-                expect(testObject instanceof MapChart);
+                expect(testObject instanceof MapChart).toBe(true);
             });
             it('should accept a div it as an argument', function () {
                 expect(testObject.chartDiv).toEqual(params.chartDiv);

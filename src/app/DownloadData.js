@@ -1,4 +1,6 @@
 define([
+    'app/config',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -13,6 +15,8 @@ define([
     'esri/tasks/FeatureSet',
     'esri/tasks/Geoprocessor'
 ], function (
+    config,
+
     _TemplatedMixin,
     _WidgetBase,
 
@@ -145,7 +149,7 @@ define([
             //      creates the esri geoprocessor object
             console.log('app/DownloadData:initGeoprocessor', arguments);
 
-            this.gp = new Geoprocessor(ROADKILL.gpDownloadUrl);
+            this.gp = new Geoprocessor(config.gpDownloadUrl);
 
             this.connect(this.gp, 'onJobComplete', 'onJobComplete');
             this.connect(this.gp, 'onStatusUpdate', 'onStatusUpdate');

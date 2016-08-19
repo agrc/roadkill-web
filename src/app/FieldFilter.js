@@ -1,6 +1,7 @@
 define([
     'agrc/modules/Domains',
 
+    'app/config',
     'app/ListPicker',
 
     'dijit/_TemplatedMixin',
@@ -14,6 +15,7 @@ define([
 ], function (
     Domains,
 
+    config,
     ListPicker,
 
     _TemplatedMixin,
@@ -128,8 +130,8 @@ define([
             //      sets up the list picker widget
             console.log('app/FieldFilter:initListPicker', arguments);
 
-            var def = Domains.getCodedValues(ROADKILL.rkFeatureServiceUrl + '?token=' +
-                ROADKILL.login.token, this.fieldName);
+            var def = Domains.getCodedValues(config.rkFeatureServiceUrl + '?token=' +
+                config.login.token, this.fieldName);
 
             var that = this;
             def.then(function (values) {
@@ -151,7 +153,7 @@ define([
             var that = this;
             var values = array.map(selectedItems, function (item) {
                 domConstruct.create('li', {innerHTML: item[0]}, that.list);
-                return '\'' + item[0] + '\'';
+                return '"' + item[0] + '"';
             });
             this.query = this.fieldName + ' IN (' + values.join(', ') + ')';
             this.onQueryChange(this.query);

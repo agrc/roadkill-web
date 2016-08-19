@@ -1,4 +1,5 @@
 define([
+    'app/config',
     'app/FieldFilter',
     'app/RouteMilepostFilter',
     'app/UserFilter',
@@ -13,6 +14,7 @@ define([
 
     'dijit/form/DateTextBox'
 ], function (
+    config,
     FieldFilter,
     RouteMilepostFilter,
     UserFilter,
@@ -36,10 +38,10 @@ define([
         templateString: template,
 
         // dateQueries: {id<String>:query<String>}
-        dateQueries: ROADKILL.dateQueries,
+        dateQueries: config.dateQueries,
 
         // fields: {key<String>: name<String>}
-        fields: ROADKILL.fields,
+        fields: config.fields,
 
         // queries: {}
         //      The definition queries
@@ -245,13 +247,12 @@ define([
             }
 
             var invalid = 'Invalid Date';
-
             var query;
-            if (this.dateStart.value !== invalid && this.dateEnd.value !== invalid) {
+            if (this.dateStart.value.toString() !== invalid && this.dateEnd.value.toString() !== invalid) {
                 var end = new Date(this.dateEnd.value.getTime());
                 end.setHours(24);
-                query = this.fields.REPORT_DATE + ' >= \'' + this.formatDate(this.dateStart.value)
-                    + '\' AND ' + this.fields.REPORT_DATE + ' <= \'' + this.formatDate(end) + '\'';
+                query = this.fields.REPORT_DATE + ' >= "' + this.formatDate(this.dateStart.value)
+                    + '" AND ' + this.fields.REPORT_DATE + ' <= "' + this.formatDate(end) + '"';
             } else {
                 query = this.dateQueries.none;
             }

@@ -1,4 +1,5 @@
 define([
+    'dijit/form/MultiSelect',
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
     'dijit/_WidgetsInTemplateMixin',
@@ -9,6 +10,7 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang'
 ], function (
+    MultiSelect,
     _TemplatedMixin,
     _WidgetBase,
     _WidgetsInTemplateMixin,

@@ -3,7 +3,7 @@ require([
 
     'dojo/dom-construct',
 
-    'roadkill/ListPicker'
+    'app/ListPicker'
 ], function (
     _WidgetBase,
 
@@ -14,14 +14,13 @@ require([
     describe('ListPicker Widget', function () {
         var testWidget;
         beforeEach(function () {
-            domConstruct.create('div', {id: 'test-div'}, document.body);
             testWidget = new ListPicker({
                 availableListArray: [
                     {code: 'testcode', name: 'testvalue'},
                     {code: 'testcode2', name: 'testvalue2'}
                 ],
                 listName: 'Species'
-            }, 'test-div');
+            }, domConstruct.create('div', null, document.body));
         });
 
         afterEach(function () {
@@ -29,8 +28,8 @@ require([
             testWidget = null;
         });
 
-        it('1. Should create a valid instance of _widget', function () {
-            expect(testWidget instanceof _WidgetBase).toBeTruthy();
+        it('Should create a valid instance of _widget', function () {
+            expect(testWidget).toEqual(jasmine.any(ListPicker));
         });
     });
 });

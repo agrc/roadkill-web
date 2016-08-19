@@ -1,4 +1,6 @@
 define([
+    'app/config',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
@@ -6,6 +8,8 @@ define([
     'dojo/_base/array',
     'dojo/_base/declare'
 ], function (
+    config,
+
     _TemplatedMixin,
     _WidgetBase,
 
@@ -49,7 +53,7 @@ define([
             var usernames = array.map(this.name.value.split(','), function (name) {
                 return '\'' + name.trim() + '\'';
             }).toString();
-            var query = ROADKILL.fields.RESPONDER_EMAIL + ' IN (' +
+            var query = config.fields.RESPONDER_EMAIL + ' IN (' +
                 usernames + ')';
             this.onQueryChange(query);
         },

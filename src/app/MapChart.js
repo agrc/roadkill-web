@@ -1,4 +1,6 @@
 define([
+    'app/config',
+
     'dojo/aspect',
     'dojo/_base/array',
     'dojo/_base/declare',
@@ -12,6 +14,8 @@ define([
     'dojox/charting/plot2d/Pie',
     'dojox/charting/themes/Claro'
 ], function (
+    config,
+
     aspect,
     array,
     declare,
@@ -25,7 +29,7 @@ define([
     Pie,
     Claro
 ) {
-    declare(null, {
+    return declare(null, {
 
         // parameters to constructor
 
@@ -86,7 +90,7 @@ define([
             console.log('app/MapChart:getData', arguments);
 
             var data = {};
-            var renderer = ROADKILL.mapapp.legend.layers[0].renderer;
+            var renderer = config.mapapp.legend.layers[0].renderer;
 
             function filterSpecies(name) {
                 if (array.indexOf(renderer.values, name) !== -1) {
@@ -109,7 +113,7 @@ define([
             }
 
             array.forEach(this.cLayer._features, function (f) {
-                var species = filterSpecies(f.attributes[ROADKILL.fields.SPECIES]);
+                var species = filterSpecies(f.attributes[config.fields.SPECIES]);
                 if (!data[species]) {
                     data[species] = {y: 1, color: getColor(species)};
                 } else {

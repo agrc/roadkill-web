@@ -1,11 +1,13 @@
 define([
+    'app/config',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/dom-style',
-    'dojo/text!roadkill/templates/Print.html',
+    'dojo/text!app/templates/Print.html',
     'dojo/_base/array',
     'dojo/_base/declare',
     'dojo/_base/fx',
@@ -15,6 +17,8 @@ define([
     'esri/tasks/FeatureSet',
     'esri/tasks/Geoprocessor'
 ], function (
+    config,
+
     _TemplatedMixin,
     _WidgetBase,
 
@@ -80,7 +84,7 @@ define([
             //      sets up the geoprocessor
             console.log('app/Print:initGP', arguments);
 
-            this.gp = new Geoprocessor(ROADKILL.gpPrintUrl);
+            this.gp = new Geoprocessor(config.gpPrintUrl);
 
             this.own(
                 this.gp.on('job-complete', lang.hitch(this, 'onJobComplete')),
@@ -163,7 +167,7 @@ define([
                         geometry: g.geometry
                     }));
                 } else if (g.attributes.isCluster === false) {
-                    singleIds.push(g.attributes[ROADKILL.fields.OBJECTID]);
+                    singleIds.push(g.attributes[config.fields.OBJECTID]);
                 }
             });
 

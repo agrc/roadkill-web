@@ -1,6 +1,14 @@
 require([
     'agrc/widgets/map/BaseMap',
 
+    'app/config',
+    'app/DataFilter',
+    'app/DownloadData',
+    'app/Identify',
+    'app/MapChart',
+    'app/Print',
+    'app/Toc',
+
     'dijit/registry',
 
     'dojo/dom',
@@ -29,18 +37,19 @@ require([
 
     'layer-selector/LayerSelector',
 
-    'app/DataFilter',
-    'app/DownloadData',
-    'app/Identify',
-    'app/MapChart',
-    'app/Print',
-    'app/Toc',
-
     'dijit/layout/BorderContainer',
     'dijit/layout/ContentPane',
     'dijit/TitlePane'
 ], function (
     BaseMap,
+
+    config,
+    DataFilter,
+    DownloadData,
+    Identify,
+    MapChart,
+    Print,
+    Toc,
 
     registry,
 
@@ -68,16 +77,9 @@ require([
 
     PaneStack,
 
-    LayerSelector,
-
-    DataFilter,
-    DownloadData,
-    Identify,
-    MapChart,
-    Print,
-    Toc
+    LayerSelector
 ) {
-    ROADKILL.mapapp = {
+    config.mapapp = {
         // rkFeatureServiceUrl: String
         //      The roadkill feature service url
 
@@ -163,19 +165,19 @@ require([
 
             var layerSelector = new LayerSelector({
                 map: this.map,
-                quadWord: ROADKILL.quadWord,
+                quadWord: config.quadWord,
                 baseLayers: ['Terrain', 'Hybrid', 'Lite', 'Topo']
             });
             layerSelector.startup();
 
-            this.backgroundLyr = new ArcGISDynamicMapServiceLayer(ROADKILL.rkMapServiceUrl, {
+            this.backgroundLyr = new ArcGISDynamicMapServiceLayer(config.rkMapServiceUrl, {
                 opacity: 0.5
             });
 
-            this.pointsLyr = new ArcGISDynamicMapServiceLayer(ROADKILL.rkPointsLayerUrl);
+            this.pointsLyr = new ArcGISDynamicMapServiceLayer(config.rkPointsLayerUrl);
 
             // this is only used for the legend and get the renderer for the cluster layer
-            var fLayer = new FeatureLayer(ROADKILL.rkFeatureServiceUrl, {
+            var fLayer = new FeatureLayer(config.rkFeatureServiceUrl, {
                 spatialReference: this.map.spatialReference
             });
             this.fLayer = fLayer;
@@ -183,12 +185,12 @@ require([
             var that = this;
             connect.connect(fLayer, 'onLoad', function () {
                 that.cLayer = new ClusterLayer({
-                    url: ROADKILL.clusterLayerUrl,
+                    url: config.clusterLayerUrl,
                     displayOnPan: false,
                     map: that.map,
                     infoTemplate: Identify.getTemplate(),
                     singleSymbolRenderer: fLayer.renderer,
-                    initDefQuery: ROADKILL.dateQueries['6m']
+                    initDefQuery: config.dateQueries['6m']
                 });
                 that.cLayer.spatialReference = that.fLayer.spatialReference;
 
@@ -228,7 +230,7 @@ require([
 
             var lyrs = [];
             // lyrs.push(new ArcGISTiledMapServiceLayer('https://mapserv.utah.gov/ArcGIS/rest/services/BaseMaps/Vector/MapServer'));
-            lyrs.push(new FeatureLayer(ROADKILL.rkFeatureServiceUrl, {
+            lyrs.push(new FeatureLayer(config.rkFeatureServiceUrl, {
                 mode: FeatureLayer.MODE_SELECTION
             }));
 
@@ -331,11 +333,11 @@ require([
         }
     };
 
-    if (ROADKILL.login.user) {
-        ROADKILL.mapapp.init();
+    if (config.login.user) {
+        config.mapapp.init();
     } else {
-        topic.subscribe(ROADKILL.login.topics.signInSuccess, function () {
-            ROADKILL.mapapp.init();
+        topic.subscribe(config.login.topics.signInSuccess, function () {
+            config.mapapp.init();
         });
     }
 });

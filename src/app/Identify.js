@@ -1,29 +1,28 @@
 define([
-    'dojo/_base/lang',
-    'dojo/_base/Color',
+    'app/config',
 
     'dojo/dom-construct',
+    'dojo/text!html/infoTemplateContent.html',
+    'dojo/_base/Color',
+    'dojo/_base/lang',
 
-    'esri/symbols/SimpleFillSymbol',
-    'esri/symbols/SimpleLineSymbol',
     'esri/dijit/Popup',
     'esri/InfoTemplate',
-
-    'dojo/text!html/infoTemplateContent.html'
-
+    'esri/symbols/SimpleFillSymbol',
+    'esri/symbols/SimpleLineSymbol'
 ], function (
-    lang,
-    Color,
+    config,
 
     domConstruct,
+    infoTemplate,
+    Color,
+    lang,
 
-    SimpleFillSymbol,
-    SimpleLineSymbol,
     Popup,
     InfoTemplate,
-
-    infoTemplate
-    ) {
+    SimpleFillSymbol,
+    SimpleLineSymbol
+) {
     return {
         // summary:
         //        Handles everything related to identifying features on the map
@@ -54,7 +53,7 @@ define([
             //      wires the events
             console.info('roadkill.identify:wireEvents', arguments);
 
-            ROADKILL.mapapp.map.on('click', lang.hitch(this, 'onMapClick'));
+            config.mapapp.map.on('click', lang.hitch(this, 'onMapClick'));
         },
         getContent: function (graphic) {
             // summary:
@@ -87,8 +86,8 @@ define([
             // returns: esri.InfoTemplate
             console.info('roadkill.identify:getTemplate', arguments);
 
-            this.template = new InfoTemplate('${' + ROADKILL.fields.SPECIES +
-                '} | ${' + ROADKILL.fields.REPORT_DATE + ':DateString(local: false, hideTime: true)}',
+            this.template = new InfoTemplate('${' + config.fields.SPECIES +
+                '} | ${' + config.fields.REPORT_DATE + ':DateString(local: false, hideTime: true)}',
                 infoTemplate);
 
             return this.template;
@@ -100,7 +99,7 @@ define([
             console.info('roadkill.identify:onMapClick', arguments);
 
             if (!evt.graphic || evt.graphic.symbol.style !== 'diamond') {
-                ROADKILL.mapapp.map.infoWindow.hide();
+                config.mapapp.map.infoWindow.hide();
             }
         }
     };

@@ -1,21 +1,25 @@
 require([
+    'app/config',
+    'app/DownloadData',
+
     'dijit/_WidgetBase',
 
     'dojo/dom-class',
     'dojo/dom-construct',
     'dojo/query',
 
-    'app/DownloadData',
+    'stubmodule',
 
-    'stubmodule'
+    'agrc-jasmine-matchers/dom'
 ], function (
+    config,
+    DownloadData,
+
     _WidgetBase,
 
     domClass,
     domConstruct,
     query,
-
-    DownloadData,
 
     stubmodule
 ) {
@@ -42,9 +46,6 @@ require([
         afterEach(function () {
             testWidget.destroy();
             testWidget = null;
-        });
-        it('should create a valid instance of dijit._Widget', function () {
-            expect(testWidget instanceof _WidgetBase).toBeTruthy();
         });
         describe('postCreate', function () {
             it('should fire _wireEvents', function () {
@@ -90,13 +91,13 @@ require([
                 expect(testWidget.getDefinitionQuery).toHaveBeenCalled();
             });
             it('should call the initGeoprocessor function once but not twice', function () {
-                spyOn(testWidget, 'initGeoprocessor').andCallThrough();
+                spyOn(testWidget, 'initGeoprocessor').and.callThrough();
 
                 testWidget.onDownloadClick();
                 testWidget.onDownloadClick();
                 testWidget.onDownloadClick();
 
-                expect(testWidget.initGeoprocessor.callCount).toEqual(1);
+                expect(testWidget.initGeoprocessor.calls.count()).toEqual(1);
             });
             it('should call gp.submitJob with the appropriate arguments', function () {
                 testWidget.initGeoprocessor();
@@ -106,7 +107,8 @@ require([
 
                 expect(testWidget.gp.submitJob).toHaveBeenCalledWith({
                     defQuery: '1 = 1',
-                    fileType: 'shape'
+                    fileType: 'shape',
+                    area: ''
                 });
             });
             it('should make the download button disabled', function () {
@@ -153,7 +155,7 @@ require([
             it('should create a esri gp object', function () {
                 testWidget.initGeoprocessor();
 
-                expect(gpSpy).toHaveBeenCalledWith(ROADKILL.gpDownloadUrl);
+                expect(gpSpy).toHaveBeenCalledWith(config.gpDownloadUrl);
             });
             it('should wire the events for the geoprocessor', function () {
                 spyOn(testWidget, 'onJobComplete');

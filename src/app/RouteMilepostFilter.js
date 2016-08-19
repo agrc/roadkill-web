@@ -1,8 +1,10 @@
 define([
+    'app/config',
+
     'dijit/_TemplatedMixin',
     'dijit/_WidgetBase',
 
-    'dojo/text!templates/RouteMilepostFilter.html',
+    'dojo/text!app/templates/RouteMilepostFilter.html',
     'dojo/_base/array',
     'dojo/_base/declare',
 
@@ -10,6 +12,8 @@ define([
     'esri/tasks/GeometryService',
     'esri/tasks/Geoprocessor'
 ], function (
+    config,
+
     _TemplatedMixin,
     _WidgetBase,
 
@@ -93,8 +97,8 @@ define([
             //      sets up the geoprocessor object
             console.log('app/RouteMilepostFilter:initGP', arguments);
 
-            this.gp = new Geoprocessor(ROADKILL.gpRouteMilepostUrl);
-            this.geo = new GeometryService(ROADKILL.geometryServiceUrl);
+            this.gp = new Geoprocessor(config.gpRouteMilepostUrl);
+            this.geo = new GeometryService(config.geometryServiceUrl);
 
             this.connect(this.gp, 'onJobComplete', 'onJobComplete');
             this.connect(this.gp, 'onStatusUpdate', 'onStatusUpdate');
@@ -187,14 +191,16 @@ define([
             //      hides the loader img and enables the button
             console.log('app/RouteMilepostFilter:hideLoader', arguments);
 
-            ROADKILL.mapapp.map.hideLoader();
+            config.mapapp.map.hideLoader();
+            this.submitBtn.disabled = false;
         },
         showLoader: function () {
             // summary:
             //      shows the loader img and disables the button
             console.log('app/RouteMilepostFilter:showLoader', arguments);
 
-            ROADKILL.mapapp.map.showLoader();
+            config.mapapp.map.showLoader();
+            this.submitBtn.disabled = true;
         },
         onBufferComplete: function (response) {
             // summary:

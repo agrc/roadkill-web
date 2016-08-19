@@ -1,4 +1,6 @@
 require([
+    'app/config',
+    'app/RouteMilepostFilter',
     'app/tests/data/mockResponses',
 
     'dojo/dom-construct',
@@ -6,10 +8,10 @@ require([
     'esri/tasks/GeometryService',
     'esri/tasks/Geoprocessor',
 
-    'roadkill/RouteMilepostFilter',
-
     'stubmodule'
 ], function (
+    config,
+    RouteMilepostFilter,
     mockRouteMilepostResponses,
 
     domConstruct,
@@ -17,24 +19,21 @@ require([
     GeometryService,
     Geoprocessor,
 
-    RouteMilepostFilter,
-
     stubmodule
 ) {
     describe('RouteMilepostFilter', function () {
         var testWidget
         var mockValues;
-        var bufferParamsSpy = jasmine.createSpy('bufferParams').returnValue({});
-        ROADKILL.gpRouteMilepostUrl = '/url';
-        ROADKILL.geometryServiceUrl = '/url';
+        var bufferParamsSpy = jasmine.createSpy('bufferParams').and.returnValue({});
+        var showLoaderSpy = jasmine.createSpy('showLoaderSpy');
+        var hideLoaderSpy = jasmine.createSpy('hideLoaderSpy');
         beforeEach(function (done) {
-            stubmodule('roadkill/RouteMilepostFilter', {
-                'esri/tasks/GeometryService': function () {},
-                'esri/tasks/BufferParameters': bufferParamsSpy
-            }).then(function (StubbedModule) {
-                testWidget = new StubbedModule({}, domConstruct.create('div', null, document.body));
-                done();
-            });
+            config.gpRouteMilepostUrl = '/url';
+            config.geometryServiceUrl = '/url';
+            config.mapapp = {map: {
+                showLoader: showLoaderSpy,
+                hideLoader: hideLoaderSpy
+            }};
             mockValues = {
                 route: '0015',
                 fromMP: '1',
@@ -42,31 +41,35 @@ require([
             };
 
             spyOn(window, 'alert');
+
+            stubmodule('app/RouteMilepostFilter', {
+                'esri/tasks/BufferParameters': bufferParamsSpy
+            }).then(function (StubbedModule) {
+                testWidget = new StubbedModule({}, domConstruct.create('div', null, document.body));
+                done();
+            });
         });
         afterEach(function () {
             testWidget.destroy();
             testWidget = null;
         });
-        it('should create a valid instance of dijit._Widget', function () {
-            expect(testWidget).toBeDojoWidget();
-        });
         describe('onSubmit', function () {
             it('should show the loader image', function () {
-                spyOn(testWidget, 'getValues').andReturn(mockValues);
+                spyOn(testWidget, 'getValues').and.returnValue(mockValues);
 
                 testWidget.onSubmit();
 
-                expect(testWidget.loader).toBeVisible();
+                expect(showLoaderSpy).toHaveBeenCalled();
             });
             it('should disable the submit button', function () {
-                spyOn(testWidget, 'getValues').andReturn(mockValues);
+                spyOn(testWidget, 'getValues').and.returnValue(mockValues);
 
                 testWidget.onSubmit();
 
                 expect(testWidget.submitBtn.disabled).toEqual(true);
             });
             it('should call the geoprocessor with the correct parameters', function () {
-                spyOn(testWidget, 'getValues').andReturn(mockValues);
+                spyOn(testWidget, 'getValues').and.returnValue(mockValues);
 
                 testWidget.initGP();
 
@@ -77,7 +80,7 @@ require([
                 expect(testWidget.gp.submitJob).toHaveBeenCalledWith(mockValues);
             });
             it('should not call the geoprocessor submitJob function if the values do not validate', function () {
-                spyOn(testWidget, 'getValues').andReturn(null);
+                spyOn(testWidget, 'getValues').and.returnValue(null);
 
                 testWidget.initGP();
 
@@ -88,7 +91,7 @@ require([
                 expect(testWidget.gp.submitJob).not.toHaveBeenCalled();
             });
             it('should enable the submit button and hide image on not valid values', function () {
-                spyOn(testWidget, 'getValues').andReturn(null);
+                spyOn(testWidget, 'getValues').and.returnValue(null);
 
                 testWidget.onSubmit();
 
@@ -129,7 +132,7 @@ require([
 
                 testWidget.getValues();
 
-                expect(window.alert.callCount).toEqual(3);
+                expect(window.alert.calls.count()).toEqual(3);
             });
             it('should return the values in a format compatible with the gp service', function () {
                 var expected = {
@@ -162,7 +165,7 @@ require([
         });
         describe('onJobError', function () {
             beforeEach(function () {
-                spyOn(testWidget, 'getValues').andReturn(mockValues);
+                spyOn(testWidget, 'getValues').and.returnValue(mockValues);
                 testWidget.onSubmit();
 
                 testWidget.onJobError(mockRouteMilepostResponses.err);

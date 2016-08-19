@@ -2,6 +2,9 @@ require([
     'agrc/modules/Domains',
     'agrc/modules/HelperFunctions',
 
+    'app/config',
+    'app/VerifyMap',
+
     'dijit/form/DateTextBox',
     'dijit/registry',
 
@@ -12,15 +15,13 @@ require([
     'dojo/on',
     'dojo/query',
     'dojo/request',
-    'dojo/topic',
-    'dojo/window',
-    'dojo/_base/array',
-    'dojo/_base/event',
-
-    'app/VerifyMap'
+    'dojo/topic'
 ], function (
     Domains,
     HelperFunctions,
+
+    config,
+    VerifyMap,
 
     DateTextBox,
     registry,
@@ -32,12 +33,7 @@ require([
     on,
     query,
     request,
-    topic,
-    win,
-    array,
-    dojoEvent,
-
-    VerifyMap
+    topic
 ) {
     // private properties
     var date;
@@ -171,7 +167,7 @@ require([
             features: JSON.stringify([feature])
         };
 
-        var url = ROADKILL.rkFeatureServiceAddFeaturesUrl + '?token=' + ROADKILL.login.token;
+        var url = config.rkFeatureServiceAddFeaturesUrl + '?token=' + config.login.token;
         var params = {
             data: data,
             handleAs: 'json',
@@ -184,11 +180,11 @@ require([
                 updateMsg('Report submitted successfully!', 'success');
                 clearForm();
             } else {
-                // ROADKILL.errorLogger.log(response.error);
+                // config.errorLogger.log(response.error);
                 onError();
             }
         }, function () {
-            // ROADKILL.errorLogger.log(er);
+            // config.errorLogger.log(er);
             onError();
         });
     };
@@ -206,7 +202,7 @@ require([
                 AGE_CLASS: HelperFunctions.getSelectedRadioValue('age-group'),
                 XYPHOID: xyphoidChbx.checked ? -999 : xyphoid.value,
                 COMMENTS: comments.value,
-                RESPONDER_ID: ROADKILL.login.user.userid,
+                RESPONDER_ID: config.login.user.userid,
                 TAG_COLLAR_NUM: collartag.value
             },
             geometry: verifyMap.geo
@@ -246,8 +242,8 @@ require([
         console.info('DataEntryPage::getDomains', arguments);
 
         Domains.populateSelectWithDomainValues(dom.byId('species-select'),
-            ROADKILL.rkFeatureServiceUrl + '?token=' + ROADKILL.login.token,
-            ROADKILL.fields.SPECIES);
+            config.rkFeatureServiceUrl + '?token=' + config.login.token,
+            config.fields.SPECIES);
     };
 
     // public functions
@@ -270,8 +266,8 @@ require([
     }
 
     function checkRole() {
-        if (ROADKILL.login.user.role === ROADKILL.roles.Admin ||
-                ROADKILL.login.user.role === ROADKILL.roles.Submitter) {
+        if (config.login.user.role === config.roles.Admin ||
+                config.login.user.role === config.roles.Submitter) {
             init();
         } else {
             alert('You do not have permission to submit reports!');
@@ -281,10 +277,10 @@ require([
         }
     }
 
-    if (ROADKILL.login.user) {
+    if (config.login.user) {
         checkRole();
     } else {
-        topic.subscribe(ROADKILL.login.topics.signInSuccess, function () {
+        topic.subscribe(config.login.topics.signInSuccess, function () {
             checkRole();
         });
     }

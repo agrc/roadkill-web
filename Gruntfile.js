@@ -11,10 +11,9 @@ module.exports = function (grunt) {
         'src/roadkill/**/*.css',
         'src/roadkill/*.js'
     ];
-    var gruntFile = 'GruntFile.js';
     var internFile = 'tests/intern.js';
     var packageFile = 'package.json';
-    var eslintFiles = [jsFiles, gruntFile, internFile, packageFile];
+    var eslintFiles = [jsFiles, internFile, packageFile];
     var deployFiles = [
         '**',
         '!**/*.uncompressed.js',
@@ -100,8 +99,7 @@ module.exports = function (grunt) {
             }
         },
         jasmine: {
-            app: {
-                src: ['src/app/run.js'],
+            main: {
                 options: {
                     specs: ['src/app/**/Spec*.js'],
                     vendor: [
@@ -110,8 +108,11 @@ module.exports = function (grunt) {
                         'src/jasmine-jsreporter/jasmine-jsreporter.js',
                         'src/app/tests/jasmineTestBootstrap.js',
                         'src/dojo/dojo.js',
+                        'src/app/packages.js',
                         'src/app/tests/jsReporterSanitizer.js',
-                        'src/app/tests/jasmineAMDErrorChecking.js'
+                        'src/app/tests/jasmineAMDErrorChecking.js',
+                        'src/jquery/dist/jquery.js',
+                        'src/bootstrap/dist/js/bootstrap.js'
                     ],
                     host: 'http://localhost:8000'
                 }
@@ -173,7 +174,7 @@ module.exports = function (grunt) {
         watch: {
             eslint: {
                 files: eslintFiles,
-                tasks: ['eslint']
+                tasks: ['newer:eslint:main', 'jasmine:main:build']
             },
             src: {
                 files: eslintFiles.concat(otherFiles),
@@ -184,7 +185,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['eslint', 'jasmine:app:build', 'connect', 'watch']);
+    grunt.registerTask('default', ['eslint', 'jasmine:main:build', 'connect', 'watch']);
 
     grunt.registerTask('build-prod', [
         'clean:build',

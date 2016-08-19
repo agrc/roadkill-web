@@ -1,21 +1,21 @@
 require([
+    'app/config',
+    'app/DataFilter',
+    'app/DownloadData',
+
     'dojo/dom',
     'dojo/dom-class',
     'dojo/query',
-    'dojo/topic',
-    'dojo/_base/connect',
-
-    'app/DataFilter',
-    'app/DownloadData'
+    'dojo/topic'
 ], function (
+    config,
+    DataFilter,
+    DownloadData,
+
     dom,
     domClass,
     query,
-    topic,
-    connect,
-
-    DataFilter,
-    DownloadData
+    topic
 ) {
     function DownloadPage() {
         // summary:
@@ -46,10 +46,10 @@ require([
         downloadPage.startup();
     }
 
-    if (ROADKILL.login.user) {
+    if (config.login.user) {
         init();
     } else {
-        topic.subscribe(ROADKILL.login.topics.signInSuccess, function () {
+        topic.subscribe(config.login.topics.signInSuccess, function () {
             init();
         });
     }

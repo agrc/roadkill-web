@@ -1,24 +1,26 @@
 require([
+    'app/config',
+    'app/DataFilter',
+    'app/RouteMilepostFilter',
+
     'dijit/_WidgetBase',
 
-    'dojo/dom-construct',
-
-    'app/DataFilter',
-    'app/RouteMilepostFilter'
+    'dojo/dom-construct'
 ], function (
+    config,
+    DataFilter,
+    RouteMilepostFilter,
+
     _WidgetBase,
 
-    domConstruct,
-
-    DataFilter,
-    RouteMilepostFilter
+    domConstruct
 ) {
     describe('DataFilter', function () {
         var testWidget;
         var map;
         var layer;
         beforeEach(function () {
-            ROADKILL.mapapp = {rkFeatureServiceUrl: ''};
+            config.mapapp = {rkFeatureServiceUrl: ''};
 
             map = {};
             layer = {
@@ -33,15 +35,11 @@ require([
                 layer: layer,
                 map: map
             }, domConstruct.create('div', null, document.body));
-            // testWidget.startup();
+            testWidget.startup();
         });
         afterEach(function () {
-            waits(200);
-
-            runs(function () {
-                testWidget.destroy();
-                testWidget = null;
-            });
+            testWidget.destroy();
+            testWidget = null;
         });
         it('should create a valid instance of _widget', function () {
             expect(testWidget instanceof _WidgetBase).toBeTruthy();
@@ -95,7 +93,7 @@ require([
             it('should create a new route milepost filter widget', function () {
                 testWidget.initRouteMilepostFilter();
 
-                expect(testWidget.routeMilepostFilter instanceof RouteMilepostFilter);
+                expect(testWidget.routeMilepostFilter instanceof RouteMilepostFilter).toBe(true);
             });
         });
     });
