@@ -212,7 +212,9 @@ require([
             });
 
             this.map.addLayer(this.backgroundLyr);
+            this.map.addLoaderToLayer(this.backgroundLyr);
             this.map.addLayer(this.pointsLyr);
+            this.map.addLoaderToLayer(this.pointsLyr);
 
             var toc = new Toc({
                 layer: this.backgroundLyr,
