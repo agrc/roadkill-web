@@ -63,7 +63,7 @@ module.exports = function (grunt) {
         tunnelTimeout: 120,
         build: process.env.TRAVIS_JOB_ID,
         browsers: browsers,
-        testname: 'atlas',
+        testname: 'roadkill-desktop',
         maxRetries: 10,
         maxPollRetries: 10,
         'public': 'public',
