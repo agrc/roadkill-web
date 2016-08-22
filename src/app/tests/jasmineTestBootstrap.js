@@ -1,7 +1,5 @@
 /* global JasmineFaviconReporter, jasmineRequire */
-/*jshint unused:false*/
 var dojoConfig = {  // eslint-disable-line no-unused-vars
-    isJasmineTestRunner: true,
     baseUrl: '/src/',
     packages: ['dojo',  // dojo is required here since we are defining baseUrl before loading dojo
         {
@@ -9,7 +7,7 @@ var dojoConfig = {  // eslint-disable-line no-unused-vars
             location: 'agrc-jasmine-matchers/src'
         }, {
             name: 'stubmodule',
-            location: 'stubmodule/src',
+            location: 'StubModule/src',
             main: 'stub-module'
         }
     ],

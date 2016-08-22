@@ -1,55 +1,54 @@
 require([
-    'dojo/_base/connect',
+    'app/config',
+    'app/DataFilter',
+    'app/DownloadData',
+
     'dojo/dom',
-    'dojo/query',
     'dojo/dom-class',
-    'dojo/topic',
-
-    "roadkill/DownloadData",
-    "roadkill/DataFilter"
+    'dojo/query',
+    'dojo/topic'
 ], function (
-    connect,
-    dom,
-    query,
-    domClass,
-    topic,
-
+    config,
+    DataFilter,
     DownloadData,
-    DataFilter
-    ) {
-    function DownloadPage(){
+
+    dom,
+    domClass,
+    query,
+    topic
+) {
+    function DownloadPage() {
         // summary:
         //      The object in charge of this page
-        console.info("DownloadPage::constructor", arguments);
-        
+        console.info('DownloadPage::constructor', arguments);
+
         this.initWidgets();
     }
-    
-    function initWidgets(){
+
+    function initWidgets() {
         // summary:
         //      Sets up the download data widget
-        console.info("DownloadPage::initWidgets", arguments);
-        
-        var dd;
-        dd = new DownloadData({}, 'download-data');
-        var df;
-        df = new DataFilter({}, 'data-filter');
-        var dd2;
-        dd2 = new DownloadData({dataFilter: df}, 'download-data-filter');
-    }
-    
-    DownloadPage.prototype.initWidgets = initWidgets;
-    roadkill.DownloadPage = DownloadPage;
+        console.info('DownloadPage::initWidgets', arguments);
 
-    var downloadPage;
-    function init(){
-        downloadPage = new roadkill.DownloadPage();
+        var dd = new DownloadData({}, 'download-data');
+        dd.startup();
+        var df = new DataFilter({}, 'data-filter');
+        df.startup();
+        var dd2 = new DownloadData({dataFilter: df}, 'download-data-filter');
+        dd2.startup();
     }
-    
-    if (ROADKILL.login.user){
+
+    DownloadPage.prototype.initWidgets = initWidgets;
+    DownloadPage = DownloadPage;
+
+    function init() {
+        new DownloadPage();
+    }
+
+    if (config.login.user) {
         init();
     } else {
-        topic.subscribe(ROADKILL.login.topics.signInSuccess, function(){
+        topic.subscribe(config.login.topics.signInSuccess, function () {
             init();
         });
     }

@@ -1,0 +1,14 @@
+@import "ListPicker.css";
+
+.field-filter label {
+    float: none;
+}
+.field-filter .btn {
+    margin-left: 17px;
+}
+.field-filter li {
+    color: #404040;
+}
+.field-filter h4 {
+    margin-bottom: 6px;
+}

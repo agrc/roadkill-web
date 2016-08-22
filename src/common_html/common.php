@@ -10,7 +10,11 @@
 <link rel="stylesheet" type="text/css" href="css/core.css" />
 <link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
 
-<script data-dojo-config="deps: ['app/run']" src='dojo/dojo.js'></script>
+<script src='dojo/dojo.js'></script>
+<script src='app/packages.js'></script>
+<script src='app/run.js'></script>
+
+</script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -20,5 +24,4 @@
 
   ga('create', 'UA-11849964-53', 'auto');
   ga('send', 'pageview');
-
 </script>

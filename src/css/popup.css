@@ -1,23 +1,23 @@
 .esriPopup .contentPane {
-	border: 0;
-	padding: 10px;
+    border: 0;
+    padding: 10px;
 }
 .esriPopup .titlePane {
-	border: 0;
-	background-color: #222;
+    border: 0;
+    background-color: #222;
 }
 .esriPopup td {
-	padding: 2px 2px 2px;
+    padding: 2px 2px 2px;
 }
 .esriPopup table {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .esriPopup .actionsPane {
-	border: 0;
-	background-color: #222;
+    border: 0;
+    background-color: #222;
 }
-.esriPopup .titleButton, .esriPopup .pointer, .esriPopup .esriViewPopup .gallery .mediaHandle, .esriPopup .esriViewPopup .gallery .mediaIcon {	
-	background: url(../images/popup.png) no-repeat;
+.esriPopup .titleButton, .esriPopup .pointer, .esriPopup .esriViewPopup .gallery .mediaHandle, .esriPopup .esriViewPopup .gallery .mediaIcon {    
+    background: url(../images/popup.png) no-repeat;
 }
 .esriPopup a {
     color: white;

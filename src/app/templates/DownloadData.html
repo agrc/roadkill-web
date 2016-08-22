@@ -1,0 +1,17 @@
+<div>
+    <label>
+        <input type='radio' data-dojo-attach-point='shapeRB' name='download-type-${id}' checked='true' value='0'>
+        <span>ESRI Shapefile</span>
+    </label>
+    <br>
+    <label>
+        <input type='radio' data-dojo-attach-point='dbfRB' name='download-type-${id}' value='1'>
+        <span>DBF File</span>
+    </label>
+    <br>
+    <button data-dojo-attach-point='downloadBtn' class='btn btn-primary'>Download</button>
+    <div data-dojo-attach-point='msgBox' class='alert alert-info'>
+        <span data-dojo-attach-point='msgLoader' class='loader'></span>
+        <span data-dojo-attach-point='msg'></span>
+    </div>
+</div>

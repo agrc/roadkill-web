@@ -1,28 +1,30 @@
+@import '../layer-selector/resources/LayerSelector.css';
+
 #verify-map {
-	width: 420px;
-	height: 200px;
-	border: 1px solid #DDD;
+    width: 420px;
+    height: 200px;
+    border: 1px solid #DDD;
 }
 .tab-container {
-	padding-left: 0;
-	padding-bottom: 0;
+    padding-left: 0;
+    padding-bottom: 0;
 }
 .status-text {
-	display: none;
+    display: none;
 }
 .status-img {
-	opacity: 0.3;
-	display: none;
+    opacity: 0.3;
+    display: none;
 }
 .status-text.error {
-	color: #B94A48;
+    color: #B94A48;
 }
 .status-text.success {
-	color: #468847;
+    color: #468847;
 }
 .container form fieldset input[type='text'],
 .container form fieldset input[type='number'],
 .container form fieldset select,
 .container form fieldset textarea {
-	width: 250px;
+    width: 250px;
 }

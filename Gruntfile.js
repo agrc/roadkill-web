@@ -1,20 +1,42 @@
-module.exports = function(grunt) {
+var osx = 'OS X 10.10';
+var windows = 'Windows 8.1';
+var browsers = [{
+    // OSX
+    browserName: 'safari',
+    platform: osx
+}, {
+    // Windows
+    browserName: 'firefox',
+    platform: windows
+}, {
+    browserName: 'chrome',
+    platform: windows
+}, {
+    browserName: 'microsoftedge',
+    platform: 'Windows 10'
+}, {
+    browserName: 'internet explorer',
+    platform: windows,
+    version: '11'
+}, {
+    browserName: 'internet explorer',
+    platform: 'Windows 8',
+    version: '10'
+}];
+module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var jsFiles = 'src/app/**/*.js';
+    var jsFiles = ['src/app/**/*.js', 'src/esrx/*.js', 'src/ext/*.js'];
     var otherFiles = [
         'src/app/**/*.html',
         'src/app/**/*.css',
         'src/css/**/*.css',
         'src/*.php',
-        'src/common_html/**/*.php',
-        'src/roadkill/**/*.css',
-        'src/roadkill/*.js'
+        'src/common_html/**/*.php'
     ];
-    var gruntFile = 'GruntFile.js';
     var internFile = 'tests/intern.js';
     var packageFile = 'package.json';
-    var jshintFiles = [jsFiles, gruntFile, internFile, packageFile];
+    var eslintFiles = jsFiles.concat([internFile, packageFile]);
     var deployFiles = [
         '**',
         '!**/*.uncompressed.js',
@@ -31,9 +53,26 @@ module.exports = function(grunt) {
         '!util/**'
     ];
     var deployDir = 'wwwroot/wvc/desktop';
+    var sauceConfig = {
+        urls: ['http://127.0.0.1:8000/_SpecRunner.html?catch=false'],
+        tunnelTimeout: 120,
+        build: process.env.TRAVIS_JOB_ID,
+        browsers: browsers,
+        testname: 'roadkill-desktop',
+        maxRetries: 10,
+        maxPollRetries: 10,
+        'public': 'public',
+        throttled: 5,
+        sauceConfig: {
+            'max-duration': 1800
+        },
+        statusCheckAttempts: 500
+    };
     var secrets;
     try {
         secrets = grunt.file.readJSON('secrets.json');
+        sauceConfig.username = secrets.sauce_name;
+        sauceConfig.key = secrets.sauce_key;
     } catch (e) {
         // swallow for build server
         secrets = {
@@ -100,8 +139,7 @@ module.exports = function(grunt) {
             }
         },
         jasmine: {
-            app: {
-                src: ['src/app/run.js'],
+            main: {
                 options: {
                     specs: ['src/app/**/Spec*.js'],
                     vendor: [
@@ -110,20 +148,30 @@ module.exports = function(grunt) {
                         'src/jasmine-jsreporter/jasmine-jsreporter.js',
                         'src/app/tests/jasmineTestBootstrap.js',
                         'src/dojo/dojo.js',
+                        'src/app/packages.js',
                         'src/app/tests/jsReporterSanitizer.js',
-                        'src/app/tests/jasmineAMDErrorChecking.js'
+                        'src/app/tests/jasmineAMDErrorChecking.js',
+                        'src/jquery/dist/jquery.js',
+                        'src/bootstrap/dist/js/bootstrap.js'
                     ],
                     host: 'http://localhost:8000'
                 }
             }
         },
-        jshint: {
-            files: jshintFiles,
+        eslint: {
             options: {
-                jshintrc: '.jshintrc'
+                configFile: '.eslintrc'
+            },
+            main: {
+                src: jsFiles
             }
         },
         pkg: grunt.file.readJSON('package.json'),
+        'saucelabs-jasmine': {
+            all: {
+                options: sauceConfig
+            }
+        },
         secrets: secrets,
         sftp: {
             stage: {
@@ -169,12 +217,12 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            jshint: {
-                files: jshintFiles,
-                tasks: ['jshint']
+            eslint: {
+                files: eslintFiles,
+                tasks: ['newer:eslint:main', 'jasmine:main:build']
             },
             src: {
-                files: jshintFiles.concat(otherFiles),
+                files: eslintFiles.concat(otherFiles),
                 options: {
                     livereload: true
                 }
@@ -182,7 +230,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('default', ['jasmine:app:build', 'connect', 'watch']);
+    grunt.registerTask('default', ['eslint', 'jasmine:main:build', 'connect', 'watch']);
 
     grunt.registerTask('build-prod', [
         'clean:build',
@@ -205,5 +253,15 @@ module.exports = function(grunt) {
         'compress:main',
         'sftp:stage',
         'sshexec:stage'
+    ]);
+    grunt.registerTask('sauce', [
+        'jasmine:main:build',
+        'connect',
+        'saucelabs-jasmine'
+    ]);
+    grunt.registerTask('travis', [
+        'eslint',
+        'sauce',
+        'build-prod'
     ]);
 };

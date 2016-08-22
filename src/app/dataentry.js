@@ -2,6 +2,9 @@ require([
     'agrc/modules/Domains',
     'agrc/modules/HelperFunctions',
 
+    'app/config',
+    'app/VerifyMap',
+
     'dijit/form/DateTextBox',
     'dijit/registry',
 
@@ -12,15 +15,13 @@ require([
     'dojo/on',
     'dojo/query',
     'dojo/request',
-    'dojo/topic',
-    'dojo/window',
-    'dojo/_base/array',
-    'dojo/_base/event',
-
-    'roadkill/VerifyMap'
+    'dojo/topic'
 ], function (
     Domains,
     HelperFunctions,
+
+    config,
+    VerifyMap,
 
     DateTextBox,
     registry,
@@ -32,39 +33,27 @@ require([
     on,
     query,
     request,
-    topic,
-    win,
-    array,
-    dojoEvent,
-
-    VerifyMap
+    topic
 ) {
     // private properties
-    var that,
-        date,
-        species,
-        speciesTxt,
-        xyphoidChbx,
-        xyphoid,
-        collartag,
-        comments,
-        lat,
-        lng,
-        route,
-        milepost,
-        address,
-        zipcity,
-        submit,
-        clear,
-        verifyMap,
-        submitMsg,
-        submitImg;
+    var date;
+    var species;
+    var speciesTxt;
+    var xyphoidChbx;
+    var xyphoid;
+    var collartag;
+    var comments;
+    var submit;
+    var clear;
+    var verifyMap;
+    var submitMsg;
+    var submitImg;
 
     // private functions
-    var getElements = function(){
+    var getElements = function () {
         // summary:
         //      gets references to all of the elements
-        console.info("DataEntryPage::getElements", arguments);
+        console.info('DataEntryPage::getElements', arguments);
 
         date = registry.byId('report-date');
         species = dom.byId('species-select');
@@ -73,35 +62,32 @@ require([
         xyphoid = dom.byId('xyphoid');
         collartag = dom.byId('collar_tag');
         comments = dom.byId('comments');
-        lat = dom.byId('lat');
-        lng = dom.byId('lng');
-        route = dom.byId('route');
-        milepost = dom.byId('milepost');
-        address = dom.byId('address');
-        zipcity = dom.byId('zipcity');
         submit = dom.byId('submit');
         clear = dom.byId('clear');
         submitMsg = dom.byId('submit-status-text');
         submitImg = dom.byId('submit-status-img');
     };
-    var clearForm = function(){
+    var clearForm = function () {
         // summary:
         //      clears the form values
-        console.info("DataEntryPage::clearForm", arguments);
+        console.info('DataEntryPage::clearForm', arguments);
 
-        query('input[type="text"], input[type="number"], textarea')
-            .forEach(function(node){node.value = '';});
+        query('input[type="text"], input[type="number"], textarea').forEach(function (node) {
+            node.value = '';
+        });
         species.selectedIndex = 0;
-        query('input[type="radio"]').forEach(function(node){node.checked = false;});
+        query('input[type="radio"]').forEach(function (node) {
+            node.checked = false;
+        });
         xyphoidChbx.checked = true;
         xyphoid.disabled = true;
         verifyMap.onChange();
     };
-    var validateForm = function(){
+    var validateForm = function () {
         // summary:
         //      checks to make sure that all required fields are populated with valid values
         // returns: Boolean
-        console.info("DataEntryPage::validateForm", arguments);
+        console.info('DataEntryPage::validateForm', arguments);
 
         if (date.textbox.value.length === 0) {
             alert('Report Date is required');
@@ -119,29 +105,29 @@ require([
             alert('Age Class is required');
             return false;
         }
-        if(!xyphoidChbx.checked && xyphoid.value.length === 0) {
+        if (!xyphoidChbx.checked && xyphoid.value.length === 0) {
             alert('Xyphoid is required');
             return false;
         }
-        if(!verifyMap.verified){
+        if (!verifyMap.verified) {
             alert('Please verify the location');
             return false;
         }
 
         return true;
     };
-    var show = function(element){
+    var show = function (element) {
         domStyle.set(element, 'display', 'inline');
     };
-    var hide = function(element){
+    var hide = function (element) {
         domStyle.set(element, 'display', 'none');
     };
-    var updateMsg = function(msg, msgType){
+    var updateMsg = function (msg, msgType) {
         // summary:
         //      updates the status text that shows up next to the clear button
         // msg: String
         // msgType: String (update, error, success)
-        console.info("DataEntryPage::updateMsg", arguments);
+        console.info('DataEntryPage::updateMsg', arguments);
 
         submitMsg.innerHTML = msg;
         show(submitMsg);
@@ -149,7 +135,7 @@ require([
         domClass.remove(submitMsg, 'error');
         domClass.remove(submitMsg, 'success');
 
-        switch(msgType){
+        switch (msgType) {
             case 'update':
                 show(submitImg);
                 break;
@@ -163,15 +149,15 @@ require([
                 break;
         }
     };
-    var sendDataToDatabase = function(feature){
+    var sendDataToDatabase = function (feature) {
         // summary:
         //      sends the data to the server
         // feature: {FeatureObject}
-        console.info("DataEntryPage::sendDataToDatabase", arguments);
+        console.info('DataEntryPage::sendDataToDatabase', arguments);
 
         updateMsg('Submitting data to server...', 'update');
 
-        function onError(){
+        function onError() {
             var msg = 'There was an error submitting your report.';
             updateMsg(msg, 'error');
         }
@@ -181,7 +167,7 @@ require([
             features: JSON.stringify([feature])
         };
 
-        var url = ROADKILL.rkFeatureServiceAddFeaturesUrl + '?token=' + ROADKILL.login.token;
+        var url = config.rkFeatureServiceAddFeaturesUrl + '?token=' + config.login.token;
         var params = {
             data: data,
             handleAs: 'json',
@@ -189,23 +175,23 @@ require([
             method: 'POST'
         };
 
-        request(url, params).then(function(response) {
+        request(url, params).then(function (response) {
             if (!response.error) {
                 updateMsg('Report submitted successfully!', 'success');
                 clearForm();
             } else {
-                // ROADKILL.errorLogger.log(response.error);
+                // config.errorLogger.log(response.error);
                 onError();
             }
-        }, function(){
-            // ROADKILL.errorLogger.log(er);
+        }, function () {
+            // config.errorLogger.log(er);
             onError();
         });
     };
-    var submitForm = function(){
+    var submitForm = function () {
         // summary:
         //      assembles the data to be sent to the server
-        console.info("DataEntryPage::submitForm", arguments);
+        console.info('DataEntryPage::submitForm', arguments);
 
         var feature = {
             attributes: {
@@ -216,94 +202,55 @@ require([
                 AGE_CLASS: HelperFunctions.getSelectedRadioValue('age-group'),
                 XYPHOID: xyphoidChbx.checked ? -999 : xyphoid.value,
                 COMMENTS: comments.value,
-                RESPONDER_ID: ROADKILL.login.user.userid,
+                RESPONDER_ID: config.login.user.userid,
                 TAG_COLLAR_NUM: collartag.value
             },
             geometry: verifyMap.geo
         };
-        if (verifyMap.currentField){
+        if (verifyMap.currentField) {
             feature.attributes[verifyMap.currentField] = verifyMap.currentValue;
         }
 
         sendDataToDatabase(feature);
     };
-    var wireEvents = function(){
+    var wireEvents = function () {
         // summary:
         //      Wires the events for the page
-        console.info("DataEntryPage::wireEvents", arguments);
+        console.info('DataEntryPage::wireEvents', arguments);
 
-        on(xyphoidChbx, "change", function(){
+        on(xyphoidChbx, 'change', function () {
             xyphoid.disabled = xyphoidChbx.checked;
         });
-        on(clear, "click", function(){
+        on(clear, 'click', function () {
             clearForm();
         });
-        on(species, "change", function(){
+        on(species, 'change', function () {
             speciesTxt.value = '';
         });
-        on(speciesTxt, "change", function(){
+        on(speciesTxt, 'change', function () {
             species.selectedIndex = 0;
         });
-        on(submit, "click", function(){
+        on(submit, 'click', function () {
             if (validateForm()) {
                 submitForm();
             }
         });
     };
-    // var getDomainValues = function(fieldName, dataObject) {
-    //     // summary:
-    //     //      returns the list of codes for the given domain
-    //     // fieldName: String
-    //     // dataObject: Object
-    //     // returns: []
-    //     console.info("DataEntryPage::getDomainValues", arguments);
-
-    //     var field;
-    //     array.some(dataObject.fields, function(f) {
-    //         if (f.name === fieldName) {
-    //             field = f;
-    //             return true;
-    //         }
-    //     });
-    //     if (field) {
-    //         return field.domain.codedValues;
-    //     } else {
-    //         throw TypeError('Field: ' + fieldName + ' not found!');
-    //     }
-    // };
-    // var populateSelect = function(selectid, values) {
-    //     // summary:
-    //     //      adds options for each value to the select
-    //     // selectid: String
-    //     // values: String[]
-    //     console.info("DataEntryPage::populateSelect", arguments);
-
-    //     var select = dom.byId(selectid);
-
-    //     array.forEach(values, function(value){
-    //         domConstruct.create('option', {
-    //             value: value.code,
-    //             innerHTML: value.name
-    //         }, select);
-    //     });
-    // };
-    var getDomains = function(){
+    var getDomains = function () {
         // summary:
         //      Gets the domain from the feature service and populates the drop-down
-        console.info("DataEntryPage::getDomains", arguments);
+        console.info('DataEntryPage::getDomains', arguments);
 
         Domains.populateSelectWithDomainValues(dom.byId('species-select'),
-            ROADKILL.rkFeatureServiceUrl + '?token=' + ROADKILL.login.token,
-            ROADKILL.fields.SPECIES);
+            config.rkFeatureServiceUrl + '?token=' + config.login.token,
+            config.fields.SPECIES);
     };
 
     // public functions
-    function DataEntryPage(){
+    function DataEntryPage() {
         // summary:
         //      The object in charge of this page
-        console.info("DataEntryPage::constructor", arguments);
-
-        that = this;
+        console.info('DataEntryPage::constructor', arguments);
 
         getElements();
 
@@ -314,14 +261,13 @@ require([
         getDomains();
     }
 
-    var dataentryPage;
     function init() {
-        dataentryPage = new DataEntryPage();
+        new DataEntryPage();
     }
 
     function checkRole() {
-        if (ROADKILL.login.user.role === ROADKILL.roles.Admin ||
-                ROADKILL.login.user.role === ROADKILL.roles.Submitter) {
+        if (config.login.user.role === config.roles.Admin ||
+                config.login.user.role === config.roles.Submitter) {
             init();
         } else {
             alert('You do not have permission to submit reports!');
@@ -331,10 +277,10 @@ require([
         }
     }
 
-    if (ROADKILL.login.user){
+    if (config.login.user) {
         checkRole();
     } else {
-        topic.subscribe(ROADKILL.login.topics.signInSuccess, function(){
+        topic.subscribe(config.login.topics.signInSuccess, function () {
             checkRole();
         });
     }

@@ -1,0 +1,59 @@
+<div class="list-picker modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dojo-attach-point="closeBtn">&times;</button>
+                <h4 class='modal-title'>${listName} Filter</h4>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            <strong>Available Values</strong><br>
+                            <select data-dojo-attach-point="availableList"
+                                data-dojo-type="dijit/form/MultiSelect"
+                                class="list-box form-control">
+                            </select>
+                        </td>
+                        <td class='btn-cell'>
+                            <div class="buttons-top">
+                                <button data-dojo-attach-point="btnSelect"
+                                    class="buttons btn btn-default btn-xs"
+                                    title='Move selected ${listName} right'
+                                    type='button'> > </button>
+                                <br>
+                                <button data-dojo-attach-point="btnSelectAll"
+                                    class="btn btn-default btn-xs"
+                                    title='Move all ${listName} right'
+                                    type='button'> >> </button>
+                            </div>
+                            <div class="button-separator"></div>
+                            <div class="buttons-bottom">
+                                <button data-dojo-attach-point="btnUnselect"
+                                    class="buttons btn btn-default btn-xs"
+                                    title='Move selected ${listName} left'
+                                    type='button'> < </button>
+                                <br>
+                                <button data-dojo-attach-point="btnUnselectAll"
+                                    class="btn btn-default btn-xs"
+                                    title='Move all ${listName} left'
+                                    type='button'> << </button>
+                            </div>
+                        </td>
+                        <td>
+                            <strong>Selected Values</strong><br>
+                            <select data-dojo-attach-point="selectedList"
+                                data-dojo-type="dijit/form/MultiSelect"
+                                class="list-box form-control">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button data-dojo-attach-point="btnOK" class="btn btn-primary" disabled>OK</button>
+                <button data-dojo-attach-point="btnCancel" class="btn btn-default">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

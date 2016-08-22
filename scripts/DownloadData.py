@@ -26,10 +26,12 @@ if not outputFolder:
 outShapeFileName = 'roadkill_reports.shp'
 outDBFName = 'roadkill_reports.dbf'
 
+
 def verifyFolder(folder):
     print 'verifyingFolder'
     if not path.exists(folder):
         makedirs(folder)
+
 
 def removePreviousData(data):
     print 'removingPreviousData'
@@ -42,7 +44,7 @@ try:
     arcpy.AddMessage('Creating Feature Layer')
     arcpy.MakeFeatureLayer_management(reportsFC, reports, defQuery)
 
-    if arcpy.GetCount_management(area).getOutput(0) != '0':
+    if area is not None and arcpy.GetCount_management(area).getOutput(0) != '0':
         arcpy.AddMessage('Selecting by Location')
         arcpy.SelectLayerByLocation_management(reports, 'INTERSECT', area)
 
@@ -76,11 +78,12 @@ try:
     print outFile
     arcpy.SetParameterAsText(3, outFile)
 except:
-    import sys, traceback
+    import sys
+    import traceback
     tb = sys.exc_info()[2]
     tbinfo = traceback.format_tb(tb)[0]
     pymsg = "PYTHON ERRORS:\nTraceback Info:\n" + tbinfo + "\nError Info:\n    " + \
-            str(sys.exc_type)+ ": " + str(sys.exc_info()) + "\n"
+            str(sys.exc_type) + ": " + str(sys.exc_info()) + "\n"
     arcpy.AddError(pymsg)
 
     msgs = "GP ERRORS:\n" + arcpy.GetMessages(2) + "\n"

@@ -1,10 +1,12 @@
 .DS_Store
 .grunt/
+*.sde
 deploy/
 dist/
 node_modules/
 scripts/database_connections
 secrets.json
+src/agrc-jasmine-matchers/
 src/agrc/
 src/app/secrets.json
 src/bootstrap/
@@ -21,9 +23,11 @@ src/jasmine-favicon-reporter/
 src/jasmine-jsreporter/
 src/jquery/
 src/ladda-bootstrap/
+src/layer-selector/
 src/mustache/
 src/put-selector/
 src/spin.js/
 src/spinjs/
+src/StubModule/
 src/util/
 src/xstyle/
