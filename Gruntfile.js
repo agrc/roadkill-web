@@ -10,8 +10,7 @@ var browsers = [{
     platform: windows
 }, {
     browserName: 'chrome',
-    platform: windows,
-    version: '47'
+    platform: windows
 }, {
     browserName: 'microsoftedge',
     platform: 'Windows 10'
