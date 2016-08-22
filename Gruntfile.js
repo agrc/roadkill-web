@@ -22,10 +22,6 @@ var browsers = [{
     browserName: 'internet explorer',
     platform: 'Windows 8',
     version: '10'
-}, {
-    browserName: 'internet explorer',
-    platform: 'Windows 7',
-    version: '9'
 }];
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
