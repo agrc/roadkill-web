@@ -246,9 +246,8 @@ define([
                 otherPicker.constraints.min = min;
             }
 
-            var invalid = 'Invalid Date';
             var query;
-            if (this.dateStart.value.toString() !== invalid && this.dateEnd.value.toString() !== invalid) {
+            if (isFinite(this.dateStart.value) && isFinite(this.dateEnd.value)) {
                 var end = new Date(this.dateEnd.value.getTime());
                 end.setHours(24);
                 query = this.fields.REPORT_DATE + ' >= \'' + this.formatDate(this.dateStart.value)
