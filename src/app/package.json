@@ -1,0 +1,8 @@
+{
+    "name": "RoadkillDesktop.app",
+    "version": "2.2.1",
+    "main": "main",
+    "description": "Roadkill Desktop Application",
+    "homepage": "https://github.com/agrc/roadkill-desktop",
+    "dojoBuild": "app.profile.js"
+}

@@ -11,7 +11,6 @@ var profile = {
     layers: {
         'dojo/dojo': {
             include: [
-                'app/core',
                 'app/run',
                 'dojo/domReady',
                 'dojo/i18n',
