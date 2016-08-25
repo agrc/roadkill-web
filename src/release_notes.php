@@ -17,6 +17,16 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="version">3.0.0</td>
+                        <td>
+                            <ul class='list-unstyled'>
+                                <li>Switch to web mercator.</li>
+                                <li>Upgrade all libraries to their latest releases.</li>
+                                <li>Add a home button to the user admin page.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="version">2.2.1</td>
                         <td>
                             <ul class='list-unstyled'>
