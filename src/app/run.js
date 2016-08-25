@@ -45,5 +45,10 @@
                 securedServicesBaseUrl: config.baseUrl
             });
         });
+
+        var versionNode = dom.byId('version');
+        if (versionNode) {
+            versionNode.innerHTML = config.version;
+        }
     });
 }());

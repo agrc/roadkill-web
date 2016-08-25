@@ -34,6 +34,12 @@ module.exports = function (grunt) {
         'src/*.php',
         'src/common_html/**/*.php'
     ];
+    var bumpFiles = [
+        'package.json',
+        'bower.json',
+        'src/app/package.json',
+        'src/app/config.js'
+    ];
     var internFile = 'tests/intern.js';
     var packageFile = 'package.json';
     var eslintFiles = jsFiles.concat([internFile, packageFile]);
@@ -85,6 +91,13 @@ module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        bump: {
+            options: {
+                files: bumpFiles,
+                commitFiles: bumpFiles.concat('src/release_notes.php'),
+                push: false
+            }
+        },
         clean: {
             build: ['dist'],
             deploy: ['deploy']
