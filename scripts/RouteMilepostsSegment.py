@@ -1,4 +1,5 @@
 import arcpy
+from os.path import join, dirname
 
 '''
 GP Parameters
@@ -30,9 +31,9 @@ ToMP = 'TO_MP'
 RT_NAME = 'LABEL'
 RT_DIR = 'RT_DIR'
 
-routesFC = r'C:\MapData\SGID10.gdb\UDOTRoutes_LRS'
+routesFC = r'C:\MapData\transportation.gdb\UDOTRoutes_LRS'
 routesLyr = 'routesLyr'
-tableTemplate = r'Z:\\roadkill-mobile\scripts\Schemas.gdb\RouteMilepostsTemplate'
+tableTemplate = join(dirname(__file__), r'Schemas.gdb\RouteMilepostsTemplate')
 eventLayer = 'eventLayer'
 
 # create new in_memory table to hold values
