@@ -1,1 +1,5 @@
-@import '../app/css/UserAdmin.css';
+@import '../ijit/resources/authentication/UserAdmin.css';
+
+.btn.home {
+    margin: 20px;
+}
