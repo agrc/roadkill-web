@@ -7,6 +7,11 @@ GP Parameters
 1 - fromMP
 2 - toMP
 3 - outSegment - FeatureSet
+
+Test values:
+route = '0015'
+fromMP = float('5.5')
+toMP = float('50.7')
 '''
 
 arcpy.env.overwriteoutput = True
@@ -15,9 +20,6 @@ arcpy.env.overwriteoutput = True
 route = arcpy.GetParameterAsText(0) + 'P'
 fromMP = float(arcpy.GetParameterAsText(1))
 toMP = float(arcpy.GetParameterAsText(2))
-#route = '0015'
-#fromMP = float('5.5')
-#toMP = float('50.7')
 
 outputFolder = arcpy.env.scratchWorkspace
 if not outputFolder:
