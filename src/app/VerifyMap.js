@@ -1,4 +1,3 @@
-/* global Proj4js */
 define([
     'agrc/modules/WebAPI',
     'agrc/widgets/map/BaseMap',
@@ -19,7 +18,7 @@ define([
 
     'layer-selector/LayerSelector',
 
-    'proj4js/proj4js-compressed'
+    'proj4'
 ], function (
     WebAPI,
     BaseMap,
@@ -38,7 +37,9 @@ define([
     Graphic,
     SimpleMarkerSymbol,
 
-    LayerSelector
+    LayerSelector,
+
+    proj4
 ) {
     // private properties
     var that;
@@ -110,14 +111,12 @@ define([
         console.info('VerifyMap::initProj4js', arguments);
 
         // init Proj4js
-        Proj4js.defs['EPSG:26912'] = '+title=NAD83 / UTM zone 12N +proj=utm +zone=12 +a=6378137.0 +b=6356752.3141403';
-        Proj4js.defs['EPSG:3857'] = '+proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
-        Proj4js.reportError = function (msg) {
+        proj4.reportError = function (msg) {
             console.info(msg);
         };
-        llProj = new Proj4js.Proj('EPSG:4326');
-        webMercProj = new Proj4js.Proj('EPSG:3857');
-        utmProj = new Proj4js.Proj('EPSG:26912');
+        llProj = proj4('EPSG:4326');
+        webMercProj = proj4('EPSG:3857');
+        utmProj = proj4('+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs ');
     };
     var zoomToPoint = function (x, y) {
         // summary:
@@ -234,6 +233,17 @@ define([
         wireEvents();
     }
 
+    function onChange() {
+        // summary:
+        //        fires when any of the values change
+        //        resets the verified property
+        console.info('VerifyMap::onChange', arguments);
+
+        that.verified = false;
+        verifyBtn.disabled = false;
+        map.graphics.clear();
+    }
+
     function verifyLocation() {
         // summary:
         //        validates the location fields and then zooms the map to them
@@ -255,15 +265,16 @@ define([
                 var lngValue = parseFloat(lng.value);
                 if (latValue < 36 || latValue > 43) {
                     alert('Your latitude value is invalid!');
+                    onChange();
                     return false;
                 } else if (lngValue < -114 || lngValue > -109) {
                     alert('Your longitude value is invalid!');
+                    onChange();
                     return false;
                 } else {
-                    var p = new Proj4js.Point(lngValue, latValue);
-                    Proj4js.transform(llProj, webMercProj, p);
+                    var p = proj4(llProj, webMercProj, [lngValue, latValue]);
 
-                    zoomToPoint(p.x, p.y);
+                    zoomToPoint(p[0], p[1]);
                     verifyBtn.disabled = false;
 
                     that.currentField = undefined;
@@ -282,15 +293,16 @@ define([
                 var northingValue = parseFloat(northing.value);
                 if (eastingValue < 141232 || eastingValue > 766672) {
                     alert('Your easting value is invalid!');
+                    onChange();
                     return false;
                 } else if (northingValue < 4036869 || northingValue > 4711483) {
                     alert('Your northing value is invalid!');
+                    onChange();
                     return false;
                 } else {
-                    var p = new Proj4js.Point(eastingValue, northingValue);
-                    Proj4js.transform(utmProj, webMercProj, p);
+                    var p = proj4(utmProj, webMercProj, [eastingValue, northingValue]);
 
-                    zoomToPoint(p.x, p.y);
+                    zoomToPoint(p[0], p[1]);
                     verifyBtn.disabled = false;
 
                     that.currentField = undefined;
@@ -352,17 +364,6 @@ define([
                 break;
         }
         return false;
-    }
-
-    function onChange() {
-        // summary:
-        //        fires when any of the values change
-        //        resets the verified property
-        console.info('VerifyMap::onChange', arguments);
-
-        that.verified = false;
-        verifyBtn.disabled = false;
-        map.graphics.clear();
     }
 
 
