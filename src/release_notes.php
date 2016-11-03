@@ -17,6 +17,14 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="version">3.0.1</td>
+                        <td>
+                            <ul class='list-unstyled'>
+                                <li>Fixed bug causing incorrect projections in data entry page when entering UTM coordinates.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="version">3.0.0</td>
                         <td>
                             <ul class='list-unstyled'>

@@ -10,7 +10,7 @@ define([
     esriConfig
 ) {
     var ROADKILL = {
-        version: '3.0.0'
+        version: '3.0.1'
     };
     ROADKILL.server = document.location.protocol + '//' + document.domain;
     ROADKILL.baseUrl = ROADKILL.server + '/arcgis/rest/services/Roadkill';
