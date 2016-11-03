@@ -12,7 +12,6 @@ require({
         'esrx',
         'ext',
         'html',
-        'proj4js',
         'put-selector',
         'xstyle',
         {
@@ -31,6 +30,10 @@ require({
             name: 'mustache',
             location: 'mustache',
             main: 'mustache'
+        }, {
+            name: 'proj4',
+            location: './proj4/dist',
+            main: 'proj4-src'
         }, {
             name: 'spin',
             location: 'spinjs',
