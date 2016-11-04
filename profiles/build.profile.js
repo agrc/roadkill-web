@@ -56,5 +56,19 @@ var profile = {
         'mobileapp.php',
         'release_notes.php',
         'user_admin.html'
-    ]
+    ],
+    packages: [{
+        name: 'proj4',
+        trees: [
+            ['.', '.', /(\/\.)|(~$)|(html)/]
+        ],
+        resourceTags: {
+            amd: function () {
+                return true;
+            },
+            copyOnly: function () {
+                return false;
+            }
+        }
+    }]
 };

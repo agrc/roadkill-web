@@ -114,8 +114,10 @@ define([
         proj4.reportError = function (msg) {
             console.info(msg);
         };
-        llProj = proj4('EPSG:4326');
+        // 4326
+        llProj = proj4('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs');
         webMercProj = proj4('EPSG:3857');
+        // 26912
         utmProj = proj4('+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs ');
     };
     var zoomToPoint = function (x, y) {
