@@ -59,7 +59,7 @@ define([
 
     if (has('agrc-build') === 'prod') {
         // mapserv.utah.gov
-        ROADKILL.apiKey = 'AGRC-A94B063C533889';
+        ROADKILL.apiKey = 'AGRC-1B07B497348512';
         ROADKILL.quadWord = 'alfred-plaster-crystal-dexter';
     } else if (has('agrc-build') === 'stage') {
         // test.mapserv.utah.gov
