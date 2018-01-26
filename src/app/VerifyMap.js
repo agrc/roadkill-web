@@ -244,7 +244,11 @@ define([
             map.disableScrollWheelZoom();
         });
 
-        var webAPIProvider = new WebAPI(config.apiKey, config.MagicZoomFCName, config.fields.NAME, {wkid: 3857});
+        var webAPIProvider = new WebAPI(config.apiKey,
+            config.MagicZoomFCName,
+            config.MagicZoomNameField,
+            {wkid: 3857}
+        );
         var sherlock = new Sherlock({
             provider: webAPIProvider,
             map: map,
