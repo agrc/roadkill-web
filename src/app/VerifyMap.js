@@ -44,7 +44,7 @@ define([
 
     proj4,
 
-    WebAPI,
+    SherlockWebAPI,
     Sherlock
 ) {
     // private properties
@@ -244,7 +244,7 @@ define([
             map.disableScrollWheelZoom();
         });
 
-        var webAPIProvider = new WebAPI(config.apiKey,
+        var webAPIProvider = new SherlockWebAPI(config.apiKey,
             config.MagicZoomFCName,
             config.MagicZoomNameField,
             {wkid: 3857}
