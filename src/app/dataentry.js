@@ -138,14 +138,17 @@ require([
         switch (msgType) {
             case 'update':
                 show(submitImg);
+                submit.disabled = true;
                 break;
             case 'error':
                 hide(submitImg);
                 domClass.add(submitMsg, 'error');
+                submit.disabled = false;
                 break;
             case 'success':
                 hide(submitImg);
                 domClass.add(submitMsg, 'success');
+                submit.disabled = false;
                 break;
         }
     };
