@@ -1,9 +1,11 @@
 @import '../layer-selector/resources/LayerSelector.css';
+@import '../agrc-sherlock/resources/Sherlock.css';
 
 #verify-map {
     width: 100%;
     height: 500px;
     border: 1px solid #DDD;
+    position: relative;
 }
 .tab-container {
     padding-left: 0;
@@ -36,4 +38,15 @@
 }
 .tab-content {
     padding-top: 10px;
+}
+.sherlock {
+    right: 70px;
+    top: 15px;
+    width: 350px;
+}
+.sherlock .matches-table {
+    width: 340px;
+}
+.sherlock .input-group input {
+    width: 300px;
 }

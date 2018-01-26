@@ -165,7 +165,9 @@
 
                     <h4>Or by clicking directly on the map</h4>
                     <div class='claro'>
-                        <div id='verify-map'></div>
+                        <div id='verify-map'>
+                            <div id='sherlock-div'></div>
+                        </div>
                     </div>
                 </fieldset>
                 <br>

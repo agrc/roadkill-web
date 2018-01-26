@@ -18,7 +18,10 @@ define([
 
     'layer-selector/LayerSelector',
 
-    'proj4'
+    'proj4',
+
+    'sherlock/providers/WebAPI',
+    'sherlock/Sherlock'
 ], function (
     WebAPI,
     BaseMap,
@@ -39,7 +42,10 @@ define([
 
     LayerSelector,
 
-    proj4
+    proj4,
+
+    WebAPI,
+    Sherlock
 ) {
     // private properties
     var that;
@@ -237,6 +243,16 @@ define([
         map.on('load', function () {
             map.disableScrollWheelZoom();
         });
+
+        var webAPIProvider = new WebAPI(config.apiKey, config.MagicZoomFCName, config.fields.NAME, {wkid: 3857});
+        var sherlock = new Sherlock({
+            provider: webAPIProvider,
+            map: map,
+            placeHolder: 'city, county, place name, etc...',
+            maxResultsToDisplay: 10,
+            appendToBody: false
+        }, 'sherlock-div');
+        sherlock.startup();
 
         var ls = new LayerSelector({
             map: map,

@@ -45,8 +45,10 @@ define([
         RESPONDER_EMAIL: 'RESPONDER_EMAIL',
         RESPONDER_AGENCY: 'RESPONDER_AGENCY',
         RESPONDER_NAME: 'RESPONDER_NAME',
-        WMU: 'WMU'
+        WMU: 'WMU',
+        NAME: 'NAME'
     };
+    ROADKILL.MagicZoomFCName = 'SGID10.LOCATION.ZoomLocations';
 
     ROADKILL.securePages = ['dataentry', 'download', 'map', 'user_admin'];
     ROADKILL.requireLogin = true;

@@ -159,8 +159,7 @@ require([
                     spatialReference: {
                         wkid: 3857
                     }
-                }),
-                includeFullExtentButton: true
+                })
             });
 
             this.layerSelector = new LayerSelector({
