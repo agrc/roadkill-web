@@ -28,3 +28,12 @@
 .container form fieldset textarea {
     width: 250px;
 }
+#submit {
+    width: 48%;
+}
+#clear {
+    width: 48%;
+}
+.tab-content {
+    padding-top: 10px;
+}
