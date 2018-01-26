@@ -96,14 +96,14 @@ define([
         on(verifyBtn, 'click', function () {
             that.verifyLocation();
         });
-        on(lat, 'change', that, 'onChange');
-        on(lng, 'change', that, 'onChange');
-        on(easting, 'change', that, 'onChange');
-        on(northing, 'change', that, 'onChange');
-        on(route, 'change', that, 'onChange');
-        on(milepost, 'change', that, 'onChange');
-        on(address, 'change', that, 'onChange');
-        on(zipcity, 'change', that, 'onChange');
+        on(lat, 'change', that.onChange.bind(that));
+        on(lng, 'change', that.onChange.bind(that));
+        on(easting, 'change', that.onChange.bind(that));
+        on(northing, 'change', that.onChange.bind(that));
+        on(route, 'change', that.onChange.bind(that));
+        on(milepost, 'change', that.onChange.bind(that));
+        on(address, 'change', that.onChange.bind(that));
+        on(zipcity, 'change', that.onChange.bind(that));
     };
     var initProj4js = function () {
         // summary:
