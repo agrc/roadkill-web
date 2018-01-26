@@ -174,7 +174,7 @@ require([
         var params = {
             data: data,
             handleAs: 'json',
-            timeout: 10000,
+            timeout: 30000,
             method: 'POST'
         };
 
