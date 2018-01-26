@@ -97,7 +97,7 @@
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend>Location</legend>
+                    <legend>Define location by coordinates, route/milepost or street address</legend>
 
                     <ul class='nav nav-pills'>
                         <li class='active'><a href='#lat-lng-tab' data-toggle='tab'>Latitude/Longitude</a></li>
@@ -140,6 +140,7 @@
                         <img id='verify-status-img' class='status-img' alt='loader' src='images/ajax-loader.gif'/>
                     </div>
 
+                    <h4>Or by clicking directly on the map</h4>
                     <div class='claro'>
                         <div id='verify-map'></div>
                     </div>

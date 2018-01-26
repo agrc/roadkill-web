@@ -74,6 +74,7 @@ define([
         // summary:
         //        gets all of the element references needed for this object
         console.info('VerifyMap::getElements', arguments);
+
         llTab = dom.byId('lat-lng-tab');
         utmTab = dom.byId('utm-tab');
         rmTab = dom.byId('route-milepost-tab');
@@ -90,6 +91,28 @@ define([
         verifyText = dom.byId('verify-status-text');
         verifyImg = dom.byId('verify-status-img');
     };
+    var zoomToPoint = function (x, y, preventZoom) {
+        // summary:
+        //        zooms the map to the coordinates and set the geometry
+        // x, y: int
+        // preventZoom: boolean (default is false)
+        console.info('VerifyMap::zoomToPoint', arguments);
+
+        map.graphics.clear();
+        var pnt = new Point(x, y, map.spatialReference);
+        var sms = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new Color([255, 255, 0, 0.8])).setSize(9);
+        var g = new Graphic(pnt, sms);
+        map.graphics.add(g);
+
+        if (!preventZoom) {
+            map.centerAndZoom(pnt, 12);
+        }
+
+        that.geo = {
+            x: x,
+            y: y
+        };
+    };
     var wireEvents = function () {
         console.info('VerifyMap::wireEvents', arguments);
 
@@ -104,6 +127,13 @@ define([
         on(milepost, 'change', that.onChange.bind(that));
         on(address, 'change', that.onChange.bind(that));
         on(zipcity, 'change', that.onChange.bind(that));
+
+        map.on('click', function (evt) {
+            var mapPoint = evt.mapPoint;
+            zoomToPoint(mapPoint.x, mapPoint.y, true);
+            that.verified = true;
+            verifyBtn.disabled = true;
+        });
     };
     var initProj4js = function () {
         // summary:
@@ -119,24 +149,6 @@ define([
         webMercProj = proj4('EPSG:3857');
         // 26912
         utmProj = proj4('+proj=utm +zone=12 +ellps=GRS80 +datum=NAD83 +units=m +no_defs ');
-    };
-    var zoomToPoint = function (x, y) {
-        // summary:
-        //        zooms the map to the coordinates and set the geometry
-        // x, y: int
-        console.info('VerifyMap::zoomToPoint', arguments);
-
-        map.graphics.clear();
-        var pnt = new Point(x, y, map.spatialReference);
-        var sms = new SimpleMarkerSymbol().setStyle(SimpleMarkerSymbol.STYLE_CIRCLE).setColor(new Color([255, 255, 0, 0.8])).setSize(9);
-        var g = new Graphic(pnt, sms);
-        map.graphics.add(g);
-        map.centerAndZoom(pnt, 12);
-
-        that.geo = {
-            x: x,
-            y: y
-        };
     };
     var showMsg = function (msg) {
         // summary:
@@ -210,7 +222,6 @@ define([
 
         getElements();
         map = new BaseMap('verify-map', {
-            slider: false,
             logo: false,
             extent: new Extent({
                 xmax: -11762120.612131765,
@@ -223,10 +234,14 @@ define([
             }),
             useDefaultBaseMap: false
         });
+        map.on('load', function () {
+            map.disableScrollWheelZoom();
+        });
+
         var ls = new LayerSelector({
             map: map,
             quadWord: config.quadWord,
-            baseLayers: ['Terrain']
+            baseLayers: ['Terrain', 'Hybrid']
         });
         ls.startup();
 
