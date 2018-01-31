@@ -138,14 +138,17 @@ require([
         switch (msgType) {
             case 'update':
                 show(submitImg);
+                submit.disabled = true;
                 break;
             case 'error':
                 hide(submitImg);
                 domClass.add(submitMsg, 'error');
+                submit.disabled = false;
                 break;
             case 'success':
                 hide(submitImg);
                 domClass.add(submitMsg, 'success');
+                submit.disabled = false;
                 break;
         }
     };
@@ -171,7 +174,7 @@ require([
         var params = {
             data: data,
             handleAs: 'json',
-            timeout: 10000,
+            timeout: 30000,
             method: 'POST'
         };
 

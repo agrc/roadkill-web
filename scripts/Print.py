@@ -1,4 +1,8 @@
-import arcpy, json
+import json
+from os.path import dirname, join
+
+import arcpy
+
 
 '''
 GP Parameters
@@ -12,11 +16,13 @@ GP Parameters
 7 - outFile: String - path to pdf
 '''
 
+
 def scrub(parameter):
     if parameter == '#' or not parameter:
         return None
     else:
         return parameter
+
 
 arcpy.AddMessage('Getting Parameters')
 
@@ -33,7 +39,7 @@ if visibleLayers:
 defQueryTxt = arcpy.GetParameterAsText(6)
 
 # variables
-mxdPath = r'Z:\\roadkill-desktop\scripts\PrintTemplate.mxd'
+mxdPath = join(dirname(__file__), 'PrintTemplate.mxd')
 outFileName = 'map.pdf'
 scratch = arcpy.env.scratchWorkspace
 if not scratch:

@@ -47,6 +47,8 @@ define([
         RESPONDER_NAME: 'RESPONDER_NAME',
         WMU: 'WMU'
     };
+    ROADKILL.MagicZoomNameField = 'NAME';
+    ROADKILL.MagicZoomFCName = 'SGID10.LOCATION.ZoomLocations';
 
     ROADKILL.securePages = ['dataentry', 'download', 'map', 'user_admin'];
     ROADKILL.requireLogin = true;

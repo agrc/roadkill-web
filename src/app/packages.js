@@ -38,6 +38,14 @@ require({
             name: 'spin',
             location: 'spinjs',
             main: 'spin'
+        }, {
+            name: 'sherlock',
+            location: 'agrc-sherlock'
         }
-    ]
+    ],
+    map: {
+        sherlock: {
+            spinjs: 'spin'
+        }
+    }
 });
