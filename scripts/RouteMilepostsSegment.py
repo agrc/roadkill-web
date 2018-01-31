@@ -1,5 +1,6 @@
+from os.path import dirname, join
+
 import arcpy
-from os.path import join, dirname
 
 '''
 GP Parameters

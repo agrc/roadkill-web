@@ -1,6 +1,8 @@
+from os import listdir, makedirs, path
+from zipfile import ZIP_DEFLATED, ZipFile
+
 import arcpy
-from os import path, makedirs, listdir
-from zipfile import ZipFile, ZIP_DEFLATED
+
 
 '''
 GP Parameters
@@ -37,6 +39,7 @@ def removePreviousData(data):
     print 'removingPreviousData'
     if arcpy.Exists(data):
         arcpy.Delete_management(data)
+
 
 try:
     verifyFolder(outputFolder)
