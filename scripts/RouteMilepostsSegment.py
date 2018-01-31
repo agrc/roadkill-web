@@ -22,51 +22,53 @@ route = arcpy.GetParameterAsText(0) + 'P'
 fromMP = float(arcpy.GetParameterAsText(1))
 toMP = float(arcpy.GetParameterAsText(2))
 
-outputFolder = arcpy.env.scratchWorkspace
-if not outputFolder:
-    arcpy.AddMessage("Using Temp")
-    outputFolder = r'C:\Temp'
-
 # field names
 ROUTE = 'ROUTE'
 FromMP = 'FROM_MP'
 ToMP = 'TO_MP'
-RT_NAME = 'LABEL'
-RT_DIR = 'RT_DIR'
+LABEL = 'LABEL'
 
 routesFC = r'C:\MapData\transportation.gdb\UDOTRoutes_LRS'
 routesLyr = 'routesLyr'
 tableTemplate = join(dirname(__file__), r'Schemas.gdb\RouteMilepostsTemplate')
 eventLayer = 'eventLayer'
+tempTbl = 'tempTbl'
+
+#: need to clean this up if we are running this via Desktop
+tbl = join('in_memory', tempTbl)
+if arcpy.Exists(tbl):
+    arcpy.AddMessage('cleaning up in_memory')
+    arcpy.management.Delete(tbl)
+
+if arcpy.env.scratchWorkspace is None:
+    output = r'c:\temp'
+else:
+    output = arcpy.env.scratchWorkspace
 
 # create new in_memory table to hold values
 arcpy.AddMessage('creating temp table')
-tbl = arcpy.CreateTable_management('in_memory', 'tempTbl', tableTemplate)
+tbl = arcpy.management.CreateTable('in_memory', tempTbl, tableTemplate)
 
 # add new row to table
-icur = arcpy.InsertCursor(tbl)
-row = icur.newRow()
-row.setValue(ROUTE, route)
-row.setValue(FromMP, fromMP)
-row.setValue(ToMP, toMP)
-icur.insertRow(row)
+with arcpy.da.InsertCursor(tbl, [ROUTE, FromMP, ToMP]) as icur:
+    icur.insertRow((route, fromMP, toMP))
 
 # create route layer to filter out negative direction routes
 arcpy.AddMessage('creating route layer')
-arcpy.MakeFeatureLayer_management(routesFC, routesLyr, "{0} = '{1}'".format(RT_NAME, route))
+arcpy.management.MakeFeatureLayer(routesFC, routesLyr, "{} = '{}'".format(LABEL, route))
 
 # generate route event layer
 arcpy.AddMessage('creating route event layer')
-arcpy.MakeRouteEventLayer_lr(routesLyr, RT_NAME, tbl, '%s LINE %s %s' % (ROUTE, FromMP, ToMP), eventLayer)
+arcpy.lr.MakeRouteEventLayer(routesLyr, LABEL, tbl, '{} LINE {} {}'.format(ROUTE, FromMP, ToMP), eventLayer)
 
-cur = arcpy.SearchCursor(eventLayer)
-row = cur.next()
-if row.getValue('Shape').length > 0:
-    arcpy.AddMessage('copying features')
-    fs = arcpy.CopyFeatures_management(eventLayer, outputFolder + r'/outFC')
+with arcpy.da.SearchCursor(eventLayer, ['Shape@']) as cur:
+    row = cur.next()
+    if row[0] is not None and row[0].length > 0:
+        arcpy.AddMessage('copying features')
+        fs = arcpy.management.CopyFeatures(eventLayer, join(output, 'outFC'))
 
-    arcpy.SetParameter(3, fs)
-else:
-    arcpy.AddError('No match found for that route.')
+        arcpy.SetParameter(3, fs)
+    else:
+        arcpy.AddError('No match found for that route.')
 
 arcpy.AddMessage("Done")

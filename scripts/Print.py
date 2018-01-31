@@ -39,7 +39,7 @@ if visibleLayers:
 defQueryTxt = arcpy.GetParameterAsText(6)
 
 # variables
-mxdPath = r'Z:\\roadkill-desktop\scripts\PrintTemplate.mxd'
+mxdPath = join(dirname(__file__), 'PrintTemplate.mxd')
 outFileName = 'map.pdf'
 scratch = arcpy.env.scratchWorkspace
 if not scratch:
