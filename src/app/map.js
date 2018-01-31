@@ -169,7 +169,7 @@ require([
             });
             this.layerSelector.startup();
 
-            this.backgroundLyr = new ArcGISDynamicMapServiceLayer(config.rkMapServiceUrl, {
+            this.backgroundLyr = new ArcGISDynamicMapServiceLayer(config.rkMapServiceUrl + '?token=' + config.login.user.token, {
                 opacity: 0.5
             });
 
