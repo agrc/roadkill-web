@@ -17,6 +17,16 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="version">3.1.0</td>
+                        <td>
+                            <ul class='list-unstyled'>
+                                <li>Fix background and milepost layers.</li>
+                                <li>Increase size of map in data entry page and allow for map click to define location.</li>
+                                <li>Fix route/milepost data filter.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="version">3.0.1</td>
                         <td>
                             <ul class='list-unstyled'>
