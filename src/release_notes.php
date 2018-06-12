@@ -17,6 +17,14 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="version">3.1.1</td>
+                        <td>
+                            <ul class='list-unstyled'>
+                                <li>Fix bug in Chrome that prevented the admin page from loading.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="version">3.1.0</td>
                         <td>
                             <ul class='list-unstyled'>
