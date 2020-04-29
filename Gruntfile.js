@@ -229,6 +229,34 @@ module.exports = function (grunt) {
                 }
             }
         },
+        uglify: {
+            options: {
+                preserveComments: false,
+                sourceMap: true,
+                compress: {
+                    drop_console: true,
+                    passes: 2,
+                    dead_code: true
+                }
+            },
+            stage: {
+                options: {
+                    compress: {
+                        drop_console: false
+                    }
+                },
+                src: ['dist/dojo/dojo.js'],
+                dest: 'dist/dojo/dojo.js'
+            },
+            prod: {
+                files: [{
+                    expand: true,
+                    cwd: 'dist',
+                    src: ['**/*.js', '!proj4/**/*.js'],
+                    dest: 'dist'
+                }]
+            }
+        },
         watch: {
             eslint: {
                 files: eslintFiles,
@@ -248,12 +276,14 @@ module.exports = function (grunt) {
     grunt.registerTask('build-prod', [
         'clean:build',
         'newer:imagemin:main',
-        'dojo:prod'
+        'dojo:prod',
+        'uglify:prod'
     ]);
     grunt.registerTask('build-stage', [
         'clean:build',
         'newer:imagemin:main',
-        'dojo:stage'
+        'dojo:stage',
+        'uglify:stage'
     ]);
     grunt.registerTask('deploy-prod', [
         'clean:deploy',
