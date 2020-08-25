@@ -17,6 +17,14 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="version">3.1.2</td>
+                        <td>
+                            <ul class='list-unstyled'>
+                                <li>Add clarification text to app title and link to UDOT Click'n fix app (<a href="https://github.com/agrc/roadkill-desktop/issues/18">#18</a>).</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="version">3.1.1</td>
                         <td>
                             <ul class='list-unstyled'>
