@@ -210,14 +210,19 @@ require([
                 that.hideLoadingMessage();
             });
 
+            var contractedRoutesLayer = new FeatureLayer(config.contractedRoutesLayerUrl, { visible: false });
+            contractedRoutesLayer.setScaleRange(0, 0);
             this.map.addLayer(this.backgroundLyr);
             this.map.addLoaderToLayer(this.backgroundLyr);
             this.map.addLayer(this.pointsLyr);
             this.map.addLoaderToLayer(this.pointsLyr);
+            this.map.addLayer(contractedRoutesLayer);
+            this.map.addLoaderToLayer(contractedRoutesLayer);
 
             var toc = new Toc({
                 layer: this.backgroundLyr,
-                pointsLayer: this.pointsLyr
+                pointsLayer: this.pointsLyr,
+                contractedRoutesLayer: contractedRoutesLayer
             }, 'toc');
             toc.startup();
         },

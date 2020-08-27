@@ -70,6 +70,7 @@ define([
             this.connect(this.fencingCheckbox, 'onclick', this.toggleLayer);
             this.connect(this.milepostsCheckbox, 'onclick', this.toggleLayer);
             this.connect(this.wmuRadioBtn, 'onclick', this.refreshVisibleLayers);
+            this.connect(this.contractedRoutesCheckbox, 'onclick', this.toggleContractedRoutes);
         },
         onBackgroundCheckboxChange: function () {
             // summary:
@@ -121,6 +122,13 @@ define([
             } else {
                 this.pointsLayer.setVisibleLayers(lyrs);
             }
+        },
+        toggleContractedRoutes: function () {
+            // summary:
+            //      toggle the contracted routes feature layer on and off
+            console.log('app/Toc:toggleContractedRoutes', arguments);
+
+            this.contractedRoutesLayer.setVisibility(this.contractedRoutesCheckbox.checked);
         }
     });
 });
