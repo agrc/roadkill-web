@@ -8,23 +8,23 @@
         <?php include "common_html/header.php"; ?>
 
         <div class="container">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 style="margin: 0;">Public Reporting</h3></div>
+                <div class="panel-body">
+                    <p style="font-size: large;">If you would like to report an animal carcass location for pick up, please use <a href="https://www.udot.utah.gov/connect/public/contact-udot/">UDOT Click'n Fix</a>.
+                </div>
+            </div>
+
             <div class="jumbotron">
-                <h2>Utah Wildlife-Vehicle Collision Reporter <small style="color: #333;">(For State Employees and Contractors)</small></h2>
+                <h2>Utah Wildlife-Vehicle Collision Data Collector <small style="color: #333;">(For State Employees and Contractors)</small></h2>
                 <div class="row">
                     <div class="col-md-4">
                         <img src='images/Buck.jpg' alt='buck' class='img-thumbnail pull-left'>
                     </div>
                     <div>
-                        <p>The Utah Wildlife-Vehicle Collision (WVC) Reporter is a smartphone-based system for reporting animals that have been involved in vehicle collisions. Using this website, animal carcass locations can be viewed on maps that display geographic, highway, and other background information.</p>
+                        <p>The Utah Wildlife-Vehicle Collision (WVC) Data Collector is a smartphone-based system for reporting animals that have been involved in vehicle collisions. Using this website, animal carcass locations can be viewed on maps that display geographic, highway, and other background information.</p>
                         <p><a class="btn btn-primary btn-lg" href="map.php">View the map &raquo;</a></p>
                     </div>
-                </div>
-            </div>
-
-            <div class="panel panel-info">
-                <div class="panel-heading"><h3 style="margin: 0;">Public Reporting</h3></div>
-                <div class="panel-body">
-                    <p style="font-size: large;">If you would like to report an animal carcass location for pick up, please use <a href="https://www.udot.utah.gov/connect/public/contact-udot/">UDOT Click'n Fix</a>.
                 </div>
             </div>
 

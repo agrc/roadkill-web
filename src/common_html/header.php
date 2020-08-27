@@ -2,9 +2,9 @@
     <div class="container">
         <div class="navbar-header">
             <div id="logo" class='navbar-left'>
-                <a href="index.php">Wildlife-Vehicle Collision Reporter </a>
+                <a href="index.php">Wildlife-Vehicle Collision Data Collector </a>
             </div>
-            <a class='navbar-brand' href="index.php">Utah WVC Reporter </a>
+            <a class='navbar-brand' href="index.php">Utah WVC Data Collector </a>
             <ul class='nav navbar-nav'>
                 <li id="index"><a href="index.php">Home</a></li>
                 <li id="map"><a href="map.php">Map</a></li>
