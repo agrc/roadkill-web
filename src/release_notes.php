@@ -22,6 +22,7 @@
                             <ul class='list-unstyled'>
                                 <li>Add clarification text to app title and link to UDOT Click'n fix app (<a href="https://github.com/agrc/roadkill-desktop/issues/18">#18</a>).</li>
                                 <li>Add UDOT Contracted Routes layer to map (<a href="https://github.com/agrc/roadkill-desktop/issues/19">#19</a>).</li>
+                                <li>Replace route/milepost data filter custom backend with UDOT service (<a href="https://github.com/agrc/roadkill-desktop/issues/20">#20</a>).</li>
                             </ul>
                         </td>
                     </tr>
