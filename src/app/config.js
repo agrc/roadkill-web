@@ -20,12 +20,12 @@ define([
     ROADKILL.clusterLayerUrl = ROADKILL.rkMapServiceUrl + '/0';
     ROADKILL.rkFeatureServiceUrl = ROADKILL.baseUrl + '/MapService/FeatureServer/0';
     ROADKILL.rkFeatureServiceAddFeaturesUrl = ROADKILL.baseUrl + '/FeatureService/FeatureServer/0/addFeatures';
-    ROADKILL.gpRouteMilepostUrl = ROADKILL.toolboxUrlBase + '/RouteMilepostsSegment';
     ROADKILL.geometryServiceUrl = '/ArcGIS/rest/services/Geometry/GeometryServer';
     ROADKILL.gpPrintUrl = ROADKILL.toolboxUrlBase + '/Print';
     ROADKILL.rkPointsLayerUrl = ROADKILL.baseUrl + '/Overlays/MapServer';
     // AGOL item: https://uplan.maps.arcgis.com/home/item.html?id=438edcd44f7b466aa4a50bea48cb514c
     ROADKILL.contractedRoutesLayerUrl = 'https://services.arcgis.com/pA2nEVnB6tquxgOW/arcgis/rest/services/CarcassRemovalContracts/FeatureServer/0';
+    ROADKILL.measureToGeometryUrl = 'https://maps.udot.utah.gov/randh/rest/services/ALRS/MapServer/exts/LRSServer/networkLayers/0/measureToGeometry';
 
     ROADKILL.fields = {
         REPORT_DATE: 'REPORT_DATE',

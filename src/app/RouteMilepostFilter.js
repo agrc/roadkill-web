@@ -7,10 +7,11 @@ define([
     'dojo/text!app/templates/RouteMilepostFilter.html',
     'dojo/_base/array',
     'dojo/_base/declare',
+    'dojo/io-query',
 
     'esri/tasks/BufferParameters',
     'esri/tasks/GeometryService',
-    'esri/tasks/Geoprocessor'
+    'esri/geometry/Polyline'
 ], function (
     config,
 
@@ -20,10 +21,11 @@ define([
     template,
     array,
     declare,
+    ioQuery,
 
     BufferParameters,
     GeometryService,
-    Geoprocessor
+    Polyline
 ) {
     return declare([_WidgetBase, _TemplatedMixin], {
         // description:
@@ -81,13 +83,24 @@ define([
 
             this.showLoader();
 
-            if (!this.gp) {
+            if (!this.geo) {
                 this.initGP();
             }
 
             var values = this.getValues();
+            var params = {
+                f: 'json',
+                locations: JSON.stringify([values]),
+                outSR: 3857
+            };
             if (values) {
-                this.gp.submitJob(values);
+                fetch(config.measureToGeometryUrl + '?' + ioQuery.objectToQuery(params), {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=UTF-8'
+                    }
+                })
+                .then(this.onRequestComplete.bind(this), this.onRequestError.bind(this));
             } else {
                 this.hideLoader();
             }
@@ -97,13 +110,8 @@ define([
             //      sets up the geoprocessor object
             console.log('app/RouteMilepostFilter:initGP', arguments);
 
-            this.gp = new Geoprocessor(config.gpRouteMilepostUrl);
             this.geo = new GeometryService(config.geometryServiceUrl);
 
-            this.connect(this.gp, 'onJobComplete', 'onJobComplete');
-            this.connect(this.gp, 'onStatusUpdate', 'onStatusUpdate');
-            this.connect(this.gp, 'onError', 'onJobError');
-            this.connect(this.gp, 'onGetResultDataComplete', 'onGetResultDataComplete');
             this.connect(this.geo, 'onBufferComplete', 'onBufferComplete');
         },
         getValues: function () {
@@ -137,54 +145,43 @@ define([
             }
 
             return {
-                route: route,
-                fromMP: from,
-                toMP: to
+                routeId: route + 'PM',
+                fromMeasure: from,
+                toMeasure: to
             };
         },
-        onJobComplete: function (status) {
+        onRequestError: function (error) {
             // summary:
             //      description
-            console.log('app/RouteMilepostFilter:onJobComplete', arguments);
-
-            if (status.jobStatus !== 'esriJobSucceeded') {
-                if (array.some(status.messages, function (msg) {
-                    return msg.description === 'No match found for that route.';
-                })) {
-                    this.hideLoader();
-                    alert(this.noMatchMsg);
-                } else {
-                    this.onJobError(status);
-                }
-            } else {
-                this.gp.getResultData(status.jobId, 'outSegment');
-            }
-        },
-        onStatusUpdate: function (/*status*/) {
-            // summary:
-            //      just so I can see the status updates in the console
-            console.log('app/RouteMilepostFilter:onStatusUpdate', arguments);
-        },
-        onJobError: function () {
-            // summary:
-            //      description
-            console.log('app/RouteMilepostFilter:onJobError', arguments);
+            console.log('app/RouteMilepostFilter:onRequestError', arguments);
 
             this.hideLoader();
 
-            alert(this.erMsg);
+            alert(error.message);
         },
-        onGetResultDataComplete: function (result) {
+        onRequestComplete: function (response) {
             // summary:
             //      description
-            console.log('app/RouteMilepostFilter:onGetResultDataComplete', arguments);
+            console.log('app/RouteMilepostFilter:onRequestComplete', arguments);
 
-            var params = new BufferParameters();
-            params.distances = [500];
-            params.geometries = [result.value.features[0].geometry];
-            params.unionResults = true;
+            response.json().then(function (data) {
+                var location = data.locations[0];
+                if (location.status !== 'esriLocatingOK') {
+                    this.onRequestError({ message: location.status });
 
-            this.geo.buffer(params);
+                    return;
+                }
+
+                var params = new BufferParameters();
+                params.distances = [500];
+                params.geometries = [new Polyline({
+                    paths: data.locations[0].geometry.paths,
+                    spatialReference: { wkid: 3857 }
+                })];
+                params.unionResults = true;
+
+                this.geo.buffer(params);
+            }.bind(this), this.onRequestError.bind(this));
         },
         hideLoader: function () {
             // summary:
