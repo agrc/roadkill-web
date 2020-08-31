@@ -1,6 +1,6 @@
 {
     "name": "RoadkillDesktop.app",
-    "version": "3.1.2-5",
+    "version": "3.1.2",
     "main": "main",
     "description": "Roadkill Desktop Application",
     "homepage": "https://github.com/agrc/roadkill-desktop",
