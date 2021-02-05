@@ -17,6 +17,14 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="version">3.1.3</td>
+                        <td>
+                            <ul class='list-unstyled'>
+                                <li>Fix bug preventing the user id from being sent with data entered via the app.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="version">3.1.2</td>
                         <td>
                             <ul class='list-unstyled'>
