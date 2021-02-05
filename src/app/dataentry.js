@@ -205,7 +205,7 @@ require([
                 AGE_CLASS: HelperFunctions.getSelectedRadioValue('age-group'),
                 XYPHOID: xyphoidChbx.checked ? -999 : xyphoid.value,
                 COMMENTS: comments.value,
-                RESPONDER_ID: config.login.user.userid,
+                RESPONDER_ID: config.login.user.userId,
                 TAG_COLLAR_NUM: collartag.value
             },
             geometry: verifyMap.geo
