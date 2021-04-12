@@ -17,6 +17,14 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td class="version">3.1.4</td>
+                        <td>
+                            <ul class='list-unstyled'>
+                                <li>Fix Esri JS map click bug.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="version">3.1.3</td>
                         <td>
                             <ul class='list-unstyled'>
