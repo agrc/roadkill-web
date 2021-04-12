@@ -1,17 +1,18 @@
 require({
     packages: [
-        'app',
         'agrc',
+        'app',
         'dgrid',
-        'dojo',
         'dijit',
+        'dojo',
         'dojox',
         'esri',
-        'ijit',
-        'layer-selector',
         'esrx',
         'ext',
         'html',
+        'ijit',
+        'layer-selector',
+        'moment',
         'put-selector',
         'xstyle',
         {
