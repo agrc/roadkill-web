@@ -21,7 +21,7 @@ module.exports = function (grunt) {
         bump: {
             options: {
                 files: bumpFiles,
-                commitFiles: bumpFiles.concat('src/release_notes.php'),
+                commitFiles: bumpFiles.concat('src/release_notes.html'),
                 push: false
             }
         },

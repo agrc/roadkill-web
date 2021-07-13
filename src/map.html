@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="esri/dijit/css/Popup.css">
+        <link rel="stylesheet" type="text/css" href="esri/css/esri.css">
+
+        <title>Utah Wildlife-Vehicle Collision Reporter</title>
+
+        <!-- META TAGS -->
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <meta name="description" content="We should do some SEO" />
+        <meta name="keywords" content="Comma, Separated List"/>
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
+
+        <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/core.css" />
+        <link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
+
+        <script src='dojo/dojo.js'></script>
+        <script src='app/packages.js'></script>
+        <script src='app/run.js'></script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-11849964-53', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <link rel="stylesheet" type="text/css" href="css/map.css" />
+        <script type="text/javascript">
+            require(['dojo/domReady!'], function () {
+                require(['app/map']);
+            });
+        </script>
+    </head>
+    <body class="claro">
+        <div id="loading-dialog" class="modal fade" role='dialog'>
+            <div class='modal-dialog' role='document'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h3>This might take a few moments...</h3>
+                    </div>
+                    <div class='modal-body'>
+                        <p>Loading map <img alt="loader" src="images/ajax-loader.gif"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-background"></div>
+        </div>
+        <div data-dojo-type="dijit/layout/BorderContainer" id="main-container" data-dojo-props="gutters: false">
+            <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'top'" class="topbar">
+                <nav class="navbar navbar-inverse navbar-fixed-top" role='navigation'>
+                    <div class="container">
+                        <div class="navbar-header">
+                            <div id="logo" class='navbar-left'>
+                                <a href="index.html">Wildlife-Vehicle Collision Data Collector </a>
+                            </div>
+                            <a class='navbar-brand' href="index.html">Utah WVC Data Collector </a>
+                            <ul class='nav navbar-nav'>
+                                <li id="index"><a href="index.html">Home</a></li>
+                                <li id="map"><a href="map.html">Map</a></li>
+                                <li id="download"><a href="download.html">Download</a></li>
+                                <li id="dataentry"><a href="dataentry.html">Data Entry</a></li>
+                                <li id="mobileapp"><a href="mobileapp.html">Mobile App</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav pull-right">
+                                <li id="logoutDiv"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'left'" id="left-sidebar" class='hidden'>
+                <div id='pane-stack'>
+                    <div title="Legend">
+                        <div id="legend"></div>
+                    </div>
+                    <div title="Map Layers">
+                        <div id="toc"></div>
+                    </div>
+                    <div title="Data Filter">
+                        <div id="data-filter"></div>
+                    </div>
+                    <div title="Download Data">
+                        The data will be filtered according to the "Data Filter" above.
+                        <div id='download-data'></div>
+                    </div>
+                    <div id='species-chart-pane' title='Species Chart'>
+                        Species shown honor the "Data Filter" above.
+                        <div id='species-chart'></div>
+                    </div>
+                    <div title='Print Map'>
+                        <div id='print-div'></div>
+                    </div>
+                </div>
+            </div>
+            <div data-dojo-type="dijit/layout/ContentPane"
+                data-dojo-props='region: "center"' class='map-div-container'>
+                <div id="map-div">
+                </div>
+                    <div id="HomeButtonDiv"></div>
+            </div>
+            <div id='footer' data-dojo-type='dijit/layout/ContentPane' data-dojo-props="region: 'bottom'">
+                <a target="_blank" href="https://wildlife.utah.gov">Utah Division of Wildlife Resources</a>
+                | <a target='_blank' href='https://udot.utah.gov'>Utah Department of Transportation</a>
+                | <a target='_blank' href='https://gis.utah.gov'>Built by AGRC</a>
+            </div>
+        </div>
+        <div id="legend-map" style="display: none"></div>
+    </body>
+</html>

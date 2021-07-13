@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Utah Wildlife-Vehicle Collision Reporter</title>
+
+        <!-- META TAGS -->
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <meta name="description" content="We should do some SEO" />
+        <meta name="keywords" content="Comma, Separated List"/>
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/png" />
+
+        <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/core.css" />
+        <link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
+
+        <script src='dojo/dojo.js'></script>
+        <script src='app/packages.js'></script>
+        <script src='app/run.js'></script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-11849964-53', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <link rel='stylesheet' type='text/css' href='css/index.css' />
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role='navigation'>
+            <div class="container">
+                <div class="navbar-header">
+                    <div id="logo" class='navbar-left'>
+                        <a href="index.html">Wildlife-Vehicle Collision Data Collector </a>
+                    </div>
+                    <a class='navbar-brand' href="index.html">Utah WVC Data Collector </a>
+                    <ul class='nav navbar-nav'>
+                        <li id="index"><a href="index.html">Home</a></li>
+                        <li id="map"><a href="map.html">Map</a></li>
+                        <li id="download"><a href="download.html">Download</a></li>
+                        <li id="dataentry"><a href="dataentry.html">Data Entry</a></li>
+                        <li id="mobileapp"><a href="mobileapp.html">Mobile App</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav pull-right">
+                        <li id="logoutDiv"></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3 style="margin: 0;">Public Reporting</h3></div>
+                <div class="panel-body">
+                    <p style="font-size: large;">If you would like to report an animal carcass location for pick up, please use <a href="https://www.udot.utah.gov/connect/public/contact-udot/">UDOT Click'n Fix</a>.
+                </div>
+            </div>
+
+            <div class="jumbotron">
+                <h2>Utah Wildlife-Vehicle Collision Data Collector <small style="color: #333;">(For State Employees and Contractors)</small></h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src='images/Buck.jpg' alt='buck' class='img-thumbnail pull-left'>
+                    </div>
+                    <div>
+                        <p>The Utah Wildlife-Vehicle Collision (WVC) Data Collector is a smartphone-based system for reporting animals that have been involved in vehicle collisions. Using this website, animal carcass locations can be viewed on maps that display geographic, highway, and other background information.</p>
+                        <p><a class="btn btn-primary btn-lg" href="map.html">View the map &raquo;</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Who is collecting the data?</h3>
+                    <p>Animal carcass locations are reported by Utah Department of Transportation contactors that that remove carcasses from ~1,200 miles of roads throughout the state. Utah Division of Wildlife Resources employees also report animal carcasses on many highways not covered by Utah Department of Transportation contractors.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>What data is collected?</h3>
+                    <p>Animal carcasses are reported by technicians in the field using smartphones and the &quot;Wildlife-Vehicle Collision Reporter Mobile App&quot;.</p>
+                    <p><a class="btn btn-default" href="mobileapp.html">Learn more &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h3>How is the data used?</h3>
+                    <p>Animal carcass data is used in a variety of ways to make highways safer for drivers and wildlife.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="message col-md-8">
+                    <div class='padding'>
+                        <p>Some pages on this website require a user name and password.</p>
+                        <div class="alert-actions">
+                            <button class="btn btn-default"
+                                onclick="
+                                    var login = require('app/config').login;
+                                    login.show();
+                                    login.goToPane(login.requestPane);">Request access</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="message col-md-4">
+                    <div class='padding'>
+                        <p>Website Version: <span id='version'></span></p>
+                        <div class="alert-actions">
+                            <a class="btn btn-default" href="release_notes.html">Release Notes &raquo;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <a target="_blank" href="https://wildlife.utah.gov">Utah Division of Wildlife Resources</a>
+                | <a target='_blank' href='https://udot.utah.gov'>Utah Department of Transportation</a>
+                | <a target='_blank' href='https://gis.utah.gov'>Built by AGRC</a>
+            </footer>
+        </div> <!-- /container -->
+    </body>
+</html>

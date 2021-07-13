@@ -48,12 +48,12 @@ var profile = {
     },
     dirs: ['css', 'images', 'common_html'],
     files: [
-        'dataentry.php',
-        'download.php',
-        'index.php',
-        'map.php',
-        'mobileapp.php',
-        'release_notes.php',
+        'dataentry.html',
+        'download.html',
+        'index.html',
+        'map.html',
+        'mobileapp.html',
+        'release_notes.html',
         'user_admin.html'
     ],
     packages: ['dstore', 'dgrid1', {

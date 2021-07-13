@@ -21,7 +21,7 @@
         // set active state on nav bar
         var urlParts = document.URL.split('/');
         var fileName = urlParts[urlParts.length - 1];
-        var elementName = fileName.slice(0, fileName.indexOf('.php'));
+        var elementName = fileName.slice(0, fileName.indexOf('.html'));
         elementName = (elementName === '') ? 'index' : elementName;
         var element = dom.byId(elementName);
         if (element) {
