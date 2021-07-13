@@ -42,7 +42,16 @@
                 appName: 'roadkill',
                 logoutDiv: dom.byId('logoutDiv'),
                 showOnLoad: requireLogin,
-                securedServicesBaseUrl: config.baseUrl
+                securedServicesBaseUrl: config.baseUrl,
+                urls: {
+                    base: config.permissionProxyBase + '/permissionproxy/api',
+                    signIn: '/authenticate/user',
+                    request: '/user/register',
+                    reset: '/user/resetpassword',
+                    change: '/user/changepassword',
+                    rememberme: '/authenticate/rememberme',
+                    forgetme: '/authenticate/forgetme'
+                }
             });
         });
 

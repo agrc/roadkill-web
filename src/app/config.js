@@ -14,17 +14,20 @@ define([
     };
 
     var server = document.location.origin;
+    ROADKILL.permissionProxyBase = 'https://TODO';
 
     if (has('agrc-build') === 'prod') {
         // wildlifecollisions.utah.gov
         ROADKILL.apiKey = 'AGRC-6DD2AFDD196761';
         ROADKILL.quadWord = 'crystal-connect-remote-episode';
         server = 'https://mapserv.utah.gov';
+        ROADKILL.permissionProxyBase = 'https://TODO';
     } else if (has('agrc-build') === 'stage') {
         // wildlifecollisions.dev.utah.gov
         ROADKILL.apiKey = 'AGRC-95AC5682168353';
         ROADKILL.quadWord = 'wedding-tactic-enrico-yes';
         server = 'https://test.mapserv.utah.gov';
+        ROADKILL.permissionProxyBase = 'https://TODO';
     } else {
         // localhost
         xhr(require.baseUrl + 'secrets.json', {
