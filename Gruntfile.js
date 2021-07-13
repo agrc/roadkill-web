@@ -1,28 +1,3 @@
-var osx = 'OS X 10.10';
-var windows = 'Windows 8.1';
-var browsers = [{
-    // OSX
-    browserName: 'safari',
-    platform: osx
-}, {
-    // Windows
-    browserName: 'firefox',
-    platform: windows
-}, {
-    browserName: 'chrome',
-    platform: windows
-}, {
-    browserName: 'microsoftedge',
-    platform: 'Windows 10'
-}, {
-    browserName: 'internet explorer',
-    platform: windows,
-    version: '11'
-}, {
-    browserName: 'internet explorer',
-    platform: 'Windows 8',
-    version: '10'
-}];
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
@@ -31,8 +6,6 @@ module.exports = function (grunt) {
         'src/app/**/*.html',
         'src/app/**/*.css',
         'src/css/**/*.css',
-        'src/*.php',
-        'src/common_html/**/*.php'
     ];
     var bumpFiles = [
         'package.json',
@@ -40,54 +13,8 @@ module.exports = function (grunt) {
         'src/app/package.json',
         'src/app/config.js'
     ];
-    var internFile = 'tests/intern.js';
     var packageFile = 'package.json';
-    var eslintFiles = jsFiles.concat([internFile, packageFile]);
-    var deployFiles = [
-        '**',
-        '!**/*.uncompressed.js',
-        '!**/*consoleStripped.js',
-        '!**/bootstrap/less/**',
-        '!**/bootstrap/test-infra/**',
-        '!**/tests/**',
-        '!build-report.txt',
-        '!components-jasmine/**',
-        '!favico.js/**',
-        '!jasmine-favicon-reporter/**',
-        '!jasmine-jsreporter/**',
-        '!stubmodule/**',
-        '!util/**'
-    ];
-    var deployDir = 'wwwroot/wvc/desktop';
-    var sauceConfig = {
-        urls: ['http://127.0.0.1:8000/_SpecRunner.html?catch=false'],
-        tunnelTimeout: 120,
-        build: process.env.TRAVIS_JOB_ID,
-        browsers: browsers,
-        testname: 'roadkill-desktop',
-        maxRetries: 10,
-        maxPollRetries: 10,
-        'public': 'public',
-        throttled: 5,
-        sauceConfig: {
-            'max-duration': 1800
-        },
-        statusCheckAttempts: 500
-    };
-    var secrets;
-    try {
-        secrets = grunt.file.readJSON('secrets.json');
-        sauceConfig.username = secrets.sauce_name;
-        sauceConfig.key = secrets.sauce_key;
-    } catch (e) {
-        // swallow for build server
-        secrets = {
-            stageHost: '',
-            prodHost: '',
-            username: '',
-            password: ''
-        };
-    }
+    var eslintFiles = jsFiles.concat([packageFile]);
 
     // Project configuration.
     grunt.initConfig({
@@ -99,24 +26,10 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            build: ['dist'],
-            deploy: ['deploy']
+            build: ['dist']
         },
         connect: {
             uses_defaults: {}
-        },
-        compress: {
-            main: {
-                options: {
-                    archive: 'deploy/deploy.zip'
-                },
-                files: [{
-                    src: deployFiles,
-                    // dest: './',
-                    cwd: 'dist/',
-                    expand: true
-                }]
-            }
         },
         dojo: {
             prod: {
@@ -180,55 +93,6 @@ module.exports = function (grunt) {
             }
         },
         pkg: grunt.file.readJSON('package.json'),
-        'saucelabs-jasmine': {
-            all: {
-                options: sauceConfig
-            }
-        },
-        secrets: secrets,
-        sftp: {
-            stage: {
-                files: {
-                    './': 'deploy/deploy.zip'
-                },
-                options: {
-                    host: '<%= secrets.stageHost %>'
-                }
-            },
-            prod: {
-                files: {
-                    './': 'deploy/deploy.zip'
-                },
-                options: {
-                    host: '<%= secrets.prodHost %>'
-                }
-            },
-            options: {
-                path: './' + deployDir + '/',
-                srcBasePath: 'deploy/',
-                username: '<%= secrets.username %>',
-                password: '<%= secrets.password %>',
-                showProgress: true
-            }
-        },
-        sshexec: {
-            options: {
-                username: '<%= secrets.username %>',
-                password: '<%= secrets.password %>'
-            },
-            stage: {
-                command: ['cd ' + deployDir, 'unzip -oq deploy.zip', 'rm deploy.zip'].join(';'),
-                options: {
-                    host: '<%= secrets.stageHost %>'
-                }
-            },
-            prod: {
-                command: ['cd ' + deployDir, 'unzip -oq deploy.zip', 'rm deploy.zip'].join(';'),
-                options: {
-                    host: '<%= secrets.prodHost %>'
-                }
-            }
-        },
         uglify: {
             options: {
                 preserveComments: false,
@@ -285,26 +149,9 @@ module.exports = function (grunt) {
         'dojo:stage',
         'uglify:stage'
     ]);
-    grunt.registerTask('deploy-prod', [
-        'clean:deploy',
-        'compress:main',
-        'sftp:prod',
-        'sshexec:prod'
-    ]);
-    grunt.registerTask('deploy-stage', [
-        'clean:deploy',
-        'compress:main',
-        'sftp:stage',
-        'sshexec:stage'
-    ]);
-    grunt.registerTask('sauce', [
-        'jasmine:main:build',
-        'connect',
-        'saucelabs-jasmine'
-    ]);
-    grunt.registerTask('travis', [
+    grunt.registerTask('test', [
         'eslint',
-        'sauce',
+        'jasmine',
         'build-prod'
     ]);
 };

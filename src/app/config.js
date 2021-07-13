@@ -12,8 +12,33 @@ define([
     var ROADKILL = {
         version: '3.1.4'
     };
-    ROADKILL.server = document.location.protocol + '//' + document.domain;
-    ROADKILL.baseUrl = ROADKILL.server + '/arcgis/rest/services/Roadkill';
+
+    var server = document.location.origin;
+
+    if (has('agrc-build') === 'prod') {
+        // wvcr.ugrc.utah.gov
+        ROADKILL.apiKey = 'AGRC-BA6F262A334308';
+        ROADKILL.quadWord = 'crystal-connect-remote-episode';
+        server = 'https://mapserv.utah.gov';
+    } else if (has('agrc-build') === 'stage') {
+        // wvcr.dev.utah.gov
+        ROADKILL.apiKey = 'AGRC-95AC5682168353';
+        ROADKILL.quadWord = 'wedding-tactic-enrico-yes';
+        server = 'https://test.mapserv.utah.gov';
+    } else {
+        // localhost
+        xhr(require.baseUrl + 'secrets.json', {
+            handleAs: 'json',
+            sync: true
+        }).then(function (secrets) {
+            ROADKILL.quadWord = secrets.quadWord;
+            ROADKILL.apiKey = secrets.apiKey;
+        }, function () {
+            throw 'Error getting secrets!';
+        });
+    }
+
+    ROADKILL.baseUrl = server + '/arcgis/rest/services/Roadkill';
     ROADKILL.toolboxUrlBase = ROADKILL.baseUrl + '/Toolbox/GPServer';
     ROADKILL.gpDownloadUrl = ROADKILL.toolboxUrlBase + '/DownloadData';
     ROADKILL.rkMapServiceUrl = ROADKILL.baseUrl + '/MapService/MapServer';
@@ -61,27 +86,6 @@ define([
         Viewer: 'viewer'
     };
 
-    if (has('agrc-build') === 'prod') {
-        // mapserv.utah.gov
-        ROADKILL.apiKey = 'AGRC-1B07B497348512';
-        ROADKILL.quadWord = 'alfred-plaster-crystal-dexter';
-    } else if (has('agrc-build') === 'stage') {
-        // test.mapserv.utah.gov
-        ROADKILL.apiKey = 'AGRC-AC122FA9671436';
-        ROADKILL.quadWord = 'opera-event-little-pinball';
-    } else {
-        // localhost
-        xhr(require.baseUrl + 'secrets.json', {
-            handleAs: 'json',
-            sync: true
-        }).then(function (secrets) {
-            ROADKILL.quadWord = secrets.quadWord;
-            ROADKILL.apiKey = secrets.apiKey;
-        }, function () {
-            throw 'Error getting secrets!';
-        });
-    }
-
     // calculate dates
     var millisecondsInDays = 86400000;
     var today = new Date();
@@ -102,7 +106,8 @@ define([
         'none': '1 = 2'
     };
 
-    esriConfig.defaults.io.proxyUrl = '/proxy/proxy.ashx';
+    esriConfig.defaults.io.corsEnabledServers.push('discover.agrc.utah.gov');
+    esriConfig.defaults.io.corsEnabledServers.push(server);
 
     return ROADKILL;
 });
