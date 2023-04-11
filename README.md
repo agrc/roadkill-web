@@ -1,3 +1,5 @@
+# Deprecated: https://github.com/agrc/porter/issues/235
+
 [![Build Status](https://travis-ci.org/agrc/roadkill-desktop.svg?branch=master)](https://travis-ci.org/agrc/roadkill-desktop)
 # roadkill-desktop
 Wildlife Vehicle Collision Reporter Desktop App
